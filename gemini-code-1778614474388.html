@@ -1,0 +1,691 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fun Payment Plans!</title>
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;800;900&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #F4F7FE;
+            --text-main: #2B3674;
+            --text-muted: #707EAE;
+            --plan1: #05CD99; 
+            --plan2: #4318FF; 
+            --plan3: #FF8A4C; 
+            --plan4: #FF5C8D; 
+            --white: #FFFFFF;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Nunito', sans-serif;
+        }
+
+        body {
+            background-color: var(--bg);
+            color: var(--text-main);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 40px 20px;
+            overflow-x: hidden;
+        }
+
+        .container {
+            max-width: 1000px;
+            width: 100%;
+        }
+
+        /* Language Switcher */
+        .lang-control {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+        }
+
+        .lang-btn {
+            background: var(--white);
+            border: 2px solid #E0E5F2;
+            padding: 8px 20px;
+            border-radius: 50px;
+            font-size: 1rem;
+            font-weight: 800;
+            color: var(--text-muted);
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            box-shadow: 0 4px 10px rgba(0,0,0,0.02);
+        }
+
+        .lang-btn:hover {
+            transform: translateY(-3px);
+            border-color: var(--plan2);
+            color: var(--plan2);
+        }
+
+        .lang-btn.active {
+            background: var(--plan2);
+            color: var(--white);
+            border-color: var(--plan2);
+            box-shadow: 0 8px 15px rgba(67, 24, 255, 0.2);
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        header h1 {
+            font-size: 3rem;
+            font-weight: 900;
+            color: var(--text-main);
+            margin-bottom: 10px;
+            letter-spacing: -1px;
+        }
+
+        header p {
+            font-size: 1.2rem;
+            color: var(--text-muted);
+            font-weight: 600;
+        }
+
+        /* Fun Grid Setup */
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 20px;
+            margin-bottom: 40px;
+        }
+
+        /* Bouncy Cards */
+        .card {
+            background: var(--white);
+            border-radius: 24px;
+            padding: 30px 20px;
+            text-align: center;
+            cursor: pointer;
+            position: relative;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.05);
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            border: 4px solid transparent;
+            overflow: hidden;
+        }
+
+        .card:hover {
+            transform: translateY(-10px) scale(1.02);
+            box-shadow: 0 15px 30px rgba(0,0,0,0.1);
+        }
+
+        .card.plan-1:hover, .card.plan-1.active { border-color: var(--plan1); }
+        .card.plan-2:hover, .card.plan-2.active { border-color: var(--plan2); }
+        .card.plan-3:hover, .card.plan-3.active { border-color: var(--plan3); }
+        .card.plan-4:hover, .card.plan-4.active { border-color: var(--plan4); }
+
+        .card.active {
+            transform: translateY(-5px) scale(1.05);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.15);
+        }
+
+        .emoji-icon {
+            font-size: 3rem;
+            margin-bottom: 15px;
+            display: inline-block;
+            transition: transform 0.3s ease;
+        }
+
+        .card:hover .emoji-icon {
+            transform: scale(1.2) rotate(10deg);
+        }
+
+        .plan-title { font-size: 1.5rem; font-weight: 800; margin-bottom: 5px; }
+        .plan-subtitle { font-size: 1rem; color: var(--text-muted); font-weight: 600; margin-bottom: 15px; }
+        
+        .price-bubble {
+            display: inline-block;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-weight: 800;
+            font-size: 1.2rem;
+            margin-bottom: 10px;
+        }
+
+        .plan-1 .price-bubble { background: rgba(5, 205, 153, 0.1); color: var(--plan1); }
+        .plan-2 .price-bubble { background: rgba(67, 24, 255, 0.1); color: var(--plan2); }
+        .plan-3 .price-bubble { background: rgba(255, 138, 76, 0.1); color: var(--plan3); }
+        .plan-4 .price-bubble { background: rgba(255, 92, 141, 0.1); color: var(--plan4); }
+
+        .interest-text { font-size: 0.9rem; font-weight: 700; margin-top: 10px; }
+        .plan-1 .interest-text { color: var(--plan1); }
+        .plan-2 .interest-text { color: var(--plan2); }
+        .plan-3 .interest-text { color: var(--plan3); }
+        .plan-4 .interest-text { color: var(--plan4); }
+
+        /* Pop-up Ticket Area */
+        .ticket-wrapper {
+            display: none;
+            justify-content: center;
+            animation: slideUp 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+        }
+
+        @keyframes slideUp {
+            from { opacity: 0; transform: translateY(40px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .ticket {
+            background: var(--white);
+            border-radius: 24px;
+            padding: 40px;
+            max-width: 500px;
+            width: 100%;
+            text-align: center;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.08);
+            border: 3px dashed #E0E5F2;
+            position: relative;
+        }
+
+        .ticket::before, .ticket::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            width: 30px;
+            height: 30px;
+            background: var(--bg);
+            border-radius: 50%;
+            transform: translateY(-50%);
+        }
+        .ticket::before { left: -15px; }
+        .ticket::after { right: -15px; }
+
+        .ticket h3 { font-size: 1.8rem; font-weight: 800; margin-bottom: 15px; }
+
+        .ticket-breakdown {
+            background: #F4F7FE;
+            padding: 20px;
+            border-radius: 16px;
+            margin-bottom: 25px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--text-muted);
+            line-height: 1.8;
+        }
+
+        /* Zelle Payment Box */
+        .zelle-box {
+            display: none;
+            background: rgba(67, 24, 255, 0.05);
+            border: 2px dashed var(--plan2);
+            padding: 25px 20px;
+            border-radius: 16px;
+            margin-bottom: 25px;
+            animation: fadeIn 0.5s ease forwards;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: scale(0.95); }
+            to { opacity: 1; transform: scale(1); }
+        }
+
+        .zelle-header {
+            color: var(--plan2);
+            font-size: 1.4rem;
+            font-weight: 800;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        .zelle-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: var(--white);
+            padding: 10px 15px;
+            border-radius: 12px;
+            margin-bottom: 10px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.02);
+        }
+
+        .zelle-info { text-align: left; }
+        .zelle-label { font-size: 0.8rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 1px; }
+        .zelle-value { font-size: 1.1rem; font-weight: 900; color: var(--text-main); }
+
+        .copy-btn {
+            background: var(--bg);
+            border: none;
+            padding: 8px 12px;
+            border-radius: 8px;
+            font-size: 0.9rem;
+            font-weight: 800;
+            color: var(--plan2);
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .copy-btn:hover { background: rgba(67, 24, 255, 0.1); }
+
+        .ticket-total {
+            font-size: 1.5rem;
+            font-weight: 900;
+            color: var(--text-main);
+            margin-top: 15px;
+            padding-top: 15px;
+            border-top: 2px dashed #D3D8E8;
+            display: flex; 
+            justify-content: space-between;
+        }
+
+        .btn-pay {
+            background: var(--text-main);
+            color: var(--white);
+            border: none;
+            padding: 16px 40px;
+            font-size: 1.2rem;
+            font-weight: 800;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 10px 20px rgba(43, 54, 116, 0.2);
+            width: 100%;
+        }
+
+        .btn-pay:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 25px rgba(43, 54, 116, 0.3);
+        }
+
+        .confetti {
+            position: fixed;
+            top: -10px;
+            z-index: 9999;
+            animation: fall linear forwards;
+        }
+
+        @keyframes fall {
+            to { transform: translateY(100vh) rotate(360deg); }
+        }
+
+        @media (max-width: 600px) {
+            header h1 { font-size: 2.2rem; }
+            .ticket { padding: 30px 20px; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        
+        <div class="lang-control">
+            <button class="lang-btn active" onclick="setLanguage('en')">English</button>
+            <button class="lang-btn" onclick="setLanguage('es')">Español</button>
+            <button class="lang-btn" onclick="setLanguage('zh')">中文</button>
+            <button class="lang-btn" onclick="setLanguage('ko')">한국어</button>
+            <button class="lang-btn" onclick="setLanguage('th')">ไทย</button>
+        </div>
+
+        <header>
+            <h1 id="t-hero-title">Let's Pick a Plan! 💸</h1>
+            <p id="t-hero-sub">Choose how you want to handle your tuition.</p>
+        </header>
+
+        <div class="grid">
+            <div class="card plan-1" onclick="selectPlan(1)">
+                <span class="emoji-icon">🚀</span>
+                <div class="plan-title" id="t-p1-title">1 Payment</div>
+                <div class="plan-subtitle" id="t-p1-sub">One & Done</div>
+                <div class="price-bubble" id="t-p1-bubble">$2,075 total</div>
+                <div class="interest-text" id="t-p1-int">$0 Interest!</div>
+            </div>
+
+            <div class="card plan-2" onclick="selectPlan(2)">
+                <span class="emoji-icon">✌️</span>
+                <div class="plan-title" id="t-p2-title">2 Payments</div>
+                <div class="plan-subtitle" id="t-p2-sub">Split in Half</div>
+                <div class="price-bubble" id="t-p2-bubble">$1,000 today</div>
+                <div class="interest-text" id="t-p2-int">$0 Interest!</div>
+            </div>
+
+            <div class="card plan-3" onclick="selectPlan(3)">
+                <span class="emoji-icon">📅</span>
+                <div class="plan-title" id="t-p3-title">3 Payments</div>
+                <div class="plan-subtitle" id="t-p3-sub">Pace Yourself</div>
+                <div class="price-bubble" id="t-p3-bubble">$708 / mo</div>
+                <div class="interest-text" id="t-p3-int">+$50 Interest</div>
+            </div>
+
+            <div class="card plan-4" onclick="selectPlan(4)">
+                <span class="emoji-icon">🌊</span>
+                <div class="plan-title" id="t-p4-title">4 Payments</div>
+                <div class="plan-subtitle" id="t-p4-sub">Extended Plan</div>
+                <div class="price-bubble" id="t-p4-bubble">$543.75 / mo</div>
+                <div class="interest-text" id="t-p4-int">+$100 Interest</div>
+            </div>
+        </div>
+
+        <div class="ticket-wrapper" id="ticketWrapper">
+            <div class="ticket">
+                <h3 id="ticketTitle">Plan Name</h3>
+                
+                <div id="ticketBreakdown" class="ticket-breakdown">
+                    <div style="margin-bottom: 10px;" id="ticketDesc">Description goes here.</div>
+                    <div style="display: flex; justify-content: space-between; margin-bottom: 5px;">
+                        <span id="t-lbl-schedule">Schedule:</span> <strong id="ticketSchedule" style="color: var(--text-main);">...</strong>
+                    </div>
+                    <div style="display: flex; justify-content: space-between;">
+                        <span id="t-lbl-interest">Added Interest:</span> <strong id="ticketInterest" style="color: #FF5C8D;">...</strong>
+                    </div>
+                </div>
+
+                <div id="zelleBox" class="zelle-box">
+                    <div class="zelle-header">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="5" width="20" height="14" rx="2"></rect><line x1="2" y1="10" x2="22" y2="10"></line></svg>
+                        <span id="t-zelle-head">Send via Zelle</span>
+                    </div>
+                    
+                    <div class="zelle-row">
+                        <div class="zelle-info">
+                            <div class="zelle-label" id="t-zelle-name-lbl">Account Name</div>
+                            <div class="zelle-value">DREAMIT ESL, INC</div>
+                        </div>
+                        <button class="copy-btn" onclick="copyText('DREAMIT ESL, INC', this)" id="t-btn-copy1">Copy</button>
+                    </div>
+
+                    <div class="zelle-row">
+                        <div class="zelle-info">
+                            <div class="zelle-label" id="t-zelle-acc-lbl">Zelle Account</div>
+                            <div class="zelle-value" style="color: var(--plan2);">917-717-0385</div>
+                        </div>
+                        <button class="copy-btn" onclick="copyText('9177170385', this)" id="t-btn-copy2">Copy</button>
+                    </div>
+                </div>
+
+                <div class="ticket-total">
+                    <span id="totalLabel">Grand Total:</span> <strong id="ticketTotal" style="color: var(--plan1);">...</strong>
+                </div>
+
+                <button id="actionBtn" class="btn-pay" onclick="revealPayment()">Let's Do This! 🎉</button>
+            </div>
+        </div>
+
+    </div>
+
+    <script>
+        // Data and Translation Dictionary
+        const planData = {
+            1: { total: "$2,075" },
+            2: { total: "$2,075" },
+            3: { total: "$2,125" },
+            4: { total: "$2,175" }
+        };
+
+        const t = {
+            en: {
+                "t-hero-title": "Let's Pick a Plan! 💸",
+                "t-hero-sub": "Choose how you want to handle your tuition.",
+                "t-p1-title": "1 Payment", "t-p1-sub": "One & Done", "t-p1-bubble": "$2,075 total", "t-p1-int": "$0 Interest!",
+                "t-p2-title": "2 Payments", "t-p2-sub": "Split in Half", "t-p2-bubble": "$1,000 today", "t-p2-int": "$0 Interest!",
+                "t-p3-title": "3 Payments", "t-p3-sub": "Pace Yourself", "t-p3-bubble": "$708 / mo", "t-p3-int": "+$50 Interest",
+                "t-p4-title": "4 Payments", "t-p4-sub": "Extended Plan", "t-p4-bubble": "$543.75 / mo", "t-p4-int": "+$100 Interest",
+                "t-lbl-schedule": "Schedule:",
+                "t-lbl-interest": "Added Interest:",
+                "t-lbl-total": "Grand Total:",
+                "t-lbl-send": "Amount to send:",
+                "t-btn-action": "Let's Do This! 🎉",
+                "t-zelle-head": "Send via Zelle",
+                "t-zelle-name-lbl": "Account Name",
+                "t-zelle-acc-lbl": "Zelle Account",
+                "t-btn-copy1": "Copy", "t-btn-copy2": "Copy",
+                "success-title": "Awesome! Here's how to pay 🥳",
+                "copied": "Copied!",
+                
+                // Dynamic Ticket Info based on Plan ID
+                planInfo: {
+                    1: { title: "The One & Done 🚀", schedule: "1x $2,075", interest: "$0", desc: "You pay the full amount today. No stress, no interest!" },
+                    2: { title: "The Double Dip ✌️", schedule: "$1,000 today + $1,075 later", interest: "$0", desc: "Split it in half! Pay a chunk now and the rest later." },
+                    3: { title: "The Triple Threat 📅", schedule: "3 payments of ~$708", interest: "$50", desc: "Pace yourself with three payments of $708, $708, and $709." },
+                    4: { title: "The Smooth Sailor 🌊", schedule: "4 payments of $543.75", interest: "$100", desc: "Our easiest monthly plan! Spread it across 4 months." }
+                }
+            },
+            es: {
+                "t-hero-title": "¡Elijamos un Plan! 💸",
+                "t-hero-sub": "Elige cómo quieres manejar tu colegiatura.",
+                "t-p1-title": "1 Pago", "t-p1-sub": "Una y Listo", "t-p1-bubble": "$2,075 total", "t-p1-int": "¡Cero Intereses!",
+                "t-p2-title": "2 Pagos", "t-p2-sub": "Mitad y Mitad", "t-p2-bubble": "$1,000 hoy", "t-p2-int": "¡Cero Intereses!",
+                "t-p3-title": "3 Pagos", "t-p3-sub": "Paso a Paso", "t-p3-bubble": "$708 / mes", "t-p3-int": "+$50 Interés",
+                "t-p4-title": "4 Pagos", "t-p4-sub": "Plan Extendido", "t-p4-bubble": "$543.75 / mes", "t-p4-int": "+$100 Interés",
+                "t-lbl-schedule": "Calendario:",
+                "t-lbl-interest": "Interés Añadido:",
+                "t-lbl-total": "Total a Pagar:",
+                "t-lbl-send": "Cantidad a enviar:",
+                "t-btn-action": "¡Hagámoslo! 🎉",
+                "t-zelle-head": "Enviar por Zelle",
+                "t-zelle-name-lbl": "Nombre de Cuenta",
+                "t-zelle-acc-lbl": "Cuenta Zelle",
+                "t-btn-copy1": "Copiar", "t-btn-copy2": "Copiar",
+                "success-title": "¡Genial! Así es como pagas 🥳",
+                "copied": "¡Copiado!",
+
+                planInfo: {
+                    1: { title: "El Único y Listo 🚀", schedule: "1x $2,075", interest: "$0", desc: "Pagas el monto total hoy. ¡Sin estrés, sin intereses!" },
+                    2: { title: "Mitad y Mitad ✌️", schedule: "$1,000 hoy + $1,075 después", interest: "$0", desc: "¡Divídelo en dos! Paga una parte ahora y el resto después." },
+                    3: { title: "Paso a Paso 📅", schedule: "3 pagos de ~$708", interest: "$50", desc: "Ve a tu ritmo con tres pagos de $708, $708 y $709." },
+                    4: { title: "Plan Relajado 🌊", schedule: "4 pagos de $543.75", interest: "$100", desc: "¡Nuestro plan mensual más fácil! Divídelo en 4 meses." }
+                }
+            },
+            zh: {
+                "t-hero-title": "选择一个计划！ 💸",
+                "t-hero-sub": "选择您想如何支付学费。",
+                "t-p1-title": "1次付款", "t-p1-sub": "一次搞定", "t-p1-bubble": "总计 $2,075", "t-p1-int": "无利息！",
+                "t-p2-title": "2次付款", "t-p2-sub": "对半劈开", "t-p2-bubble": "今天 $1,000", "t-p2-int": "无利息！",
+                "t-p3-title": "3次付款", "t-p3-sub": "稳步分期", "t-p3-bubble": "$708 / 月", "t-p3-int": "+$50 利息",
+                "t-p4-title": "4次付款", "t-p4-sub": "延期计划", "t-p4-bubble": "$543.75 / 月", "t-p4-int": "+$100 利息",
+                "t-lbl-schedule": "付款时间表:",
+                "t-lbl-interest": "附加利息:",
+                "t-lbl-total": "总计:",
+                "t-lbl-send": "需要发送的金额:",
+                "t-btn-action": "就决定是这个了！ 🎉",
+                "t-zelle-head": "通过 Zelle 发送",
+                "t-zelle-name-lbl": "账户名称",
+                "t-zelle-acc-lbl": "Zelle 账号",
+                "t-btn-copy1": "复制", "t-btn-copy2": "复制",
+                "success-title": "太棒了！这是付款方式 🥳",
+                "copied": "已复制!",
+
+                planInfo: {
+                    1: { title: "一次搞定 🚀", schedule: "1次 $2,075", interest: "$0", desc: "今天支付全款。没有压力，没有利息！" },
+                    2: { title: "一分为二 ✌️", schedule: "今天 $1,000 + 之后 $1,075", interest: "$0", desc: "分成两半！现在付一部分，剩下的以后付。" },
+                    3: { title: "稳步分期 📅", schedule: "3次约 $708 的付款", interest: "$50", desc: "分三次付款：$708、$708 和 $709。" },
+                    4: { title: "轻松延期 🌊", schedule: "4次 $543.75 的付款", interest: "$100", desc: "最轻松的月付计划！分摊到 4 个月。" }
+                }
+            },
+            ko: {
+                "t-hero-title": "플랜을 선택해 볼까요! 💸",
+                "t-hero-sub": "학비 납부 방법을 선택하세요.",
+                "t-p1-title": "1회 결제", "t-p1-sub": "한 번에 끝", "t-p1-bubble": "총 $2,075", "t-p1-int": "무이자!",
+                "t-p2-title": "2회 결제", "t-p2-sub": "반으로 나누기", "t-p2-bubble": "오늘 $1,000", "t-p2-int": "무이자!",
+                "t-p3-title": "3회 결제", "t-p3-sub": "여유롭게", "t-p3-bubble": "$708 / 월", "t-p3-int": "+$50 이자",
+                "t-p4-title": "4회 결제", "t-p4-sub": "장기 플랜", "t-p4-bubble": "$543.75 / 월", "t-p4-int": "+$100 이자",
+                "t-lbl-schedule": "납부 일정:",
+                "t-lbl-interest": "추가 이자:",
+                "t-lbl-total": "총 금액:",
+                "t-lbl-send": "보낼 금액:",
+                "t-btn-action": "이걸로 할게요! 🎉",
+                "t-zelle-head": "Zelle로 보내기",
+                "t-zelle-name-lbl": "계좌 이름",
+                "t-zelle-acc-lbl": "Zelle 계좌",
+                "t-btn-copy1": "복사", "t-btn-copy2": "복사",
+                "success-title": "좋습니다! 결제 방법입니다 🥳",
+                "copied": "복사됨!",
+
+                planInfo: {
+                    1: { title: "한 번에 끝 🚀", schedule: "1x $2,075", interest: "$0", desc: "오늘 전액을 지불합니다. 스트레스 없음, 이자 없음!" },
+                    2: { title: "반으로 나누기 ✌️", schedule: "오늘 $1,000 + 나중에 $1,075", interest: "$0", desc: "반으로 나누세요! 지금 일부를 지불하고 나머지는 나중에 지불하세요." },
+                    3: { title: "여유로운 3번 📅", schedule: "약 $708 씩 3회 납부", interest: "$50", desc: "$708, $708, $709 세 번에 걸쳐 나누어 내세요." },
+                    4: { title: "가장 편안한 방법 🌊", schedule: "$543.75 씩 4회 납부", interest: "$100", desc: "가장 쉬운 월별 플랜! 4개월에 걸쳐 분할 납부하세요." }
+                }
+            },
+            th: {
+                "t-hero-title": "มาเลือกแผนกันเถอะ! 💸",
+                "t-hero-sub": "เลือกวิธีที่คุณต้องการจัดการค่าเล่าเรียนของคุณ",
+                "t-p1-title": "จ่าย 1 ครั้ง", "t-p1-sub": "ครั้งเดียวจบ", "t-p1-bubble": "รวม $2,075", "t-p1-int": "ดอกเบี้ย $0!",
+                "t-p2-title": "จ่าย 2 ครั้ง", "t-p2-sub": "แบ่งครึ่ง", "t-p2-bubble": "$1,000 วันนี้", "t-p2-int": "ดอกเบี้ย $0!",
+                "t-p3-title": "จ่าย 3 ครั้ง", "t-p3-sub": "แบ่งจ่ายสบายๆ", "t-p3-bubble": "$708 / เดือน", "t-p3-int": "ดอกเบี้ย +$50",
+                "t-p4-title": "จ่าย 4 ครั้ง", "t-p4-sub": "แผนระยะยาว", "t-p4-bubble": "$543.75 / เดือน", "t-p4-int": "ดอกเบี้ย +$100",
+                "t-lbl-schedule": "ตารางการจ่าย:",
+                "t-lbl-interest": "ดอกเบี้ยที่เพิ่ม:",
+                "t-lbl-total": "ยอดรวมทั้งหมด:",
+                "t-lbl-send": "จำนวนเงินที่ต้องส่ง:",
+                "t-btn-action": "เอาแผนนี้ล่ะ! 🎉",
+                "t-zelle-head": "ส่งผ่าน Zelle",
+                "t-zelle-name-lbl": "ชื่อบัญชี",
+                "t-zelle-acc-lbl": "บัญชี Zelle",
+                "t-btn-copy1": "คัดลอก", "t-btn-copy2": "คัดลอก",
+                "success-title": "เยี่ยมไปเลย! นี่คือวิธีชำระเงิน 🥳",
+                "copied": "คัดลอกแล้ว!",
+
+                planInfo: {
+                    1: { title: "ครั้งเดียวจบ 🚀", schedule: "1x $2,075", interest: "$0", desc: "คุณจ่ายเต็มจำนวนวันนี้ ไม่มีความเครียด ไม่มีดอกเบี้ย!" },
+                    2: { title: "แบ่งครึ่ง ✌️", schedule: "$1,000 วันนี้ + $1,075 ภายหลัง", interest: "$0", desc: "แบ่งครึ่ง! จ่ายก้อนหนึ่งตอนนี้และส่วนที่เหลือทีหลัง" },
+                    3: { title: "แบ่งจ่าย 3 งวด 📅", schedule: "จ่าย 3 งวด งวดละ ~$708", interest: "$50", desc: "ค่อยๆ จ่าย 3 งวด งวดละ $708, $708, และ $709" },
+                    4: { title: "ผ่อนสบาย 🌊", schedule: "จ่าย 4 งวด งวดละ $543.75", interest: "$100", desc: "แผนรายเดือนที่ง่ายที่สุดของเรา! แบ่งจ่ายตลอด 4 เดือน" }
+                }
+            }
+        };
+
+        let currentLang = 'en';
+        let currentPlan = null;
+        let isShowingZelle = false;
+
+        function setLanguage(lang) {
+            currentLang = lang;
+            const langData = t[lang];
+
+            // Update Language Switcher Buttons
+            document.querySelectorAll('.lang-btn').forEach(btn => btn.classList.remove('active'));
+            event.target.classList.add('active');
+
+            // Update Static UI Elements
+            const staticKeys = [
+                "t-hero-title", "t-hero-sub", 
+                "t-p1-title", "t-p1-sub", "t-p1-bubble", "t-p1-int",
+                "t-p2-title", "t-p2-sub", "t-p2-bubble", "t-p2-int",
+                "t-p3-title", "t-p3-sub", "t-p3-bubble", "t-p3-int",
+                "t-p4-title", "t-p4-sub", "t-p4-bubble", "t-p4-int",
+                "t-lbl-schedule", "t-lbl-interest", "t-btn-action",
+                "t-zelle-head", "t-zelle-name-lbl", "t-zelle-acc-lbl",
+                "t-btn-copy1", "t-btn-copy2"
+            ];
+
+            staticKeys.forEach(key => {
+                if (document.getElementById(key)) {
+                    document.getElementById(key).innerText = langData[key];
+                }
+            });
+
+            // Update active ticket if a plan is selected
+            if (currentPlan !== null) {
+                renderTicket();
+            }
+        }
+
+        function selectPlan(planId) {
+            currentPlan = planId;
+            isShowingZelle = false;
+
+            // Update UI Selection
+            document.querySelectorAll('.card').forEach(c => c.classList.remove('active'));
+            document.querySelector(`.plan-${planId}`).classList.add('active');
+
+            renderTicket();
+
+            // Show Ticket
+            const ticket = document.getElementById('ticketWrapper');
+            ticket.style.display = 'flex';
+            
+            setTimeout(() => {
+                ticket.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+            }, 100);
+        }
+
+        function renderTicket() {
+            const langData = t[currentLang];
+            const pInfo = langData.planInfo[currentPlan];
+
+            if (isShowingZelle) {
+                document.getElementById('ticketTitle').innerText = langData["success-title"];
+                document.getElementById('totalLabel').innerText = langData["t-lbl-send"];
+                document.getElementById('ticketBreakdown').style.display = 'none';
+                document.getElementById('zelleBox').style.display = 'block';
+                document.getElementById('actionBtn').style.display = 'none';
+            } else {
+                document.getElementById('ticketTitle').innerText = pInfo.title;
+                document.getElementById('ticketSchedule').innerText = pInfo.schedule;
+                document.getElementById('ticketInterest').innerText = pInfo.interest;
+                document.getElementById('ticketDesc').innerText = pInfo.desc;
+                document.getElementById('totalLabel').innerText = langData["t-lbl-total"];
+                
+                document.getElementById('ticketBreakdown').style.display = 'block';
+                document.getElementById('zelleBox').style.display = 'none';
+                
+                const btn = document.getElementById('actionBtn');
+                btn.style.display = 'block';
+                btn.innerHTML = langData["t-btn-action"];
+                btn.style.background = "var(--text-main)";
+            }
+
+            // Always render grand total cost based on dictionary
+            document.getElementById('ticketTotal').innerText = planData[currentPlan].total;
+        }
+
+        function revealPayment() {
+            isShowingZelle = true;
+            renderTicket();
+
+            // Fire Confetti!
+            const colors = ['#05CD99', '#4318FF', '#FF8A4C', '#FF5C8D', '#FFD700'];
+            for(let i=0; i<60; i++) {
+                let conf = document.createElement('div');
+                conf.classList.add('confetti');
+                
+                conf.style.left = Math.random() * 100 + 'vw';
+                conf.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+                conf.style.width = Math.random() * 10 + 5 + 'px';
+                conf.style.height = Math.random() * 20 + 10 + 'px';
+                conf.style.borderRadius = (Math.random() > 0.5) ? '50%' : '0';
+                
+                let duration = Math.random() * 2 + 2 + 's';
+                conf.style.animationDuration = duration;
+                conf.style.animationDelay = Math.random() * 0.5 + 's';
+
+                document.body.appendChild(conf);
+
+                setTimeout(() => {
+                    conf.remove();
+                }, parseFloat(duration) * 1000 + 500);
+            }
+        }
+
+        function copyText(text, btnElement) {
+            navigator.clipboard.writeText(text).then(() => {
+                const originalText = btnElement.innerText;
+                btnElement.innerText = t[currentLang]["copied"];
+                btnElement.style.background = "var(--plan2)";
+                btnElement.style.color = "var(--white)";
+                
+                setTimeout(() => {
+                    btnElement.innerText = originalText;
+                    btnElement.style.background = "var(--bg)";
+                    btnElement.style.color = "var(--plan2)";
+                }, 2000);
+            });
+        }
+    </script>
+</body>
+</html>
