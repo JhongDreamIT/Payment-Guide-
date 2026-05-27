@@ -3,664 +3,659 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tuition Payment Plans | Premium Agency Design</title>
+    <title>Tuition Payment Plans | Clay Agency Style</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <style>
         :root {
-            --bg-main: #050505;
-            --bg-card: #0A0A0A;
-            --bg-panel: #111111;
-            --text-main: #FFFFFF;
-            --text-muted: #888888;
-            --accent: #F35422; /* Signature Orange/Red */
-            --border: #222222;
+            --color-white: #FFFFFF;
+            --color-black: #050411;
+            --color-grey-light: #F2F2F2;
+            --color-grey-medium: #888888;
+            --color-accent: #050411;
+            --ease-clay: cubic-bezier(0.19, 1, 0.22, 1);
         }
 
         * {
             box-sizing: border-box;
             margin: 0;
             padding: 0;
-            font-family: 'Inter', sans-serif;
         }
 
         body {
-            background-color: var(--bg-main);
-            color: var(--text-main);
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            min-height: 100vh;
-            overflow-x: hidden;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background-color: var(--color-white);
+            color: var(--color-black);
             -webkit-font-smoothing: antialiased;
-        }
-
-        /* Marquee Runner */
-        .marquee-runner {
-            width: 100%;
-            background: var(--accent);
-            color: #000;
-            overflow: hidden;
-            white-space: nowrap;
-            padding: 12px 0;
-            position: relative;
-            display: flex;
-            z-index: 50;
-        }
-
-        .marquee-content {
-            display: flex;
-            animation: marquee 15s linear infinite;
-        }
-
-        .marquee-text {
-            font-size: 0.9rem;
-            font-weight: 800;
-            text-transform: uppercase;
-            letter-spacing: 2px;
-            margin-right: 50px;
-        }
-
-        @keyframes marquee {
-            0% { transform: translateX(0); }
-            100% { transform: translateX(-50%); }
+            overflow-x: hidden;
+            line-height: 1.4;
         }
 
         .container {
-            max-width: 1200px;
-            width: 100%;
-            padding: 50px 20px;
+            max-width: 1440px;
+            margin: 0 auto;
+            padding: 0 4vw;
         }
 
-        /* Language Switcher */
-        .lang-control {
+        /* --- Header & Languages --- */
+        .header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            padding: 24px 4vw;
             display: flex;
-            justify-content: flex-end;
-            gap: 10px;
-            margin-bottom: 50px;
+            justify-content: space-between;
+            align-items: center;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            z-index: 100;
+        }
+
+        .header-logo {
+            font-size: 1.25rem;
+            font-weight: 800;
+            letter-spacing: -0.02em;
+            cursor: pointer;
+        }
+
+        .lang-nav {
+            display: flex;
+            gap: 24px;
             flex-wrap: wrap;
+            justify-content: flex-end;
         }
 
         .lang-btn {
-            background: transparent;
-            border: 1px solid var(--border);
-            padding: 8px 16px;
-            font-size: 0.8rem;
+            background: none;
+            border: none;
+            font-size: 1rem;
             font-weight: 600;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            color: var(--text-muted);
+            color: var(--color-grey-medium);
             cursor: pointer;
-            transition: all 0.3s ease;
+            position: relative;
+            padding: 4px 0;
+            transition: color 0.4s var(--ease-clay);
+        }
+
+        .lang-btn::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background-color: var(--color-black);
+            transform: scaleX(0);
+            transform-origin: right;
+            transition: transform 0.5s var(--ease-clay);
         }
 
         .lang-btn:hover {
-            color: var(--text-main);
-            border-color: var(--text-muted);
+            color: var(--color-black);
         }
 
         .lang-btn.active {
-            background: var(--text-main);
-            color: var(--bg-main);
-            border-color: var(--text-main);
+            color: var(--color-black);
         }
 
-        /* Hero Section */
+        .lang-btn.active::after {
+            transform: scaleX(1);
+            transform-origin: left;
+        }
+
+        /* --- Hero Section --- */
         .hero {
+            padding-top: 180px;
+            padding-bottom: 80px;
+            min-height: 80vh;
             display: flex;
-            justify-content: space-between;
-            align-items: flex-end;
-            margin-bottom: 60px;
-            border-bottom: 1px solid var(--border);
-            padding-bottom: 40px;
-            flex-wrap: wrap;
-            gap: 30px;
+            flex-direction: column;
+            justify-content: center;
         }
 
-        .hero-content {
-            flex: 1;
-            min-width: 300px;
-            border-left: 4px solid var(--accent);
-            padding-left: 20px;
-        }
-
-        .hero h1 {
-            font-size: 4.5rem;
-            font-weight: 900;
-            line-height: 1;
-            letter-spacing: -2px;
-            margin-bottom: 15px;
-        }
-
-        .hero h2 {
-            font-size: 2rem;
-            color: var(--accent);
+        .hero-title {
+            font-size: clamp(3rem, 7vw, 7.5rem);
             font-weight: 800;
+            letter-spacing: -0.04em;
+            line-height: 1.05;
+            max-width: 1200px;
+            margin-bottom: 24px;
+            animation: fadeUp 1s var(--ease-clay) forwards;
         }
 
-        .hero p {
+        .hero-subtitle {
+            font-size: clamp(1.2rem, 2vw, 1.8rem);
+            font-weight: 400;
+            color: var(--color-grey-medium);
+            max-width: 700px;
+            margin-bottom: 40px;
+            animation: fadeUp 1.2s var(--ease-clay) forwards;
+        }
+
+        .hero-price {
+            display: inline-block;
             font-size: 1.2rem;
-            color: var(--text-muted);
-            margin-top: 10px;
+            font-weight: 700;
+            padding: 12px 24px;
+            border: 2px solid var(--color-black);
+            border-radius: 50px;
+            animation: fadeUp 1.4s var(--ease-clay) forwards;
         }
 
+        /* --- Updated Hero Media for full visibility --- */
         .hero-media {
-            flex: 0 0 250px;
-            height: 250px;
-            border-radius: 50%;
+            margin-top: 60px;
+            width: 100%;
+            border-radius: 12px;
             overflow: hidden;
-            border: 1px solid var(--border);
-            box-shadow: 0 10px 30px rgba(243, 84, 34, 0.15);
+            background: var(--color-grey-light);
+            animation: fadeUp 1.6s var(--ease-clay) forwards;
+            display: flex;
+            justify-content: center;
+            align-items: center;
         }
 
         .hero-media img {
             width: 100%;
-            height: 100%;
-            object-fit: cover;
-            filter: grayscale(20%) contrast(1.2);
-            transition: transform 0.5s ease;
+            height: auto;
+            max-height: 75vh;
+            object-fit: contain;
+            display: block;
+            transition: filter 1.5s var(--ease-clay);
         }
 
-        .hero-media:hover img {
-            transform: scale(1.05);
-            filter: grayscale(0%) contrast(1.1);
+        /* --- Accordion Section (Payment Plans) --- */
+        .section {
+            padding: 120px 0;
         }
 
-        /* Payment Plans Grid */
-        .grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-            gap: 1px;
-            background: var(--border);
-            border: 1px solid var(--border);
+        .section-header {
+            font-size: 2.5rem;
+            font-weight: 700;
+            letter-spacing: -0.03em;
             margin-bottom: 60px;
         }
 
-        .card {
-            background: var(--bg-card);
-            padding: 40px 30px;
+        .accordion-wrapper {
+            border-top: 1px solid #E5E5E5;
+        }
+
+        .accordion-item {
+            border-bottom: 1px solid #E5E5E5;
+            overflow: hidden;
+        }
+
+        .accordion-btn {
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: none;
+            border: none;
+            padding: 40px 0;
+            cursor: pointer;
+            font-size: clamp(1.5rem, 3vw, 2.5rem);
+            font-weight: 600;
+            letter-spacing: -0.02em;
+            color: var(--color-black);
+            text-align: left;
+            transition: color 0.4s var(--ease-clay);
+        }
+
+        .accordion-btn:hover {
+            color: var(--color-grey-medium);
+        }
+
+        .accordion-icon {
+            width: 24px;
+            height: 24px;
             position: relative;
-            transition: all 0.4s ease;
+            transition: transform 0.6s var(--ease-clay);
+        }
+
+        .accordion-icon::before, .accordion-icon::after {
+            content: '';
+            position: absolute;
+            background: currentColor;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+
+        .accordion-icon::before { width: 100%; height: 2px; }
+        .accordion-icon::after { width: 2px; height: 100%; transition: transform 0.6s var(--ease-clay); }
+        .accordion-item.active .accordion-icon::after { transform: translate(-50%, -50%) rotate(90deg); opacity: 0; }
+
+        .accordion-content {
+            max-height: 0;
+            transition: max-height 0.8s var(--ease-clay);
+        }
+
+        .accordion-inner {
+            padding-bottom: 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+
+        .accordion-desc {
+            font-size: 1.25rem;
+            color: var(--color-grey-medium);
+            max-width: 600px;
+        }
+
+        .accordion-details {
+            text-align: right;
+        }
+
+        .accordion-int {
+            font-size: 1rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            margin-bottom: 8px;
+        }
+
+        .accordion-price {
+            font-size: 2.5rem;
+            font-weight: 800;
+            letter-spacing: -0.03em;
+        }
+
+        /* --- Grid Section (Discounts) --- */
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 40px;
+        }
+
+        .card {
+            background: var(--color-grey-light);
+            padding: 60px 40px;
+            border-radius: 8px;
+            position: relative;
             overflow: hidden;
             display: flex;
             flex-direction: column;
-        }
-
-        .card::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(180deg, rgba(243, 84, 34, 0.08) 0%, transparent 100%);
-            opacity: 0;
-            transition: opacity 0.4s ease;
+            justify-content: space-between;
+            min-height: 350px;
+            transition: transform 0.6s var(--ease-clay);
         }
 
         .card:hover {
-            background: var(--bg-panel);
-            transform: translateY(-5px);
-            z-index: 10;
-            box-shadow: 0 20px 40px rgba(0,0,0,0.5);
-            border-bottom: 3px solid var(--accent);
+            transform: translateY(-10px);
         }
 
-        .card:hover::before {
-            opacity: 1;
-        }
-
-        .card-number {
-            font-size: 3rem;
-            font-weight: 900;
-            color: var(--border);
-            line-height: 1;
+        .card-amount {
+            font-size: 4.5rem;
+            font-weight: 800;
+            letter-spacing: -0.05em;
+            color: var(--color-black);
             margin-bottom: 20px;
-            transition: color 0.4s ease;
         }
 
-        .card:hover .card-number {
-            color: var(--accent);
-        }
-
-        .plan-title { 
-            font-size: 1.6rem; 
-            font-weight: 800; 
-            margin-bottom: 15px; 
-            position: relative;
-        }
-        
-        .plan-detail {
-            font-size: 0.95rem;
-            color: var(--text-muted);
-            line-height: 1.6;
-            margin-bottom: 30px;
-            position: relative;
-        }
-
-        .plan-detail strong {
-            color: var(--text-main);
-        }
-
-        .price-total {
-            margin-top: auto;
-            padding-top: 20px;
-            border-top: 1px solid var(--border);
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            position: relative;
-        }
-
-        .price-label {
-            font-size: 0.8rem;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            color: var(--text-muted);
-        }
-
-        .price-value {
+        .card-desc {
             font-size: 1.5rem;
-            font-weight: 900;
-            color: var(--text-main);
+            font-weight: 600;
+            letter-spacing: -0.02em;
+            max-width: 250px;
         }
 
-        /* Two Column Layout for Bottom Section */
-        .bottom-sections {
+        /* --- Footer Section (Zelle) --- */
+        .footer {
+            background-color: var(--color-black);
+            color: var(--color-white);
+            padding: 120px 0;
+            margin-top: 40px;
+        }
+
+        .footer-grid {
             display: grid;
             grid-template-columns: 1fr 1fr;
-            gap: 30px;
+            gap: 80px;
         }
 
-        /* Discounts & Payment Sections */
-        .info-wrapper {
-            border: 1px solid var(--border);
-            background: var(--bg-card);
-            padding: 40px;
-            position: relative;
-            overflow: hidden;
-            display: flex;
-            flex-direction: column;
-        }
-
-        .info-title {
-            font-size: 1.8rem;
-            font-weight: 900;
-            margin-bottom: 30px;
-            position: relative;
-            z-index: 1;
-            display: inline-block;
-            border-bottom: 2px solid var(--accent);
-            padding-bottom: 5px;
-        }
-
-        .discount-list {
-            display: flex;
-            flex-direction: column;
-            gap: 15px;
-            position: relative;
-            z-index: 1;
-            flex: 1;
-        }
-
-        .discount-item {
-            display: flex;
-            align-items: center;
-            padding: 20px;
-            background: var(--bg-panel);
-            border: 1px solid var(--border);
-            transition: transform 0.3s ease, border-color 0.3s ease;
-        }
-
-        .discount-item:hover {
-            transform: translateX(10px);
-            border-color: var(--accent);
-        }
-
-        .discount-amount {
-            font-size: 1.8rem;
-            font-weight: 900;
-            color: var(--accent);
-            width: 120px;
-            flex-shrink: 0;
-        }
-
-        .discount-desc {
-            font-size: 1.1rem;
-            font-weight: 600;
-            color: var(--text-main);
-        }
-
-        /* Zelle Payment Box */
-        .zelle-box {
-            background: var(--bg-panel);
-            border: 1px solid var(--border);
-            padding: 25px;
-            position: relative;
-            z-index: 1;
-            flex: 1;
-            display: flex;
-            flex-direction: column;
-        }
-
-        .zelle-header {
-            color: var(--accent);
-            font-size: 1.2rem;
+        .footer-title {
+            font-size: clamp(3rem, 5vw, 5rem);
             font-weight: 800;
-            margin-bottom: 25px;
-            display: flex;
-            align-items: center;
-            gap: 10px;
+            letter-spacing: -0.04em;
+            line-height: 1;
+            margin-bottom: 24px;
+        }
+
+        .footer-memo {
+            display: inline-block;
+            font-size: 1rem;
+            font-weight: 600;
+            letter-spacing: 0.05em;
             text-transform: uppercase;
-            letter-spacing: 1px;
+            padding: 12px 24px;
+            border: 1px solid rgba(255,255,255,0.2);
+            border-radius: 50px;
+            margin-top: 20px;
         }
 
-        .zelle-row {
+        .zelle-details {
             display: flex;
-            align-items: center;
+            flex-direction: column;
+            gap: 40px;
+            justify-content: center;
+        }
+
+        .zelle-item {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            padding-bottom: 40px;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .zelle-label {
+            font-size: 1rem;
+            color: var(--color-grey-medium);
+            font-weight: 500;
+        }
+
+        .zelle-value {
+            font-size: clamp(1.5rem, 3vw, 2.5rem);
+            font-weight: 700;
+            display: flex;
             justify-content: space-between;
-            padding: 15px 0;
-            border-bottom: 1px solid var(--border);
+            align-items: center;
+            letter-spacing: -0.02em;
         }
-
-        .zelle-row:last-of-type {
-            border-bottom: none;
-        }
-
-        .zelle-info { text-align: left; }
-        .zelle-label { font-size: 0.75rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 5px; }
-        .zelle-value { font-size: 1.2rem; font-weight: 600; color: var(--text-main); }
 
         .copy-btn {
-            background: transparent;
-            border: 1px solid var(--border);
-            padding: 8px 16px;
-            font-size: 0.85rem;
+            background: var(--color-white);
+            color: var(--color-black);
+            border: none;
+            padding: 10px 24px;
+            border-radius: 50px;
+            font-size: 0.9rem;
             font-weight: 600;
-            color: var(--text-main);
-            text-transform: uppercase;
             cursor: pointer;
-            transition: all 0.2s ease;
+            transition: all 0.4s var(--ease-clay);
         }
 
-        .copy-btn:hover { 
-            background: var(--text-main); 
-            color: var(--bg-main);
+        .copy-btn:hover {
+            transform: scale(1.05);
         }
 
-        .zelle-memo {
-            margin-top: auto;
-            padding-top: 25px;
-            font-size: 0.95rem;
-            font-weight: 800;
-            color: var(--text-main);
-            text-align: center;
-            letter-spacing: 1px;
-            text-transform: uppercase;
+        @keyframes fadeUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
         }
 
         @media (max-width: 900px) {
-            .bottom-sections { grid-template-columns: 1fr; }
-        }
-
-        @media (max-width: 768px) {
-            .hero h1 { font-size: 3rem; }
-            .hero-media { height: 150px; flex-basis: 150px; margin: 0 auto; }
-            .hero-content { border-left: none; padding-left: 0; text-align: center; }
-            .info-wrapper { padding: 30px 20px; }
-            .discount-item { flex-direction: column; align-items: flex-start; gap: 10px; }
-            .zelle-row { flex-direction: column; align-items: flex-start; gap: 15px; }
-            .copy-btn { width: 100%; text-align: center; }
+            .footer-grid { grid-template-columns: 1fr; gap: 60px; }
+            .accordion-inner { flex-direction: column; align-items: flex-start; }
+            .accordion-details { text-align: left; margin-top: 20px; }
+            .lang-nav { display: none; } /* Simplified mobile for demo */
         }
     </style>
 </head>
 <body>
 
-    <div class="marquee-runner">
-        <div class="marquee-content">
-            <div class="marquee-text">✦ Flexible Tuition Plans</div>
-            <div class="marquee-text">✦ Start Your Journey Today</div>
-            <div class="marquee-text">✦ Multiple Discount Options</div>
-            <div class="marquee-text">✦ Premium Education</div>
-            <div class="marquee-text">✦ Flexible Tuition Plans</div>
-            <div class="marquee-text">✦ Start Your Journey Today</div>
-            <div class="marquee-text">✦ Multiple Discount Options</div>
-            <div class="marquee-text">✦ Premium Education</div>
-        </div>
-    </div>
-
-    <div class="container">
-        
-        <div class="lang-control">
+    <header class="header">
+        <div class="header-logo" id="t-brand">Tuition Portal</div>
+        <nav class="lang-nav">
             <button class="lang-btn active" onclick="setLanguage('en')">English</button>
-            <button class="lang-btn" onclick="setLanguage('es')">Mexico</button>
-            <button class="lang-btn" onclick="setLanguage('zh')">China</button>
-            <button class="lang-btn" onclick="setLanguage('ko')">Korea</button>
             <button class="lang-btn" onclick="setLanguage('th')">Thailand</button>
-            <button class="lang-btn" onclick="setLanguage('hi')">India</button>
             <button class="lang-btn" onclick="setLanguage('bn')">Bangladesh</button>
             <button class="lang-btn" onclick="setLanguage('kk')">Kazakhstan</button>
             <button class="lang-btn" onclick="setLanguage('tr')">Turkey</button>
-        </div>
+            <button class="lang-btn" onclick="setLanguage('hi')">India</button>
+            <button class="lang-btn" onclick="setLanguage('es')">Mexico</button>
+            <button class="lang-btn" onclick="setLanguage('ko')">Korea</button>
+            <button class="lang-btn" onclick="setLanguage('zh')">China</button>
+        </nav>
+    </header>
 
-        <div class="hero">
-            <div class="hero-content">
-                <h1 id="t-hero-title">Tuition Plans.</h1>
-                <h2 id="t-hero-price">Fixed Tuition: $2,075</h2>
-                <p id="t-hero-sub">Select a strategic payment approach for your semester.</p>
+    <div class="container">
+        <section class="hero">
+            <h1 class="hero-title" id="t-hero-title">Strategic Tuition Plans.</h1>
+            <p class="hero-subtitle" id="t-hero-sub">We build transformative digital experiences for your education with flexible, straightforward payment options tailored to your needs.</p>
+            <div>
+                <span class="hero-price" id="t-hero-price">Fixed Tuition: $2,075</span>
             </div>
             <div class="hero-media">
                 <img src="new-york-city.gif.gif" alt="New York City Vibe">
             </div>
-        </div>
+        </section>
 
-        <div class="grid">
-            <div class="card">
-                <div class="card-number">01</div>
-                <div class="plan-title" id="t-p1-title">Pay in Full</div>
-                <div class="plan-detail">
-                    <span id="t-p1-desc">Pay the full amount all at once.</span><br><br>
-                    <strong id="t-p1-int">Interest: $0</strong>
-                </div>
-                <div class="price-total">
-                    <span class="price-label" id="t-total-1">Total</span>
-                    <span class="price-value">$2,075</span>
-                </div>
-            </div>
-
-            <div class="card">
-                <div class="card-number">02</div>
-                <div class="plan-title" id="t-p2-title">Divide by Two</div>
-                <div class="plan-detail">
-                    <span id="t-p2-desc">$1,000 initially, followed by $1,075.</span><br><br>
-                    <strong id="t-p2-int">Interest: $0</strong>
-                </div>
-                <div class="price-total">
-                    <span class="price-label" id="t-total-2">Total</span>
-                    <span class="price-value">$2,075</span>
-                </div>
-            </div>
-
-            <div class="card">
-                <div class="card-number">03</div>
-                <div class="plan-title" id="t-p3-title">Divide by Three</div>
-                <div class="plan-detail">
-                    <span id="t-p3-desc">$708 + $708 + $709.</span><br><br>
-                    <strong id="t-p3-int" style="color: var(--accent);">Interest: $50 included</strong>
-                </div>
-                <div class="price-total">
-                    <span class="price-label" id="t-total-3">Total</span>
-                    <span class="price-value">$2,125</span>
-                </div>
-            </div>
-
-            <div class="card">
-                <div class="card-number">04</div>
-                <div class="plan-title" id="t-p4-title">Divide by Four</div>
-                <div class="plan-detail">
-                    <span id="t-p4-desc">$543.75 per month for four months.</span><br><br>
-                    <strong id="t-p4-int" style="color: var(--accent);">Interest: $100 included</strong>
-                </div>
-                <div class="price-total">
-                    <span class="price-label" id="t-total-4">Total</span>
-                    <span class="price-value">$2,175</span>
-                </div>
-            </div>
-        </div>
-
-        <div class="bottom-sections">
-            <div class="info-wrapper">
-                <h3 class="info-title" id="t-disc-title">Available Discounts</h3>
-                <div class="discount-list">
-                    <div class="discount-item">
-                        <div class="discount-amount">-$40</div>
-                        <div class="discount-desc" id="t-disc-1">Pay all cash at once</div>
-                    </div>
-                    <div class="discount-item">
-                        <div class="discount-amount">-$15</div>
-                        <div class="discount-desc" id="t-disc-2">5-star Google review</div>
-                    </div>
-                    <div class="discount-item">
-                        <div class="discount-amount">-$100</div>
-                        <div class="discount-desc" id="t-disc-3">Friend Referral (per enrolled friend)</div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="info-wrapper">
-                <h3 class="info-title" id="t-zelle-title">Payment Instructions</h3>
-                <div class="zelle-box">
-                    <div class="zelle-header">
-                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg>
-                        <span id="t-zelle-method">Secure Zelle Transfer</span>
-                    </div>
-                    
-                    <div class="zelle-row">
-                        <div class="zelle-info">
-                            <div class="zelle-label" id="t-zelle-name-lbl">Account Name</div>
-                            <div class="zelle-value">DREAMIT ESL, INC</div>
+        <section class="section">
+            <h2 class="section-header" id="t-plans-header">Payment Options</h2>
+            <div class="accordion-wrapper">
+                
+                <div class="accordion-item">
+                    <button class="accordion-btn" onclick="toggleAccordion(this)">
+                        <span id="t-p1-title">Pay in Full</span>
+                        <div class="accordion-icon"></div>
+                    </button>
+                    <div class="accordion-content">
+                        <div class="accordion-inner">
+                            <p class="accordion-desc" id="t-p1-desc">Pay the full amount all at once prior to the start of the semester.</p>
+                            <div class="accordion-details">
+                                <div class="accordion-int" id="t-p1-int">Interest: $0</div>
+                                <div class="accordion-price">$2,075</div>
+                            </div>
                         </div>
-                        <button class="copy-btn" onclick="copyText('DREAMIT ESL, INC', this)" id="t-btn-copy1">Copy</button>
                     </div>
+                </div>
 
-                    <div class="zelle-row">
-                        <div class="zelle-info">
-                            <div class="zelle-label" id="t-zelle-acc-lbl">Zelle Account</div>
-                            <div class="zelle-value" style="color: var(--accent);">917-717-0385</div>
+                <div class="accordion-item">
+                    <button class="accordion-btn" onclick="toggleAccordion(this)">
+                        <span id="t-p2-title">Divide by Two</span>
+                        <div class="accordion-icon"></div>
+                    </button>
+                    <div class="accordion-content">
+                        <div class="accordion-inner">
+                            <p class="accordion-desc" id="t-p2-desc">$1,000 initially, followed by a second payment of $1,075.</p>
+                            <div class="accordion-details">
+                                <div class="accordion-int" id="t-p2-int">Interest: $0</div>
+                                <div class="accordion-price">$2,075</div>
+                            </div>
                         </div>
-                        <button class="copy-btn" onclick="copyText('9177170385', this)" id="t-btn-copy2">Copy</button>
                     </div>
+                </div>
 
-                    <div class="zelle-memo" id="t-zelle-memo">***PLEASE WRITE DOWN YOUR NAME ON THE MEMO***</div>
+                <div class="accordion-item">
+                    <button class="accordion-btn" onclick="toggleAccordion(this)">
+                        <span id="t-p3-title">Divide by Three</span>
+                        <div class="accordion-icon"></div>
+                    </button>
+                    <div class="accordion-content">
+                        <div class="accordion-inner">
+                            <p class="accordion-desc" id="t-p3-desc">$708 for the first two months, and $709 for the final month.</p>
+                            <div class="accordion-details">
+                                <div class="accordion-int" id="t-p3-int" style="color: #F35422;">Interest: $50 included</div>
+                                <div class="accordion-price">$2,125</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="accordion-item">
+                    <button class="accordion-btn" onclick="toggleAccordion(this)">
+                        <span id="t-p4-title">Divide by Four</span>
+                        <div class="accordion-icon"></div>
+                    </button>
+                    <div class="accordion-content">
+                        <div class="accordion-inner">
+                            <p class="accordion-desc" id="t-p4-desc">Spread the cost across four monthly payments of $543.75.</p>
+                            <div class="accordion-details">
+                                <div class="accordion-int" id="t-p4-int" style="color: #F35422;">Interest: $100 included</div>
+                                <div class="accordion-price">$2,175</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+        <section class="section">
+            <h2 class="section-header" id="t-disc-title">Available Reductions</h2>
+            <div class="grid">
+                <div class="card">
+                    <div class="card-amount">-$40</div>
+                    <div class="card-desc" id="t-disc-1">Pay full tuition upfront in cash</div>
+                </div>
+                <div class="card">
+                    <div class="card-amount">-$15</div>
+                    <div class="card-desc" id="t-disc-2">Leave a 5-star Google review</div>
+                </div>
+                <div class="card">
+                    <div class="card-amount">-$100</div>
+                    <div class="card-desc" id="t-disc-3">Refer an enrolled friend (per referral)</div>
                 </div>
             </div>
-        </div>
-
+        </section>
     </div>
 
+    <footer class="footer">
+        <div class="container footer-grid">
+            <div>
+                <h2 class="footer-title" id="t-zelle-method">Initiate Zelle Transfer</h2>
+                <div class="footer-memo" id="t-zelle-memo">*** Please write down your name on the memo ***</div>
+            </div>
+            <div class="zelle-details">
+                <div class="zelle-item">
+                    <span class="zelle-label" id="t-zelle-name-lbl">Account Name</span>
+                    <div class="zelle-value">
+                        <span>DREAMIT ESL, INC</span>
+                        <button class="copy-btn" onclick="copyText('DREAMIT ESL, INC', this)" id="t-btn-copy1">Copy</button>
+                    </div>
+                </div>
+                <div class="zelle-item">
+                    <span class="zelle-label" id="t-zelle-acc-lbl">Zelle Number</span>
+                    <div class="zelle-value">
+                        <span>917-717-0385</span>
+                        <button class="copy-btn" onclick="copyText('9177170385', this)" id="t-btn-copy2">Copy</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+
     <script>
+        // Clay-style Accordion Logic
+        function toggleAccordion(btn) {
+            const item = btn.parentElement;
+            const content = btn.nextElementSibling;
+            
+            // Close all others
+            document.querySelectorAll('.accordion-item').forEach(otherItem => {
+                if (otherItem !== item) {
+                    otherItem.classList.remove('active');
+                    otherItem.querySelector('.accordion-content').style.maxHeight = null;
+                }
+            });
+
+            // Toggle current
+            item.classList.toggle('active');
+            if (item.classList.contains('active')) {
+                content.style.maxHeight = content.scrollHeight + "px";
+            } else {
+                content.style.maxHeight = null;
+            }
+        }
+
+        // Translation Dictionary
         const translations = {
             en: {
-                "t-hero-title": "Tuition Plans.",
-                "t-hero-price": "Fixed Tuition: $2,075",
-                "t-hero-sub": "Select a strategic payment approach for your semester.",
-                "t-p1-title": "Pay in Full", "t-p1-desc": "Pay the full amount all at once.", "t-p1-int": "Interest: $0",
-                "t-p2-title": "Divide by Two", "t-p2-desc": "$1,000 initially, followed by $1,075.", "t-p2-int": "Interest: $0",
-                "t-p3-title": "Divide by Three", "t-p3-desc": "$708 + $708 + $709.", "t-p3-int": "Interest: $50 included",
-                "t-p4-title": "Divide by Four", "t-p4-desc": "$543.75 per month for four months.", "t-p4-int": "Interest: $100 included",
-                "t-total-1": "Total", "t-total-2": "Total", "t-total-3": "Total", "t-total-4": "Total",
-                "t-disc-title": "Available Discounts", "t-disc-1": "Pay all cash at once", "t-disc-2": "5-star Google review", "t-disc-3": "Friend Referral (per enrolled friend)",
-                "t-zelle-title": "Payment Instructions", "t-zelle-method": "Secure Zelle Transfer", "t-zelle-name-lbl": "Account Name", "t-zelle-acc-lbl": "Zelle Account", "t-zelle-memo": "***PLEASE WRITE DOWN YOUR NAME ON THE MEMO***",
+                "t-brand": "Tuition Portal", "t-hero-title": "Strategic Tuition Plans.", "t-hero-price": "Fixed Tuition: $2,075", "t-hero-sub": "We build transformative digital experiences for your education with flexible, straightforward payment options tailored to your needs.",
+                "t-plans-header": "Payment Options", "t-p1-title": "Pay in Full", "t-p1-desc": "Pay the full amount all at once prior to the start of the semester.", "t-p1-int": "Interest: $0",
+                "t-p2-title": "Divide by Two", "t-p2-desc": "$1,000 initially, followed by a second payment of $1,075.", "t-p2-int": "Interest: $0",
+                "t-p3-title": "Divide by Three", "t-p3-desc": "$708 for the first two months, and $709 for the final month.", "t-p3-int": "Interest: $50 included",
+                "t-p4-title": "Divide by Four", "t-p4-desc": "Spread the cost across four monthly payments of $543.75.", "t-p4-int": "Interest: $100 included",
+                "t-disc-title": "Available Reductions", "t-disc-1": "Pay full tuition upfront in cash", "t-disc-2": "Leave a 5-star Google review", "t-disc-3": "Refer an enrolled friend (per referral)",
+                "t-zelle-method": "Initiate Zelle Transfer", "t-zelle-name-lbl": "Account Name", "t-zelle-acc-lbl": "Zelle Number", "t-zelle-memo": "*** Please write down your name on the memo ***",
                 "t-btn-copy1": "Copy", "t-btn-copy2": "Copy", "copied": "Copied!"
             },
-            es: {
-                "t-hero-title": "Planes de Pago.", "t-hero-price": "Matrícula Fija: $2,075", "t-hero-sub": "Selecciona un enfoque de pago estratégico para tu semestre.",
-                "t-p1-title": "Pago Total", "t-p1-desc": "Paga el monto total de una vez.", "t-p1-int": "Interés: $0",
-                "t-p2-title": "Dividir en Dos", "t-p2-desc": "$1,000 inicial, seguido de $1,075.", "t-p2-int": "Interés: $0",
-                "t-p3-title": "Dividir en Tres", "t-p3-desc": "$708 + $708 + $709.", "t-p3-int": "Interés: $50 incluido",
-                "t-p4-title": "Dividir en Cuatro", "t-p4-desc": "$543.75 por mes durante cuatro meses.", "t-p4-int": "Interés: $100 incluido",
-                "t-total-1": "Total", "t-total-2": "Total", "t-total-3": "Total", "t-total-4": "Total",
-                "t-disc-title": "Descuentos Disponibles", "t-disc-1": "Pago total en efectivo", "t-disc-2": "Reseña de 5 estrellas en Google", "t-disc-3": "Referencia de un amigo (por amigo inscrito)",
-                "t-zelle-title": "Instrucciones de Pago", "t-zelle-method": "Transferencia Segura Zelle", "t-zelle-name-lbl": "Nombre de la Cuenta", "t-zelle-acc-lbl": "Cuenta Zelle", "t-zelle-memo": "***POR FAVOR ESCRIBE TU NOMBRE EN EL MEMO***",
-                "t-btn-copy1": "Copiar", "t-btn-copy2": "Copiar", "copied": "¡Copiado!"
-            },
-            zh: {
-                "t-hero-title": "学费支付计划。", "t-hero-price": "固定学费: $2,075", "t-hero-sub": "为您的学期选择一个策略性的支付方案。",
-                "t-p1-title": "一次性付清", "t-p1-desc": "一次性支付全部金额。", "t-p1-int": "利息: $0",
-                "t-p2-title": "分为两次", "t-p2-desc": "首次 $1,000，随后 $1,075。", "t-p2-int": "利息: $0",
-                "t-p3-title": "分为三次", "t-p3-desc": "$708 + $708 + $709。", "t-p3-int": "利息: 包含 $50",
-                "t-p4-title": "分为四次", "t-p4-desc": "连续四个月，每月 $543.75。", "t-p4-int": "利息: 包含 $100",
-                "t-total-1": "总计", "t-total-2": "总计", "t-total-3": "总计", "t-total-4": "总计",
-                "t-disc-title": "可用折扣", "t-disc-1": "全额现金支付", "t-disc-2": "Google 5星评价", "t-disc-3": "推荐朋友（每注册一位）",
-                "t-zelle-title": "支付说明", "t-zelle-method": "安全 Zelle 转账", "t-zelle-name-lbl": "账户名称", "t-zelle-acc-lbl": "Zelle 账户", "t-zelle-memo": "***请务必在备注中写下您的名字***",
-                "t-btn-copy1": "复制", "t-btn-copy2": "复制", "copied": "已复制!"
-            },
-            ko: {
-                "t-hero-title": "학비 납부 플랜.", "t-hero-price": "고정 학비: $2,075", "t-hero-sub": "이번 학기를 위한 전략적 결제 방식을 선택하세요.",
-                "t-p1-title": "전액 납부", "t-p1-desc": "전체 금액을 한 번에 결제합니다.", "t-p1-int": "이자: $0",
-                "t-p2-title": "2회 분할", "t-p2-desc": "초기 $1,000 결제 후 $1,075 결제.", "t-p2-int": "이자: $0",
-                "t-p3-title": "3회 분할", "t-p3-desc": "$708 + $708 + $709.", "t-p3-int": "이자: $50 포함",
-                "t-p4-title": "4회 분할", "t-p4-desc": "4개월 동안 매월 $543.75 결제.", "t-p4-int": "이자: $100 포함",
-                "t-total-1": "총액", "t-total-2": "총액", "t-total-3": "총액", "t-total-4": "총액",
-                "t-disc-title": "사용 가능한 할인", "t-disc-1": "전액 현금 결제", "t-disc-2": "구글 5성급 리뷰", "t-disc-3": "친구 추천 (등록된 친구당)",
-                "t-zelle-title": "결제 안내", "t-zelle-method": "안전한 Zelle 이체", "t-zelle-name-lbl": "계좌 이름", "t-zelle-acc-lbl": "Zelle 계좌", "t-zelle-memo": "***메모란에 본인 이름을 꼭 적어주세요***",
-                "t-btn-copy1": "복사", "t-btn-copy2": "복사", "copied": "복사됨!"
-            },
             th: {
-                "t-hero-title": "แผนการชำระค่าเล่าเรียน", "t-hero-price": "ค่าเล่าเรียนคงที่: $2,075", "t-hero-sub": "เลือกวิธีการชำระเงินที่เหมาะสมสำหรับภาคการศึกษาของคุณ",
-                "t-p1-title": "จ่ายเต็มจำนวน", "t-p1-desc": "จ่ายจำนวนเงินทั้งหมดในครั้งเดียว", "t-p1-int": "ดอกเบี้ย: $0",
+                "t-brand": "พอร์ทัลค่าเล่าเรียน", "t-hero-title": "แผนค่าเล่าเรียนเชิงกลยุทธ์", "t-hero-price": "ค่าเล่าเรียนคงที่: $2,075", "t-hero-sub": "ตัวเลือกการชำระเงินที่ยืดหยุ่นและตรงไปตรงมา",
+                "t-plans-header": "ตัวเลือกการชำระเงิน", "t-p1-title": "จ่ายเต็มจำนวน", "t-p1-desc": "จ่ายจำนวนเงินทั้งหมดในครั้งเดียวก่อนเริ่มภาคเรียน", "t-p1-int": "ดอกเบี้ย: $0",
                 "t-p2-title": "แบ่งจ่ายสองงวด", "t-p2-desc": "$1,000 ในตอนแรก ตามด้วย $1,075", "t-p2-int": "ดอกเบี้ย: $0",
-                "t-p3-title": "แบ่งจ่ายสามงวด", "t-p3-desc": "$708 + $708 + $709.", "t-p3-int": "ดอกเบี้ย: รวม $50",
-                "t-p4-title": "แบ่งจ่ายสี่งวด", "t-p4-desc": "$543.75 ต่อเดือน เป็นเวลา 4 เดือน", "t-p4-int": "ดอกเบี้ย: รวม $100",
-                "t-total-1": "รวม", "t-total-2": "รวม", "t-total-3": "รวม", "t-total-4": "รวม",
-                "t-disc-title": "ส่วนลดที่มี", "t-disc-1": "จ่ายเงินสดเต็มจำนวน", "t-disc-2": "รีวิว 5 ดาวบน Google", "t-disc-3": "แนะนำเพื่อน (ต่อเพื่อนที่สมัครเรียน)",
-                "t-zelle-title": "คำแนะนำการชำระเงิน", "t-zelle-method": "โอนผ่าน Zelle อย่างปลอดภัย", "t-zelle-name-lbl": "ชื่อบัญชี", "t-zelle-acc-lbl": "บัญชี Zelle", "t-zelle-memo": "***กรุณาเขียนชื่อของคุณลงในช่องบันทึก***",
+                "t-p3-title": "แบ่งจ่ายสามงวด", "t-p3-desc": "$708 สำหรับสองเดือนแรก และ $709 ในเดือนสุดท้าย", "t-p3-int": "ดอกเบี้ย: รวม $50",
+                "t-p4-title": "แบ่งจ่ายสี่งวด", "t-p4-desc": "แบ่งชำระเป็น 4 งวด งวดละ $543.75", "t-p4-int": "ดอกเบี้ย: รวม $100",
+                "t-disc-title": "ส่วนลดที่มี", "t-disc-1": "จ่ายเงินสดเต็มจำนวนล่วงหน้า", "t-disc-2": "รีวิว 5 ดาวบน Google", "t-disc-3": "แนะนำเพื่อนที่ลงทะเบียนเรียน (ต่อคน)",
+                "t-zelle-method": "เริ่มต้นการโอน Zelle", "t-zelle-name-lbl": "ชื่อบัญชี", "t-zelle-acc-lbl": "หมายเลข Zelle", "t-zelle-memo": "*** กรุณาเขียนชื่อของคุณลงในช่องบันทึก (MEMO) ***",
                 "t-btn-copy1": "คัดลอก", "t-btn-copy2": "คัดลอก", "copied": "คัดลอกแล้ว!"
             },
-            hi: {
-                "t-hero-title": "ट्यूशन भुगतान योजनाएं", "t-hero-price": "निश्चित ट्यूशन: $2,075", "t-hero-sub": "अपने सेमेस्टर के लिए एक रणनीतिक भुगतान दृष्टिकोण चुनें।",
-                "t-p1-title": "पूरा भुगतान करें", "t-p1-desc": "पूरी राशि का एक साथ भुगतान करें।", "t-p1-int": "ब्याज: $0",
-                "t-p2-title": "दो भागों में बांटें", "t-p2-desc": "शुरुआत में $1,000, उसके बाद $1,075।", "t-p2-int": "ब्याज: $0",
-                "t-p3-title": "तीन भागों में बांटें", "t-p3-desc": "$708 + $708 + $709।", "t-p3-int": "ब्याज: $50 शामिल",
-                "t-p4-title": "चार भागों में बांटें", "t-p4-desc": "चार महीने के लिए $543.75 प्रति माह।", "t-p4-int": "ब्याज: $100 शामिल",
-                "t-total-1": "कुल", "t-total-2": "कुल", "t-total-3": "कुल", "t-total-4": "कुल",
-                "t-disc-title": "उपलब्ध छूट", "t-disc-1": "एक बार में पूरा नकद भुगतान", "t-disc-2": "5-स्टार गूगल समीक्षा", "t-disc-3": "मित्र रेफरल (प्रति नामांकित मित्र)",
-                "t-zelle-title": "भुगतान निर्देश", "t-zelle-method": "सुरक्षित ज़ेल ट्रांसफर", "t-zelle-name-lbl": "खाते का नाम", "t-zelle-acc-lbl": "ज़ेल खाता", "t-zelle-memo": "***कृपया मेमो पर अपना नाम अवश्य लिखें***",
-                "t-btn-copy1": "कॉपी", "t-btn-copy2": "कॉपी", "copied": "कॉपी किया गया!"
-            },
             bn: {
-                "t-hero-title": "টিউশন পেমেন্ট প্ল্যান", "t-hero-price": "নির্দিষ্ট টিউশন: $2,075", "t-hero-sub": "আপনার সেমিস্টারের জন্য একটি কৌশলগত অর্থপ্রদানের পদ্ধতি নির্বাচন করুন।",
-                "t-p1-title": "সম্পূর্ণ পেমেন্ট", "t-p1-desc": "একবারে সম্পূর্ণ পরিমাণ পরিশোধ করুন।", "t-p1-int": "সুদ: $0",
-                "t-p2-title": "দুই ভাগে বিভক্ত করুন", "t-p2-desc": "শুরুতে $1,000, এরপরে $1,075।", "t-p2-int": "সুদ: $0",
-                "t-p3-title": "তিন ভাগে বিভক্ত করুন", "t-p3-desc": "$708 + $708 + $709।", "t-p3-int": "সুদ: $50 অন্তর্ভুক্ত",
-                "t-p4-title": "চার ভাগে বিভক্ত করুন", "t-p4-desc": "চার মাসের জন্য প্রতি মাসে $543.75।", "t-p4-int": "সুদ: $100 অন্তর্ভুক্ত",
-                "t-total-1": "মোট", "t-total-2": "মোট", "t-total-3": "মোট", "t-total-4": "মোট",
-                "t-disc-title": "উপলব্ধ ডিসকাউন্ট", "t-disc-1": "একবারে সম্পূর্ণ নগদ পেমেন্ট", "t-disc-2": "৫-স্টার গুগল রিভিউ", "t-disc-3": "বন্ধু রেফারেল (প্রতি নিবন্ধিত বন্ধু)",
-                "t-zelle-title": "পেমেন্ট নির্দেশাবলী", "t-zelle-method": "নিরাপদ জেলি ট্রান্সফার", "t-zelle-name-lbl": "অ্যাকাউন্টের নাম", "t-zelle-acc-lbl": "জেলি অ্যাকাউন্ট", "t-zelle-memo": "***অনুগ্রহ করে মেমোতে আপনার নাম লিখবেন***",
+                "t-brand": "টিউশন পোর্টাল", "t-hero-title": "কৌশলগত টিউশন প্ল্যান", "t-hero-price": "নির্দিষ্ট টিউশন: $2,075", "t-hero-sub": "আপনার প্রয়োজন অনুযায়ী নমনীয় পেমেন্ট বিকল্পের মাধ্যমে শিক্ষাকে সহজতর করুন।",
+                "t-plans-header": "পেমেন্ট অপশন", "t-p1-title": "সম্পূর্ণ পেমেন্ট", "t-p1-desc": "সেমিস্টার শুরুর আগে একবারে সম্পূর্ণ পরিমাণ পরিশোধ করুন।", "t-p1-int": "সুদ: $0",
+                "t-p2-title": "দুই ভাগে বিভক্ত", "t-p2-desc": "শুরুতে $1,000, এরপরে $1,075।", "t-p2-int": "সুদ: $0",
+                "t-p3-title": "তিন ভাগে বিভক্ত", "t-p3-desc": "প্রথম দুই মাসে $708 এবং শেষ মাসে $709।", "t-p3-int": "সুদ: $50 অন্তর্ভুক্ত",
+                "t-p4-title": "চার ভাগে বিভক্ত", "t-p4-desc": "৪ মাসের জন্য প্রতি মাসে $543.75।", "t-p4-int": "সুদ: $100 অন্তর্ভুক্ত",
+                "t-disc-title": "উপলব্ধ ডিসকাউন্ট", "t-disc-1": "অগ্রিম সম্পূর্ণ নগদ পেমেন্ট", "t-disc-2": "৫-স্টার গুগল রিভিউ", "t-disc-3": "বন্ধু রেফারেল (প্রতি নিবন্ধিত বন্ধু)",
+                "t-zelle-method": "জেলি ট্রান্সফার করুন", "t-zelle-name-lbl": "অ্যাকাউন্টের নাম", "t-zelle-acc-lbl": "জেলি নম্বর", "t-zelle-memo": "*** অনুগ্রহ করে মেমোতে আপনার নাম লিখুন ***",
                 "t-btn-copy1": "কপি", "t-btn-copy2": "কপি", "copied": "কপি করা হয়েছে!"
             },
             kk: {
-                "t-hero-title": "Оқу ақысы жоспарлары.", "t-hero-price": "Тұрақты оқу ақысы: $2,075", "t-hero-sub": "Семестр үшін стратегиялық төлем әдісін таңдаңыз.",
-                "t-p1-title": "Толық төлем", "t-p1-desc": "Барлық соманы бірден төлеңіз.", "t-p1-int": "Пайыз: $0",
+                "t-brand": "Оқу ақысы порталы", "t-hero-title": "Стратегиялық оқу жоспарлары", "t-hero-price": "Тұрақты оқу ақысы: $2,075", "t-hero-sub": "Сіздің қажеттіліктеріңізге бейімделген икемді төлем опциялары.",
+                "t-plans-header": "Төлем опциялары", "t-p1-title": "Толық төлем", "t-p1-desc": "Семестр басталғанға дейін барлық соманы бірден төлеңіз.", "t-p1-int": "Пайыз: $0",
                 "t-p2-title": "Екіге бөлу", "t-p2-desc": "Бастапқыда $1,000, содан кейін $1,075.", "t-p2-int": "Пайыз: $0",
-                "t-p3-title": "Үшке бөлу", "t-p3-desc": "$708 + $708 + $709.", "t-p3-int": "Пайыз: $50 қосылған",
+                "t-p3-title": "Үшке бөлу", "t-p3-desc": "Алғашқы екі айда $708, соңғы айда $709.", "t-p3-int": "Пайыз: $50 қосылған",
                 "t-p4-title": "Төртке бөлу", "t-p4-desc": "Төрт ай бойы айына $543.75.", "t-p4-int": "Пайыз: $100 қосылған",
-                "t-total-1": "Барлығы", "t-total-2": "Барлығы", "t-total-3": "Барлығы", "t-total-4": "Барлығы",
-                "t-disc-title": "Қолжетімді жеңілдіктер", "t-disc-1": "Барлығын бірден қолма-қол төлеу", "t-disc-2": "Google-де 5 жұлдызды пікір", "t-disc-3": "Досыңызды шақыру (әр тіркелген дос үшін)",
-                "t-zelle-title": "Төлем нұсқаулары", "t-zelle-method": "Қауіпсіз Zelle аударымы", "t-zelle-name-lbl": "Шот атауы", "t-zelle-acc-lbl": "Zelle шоты", "t-zelle-memo": "***ТҮСІНІКТЕМЕГЕ ӨЗ АТЫҢЫЗДЫ ЖАЗЫҢЫЗ***",
+                "t-disc-title": "Қолжетімді жеңілдіктер", "t-disc-1": "Алдын ала қолма-қол төлеу", "t-disc-2": "Google-де 5 жұлдызды пікір", "t-disc-3": "Досыңызды шақыру (тіркелген дос үшін)",
+                "t-zelle-method": "Zelle аударымын бастау", "t-zelle-name-lbl": "Шот атауы", "t-zelle-acc-lbl": "Zelle нөмірі", "t-zelle-memo": "*** ТҮСІНІКТЕМЕГЕ ӨЗ АТЫҢЫЗДЫ ЖАЗЫҢЫЗ ***",
                 "t-btn-copy1": "Көшіру", "t-btn-copy2": "Көшіру", "copied": "Көшірілді!"
             },
             tr: {
-                "t-hero-title": "Eğitim Ücreti Planları.", "t-hero-price": "Sabit Eğitim Ücreti: $2,075", "t-hero-sub": "Döneminiz için stratejik bir ödeme yaklaşımı seçin.",
-                "t-p1-title": "Tamamını Öde", "t-p1-desc": "Tüm tutarı tek seferde ödeyin.", "t-p1-int": "Faiz: $0",
+                "t-brand": "Eğitim Portalı", "t-hero-title": "Stratejik Eğitim Planları", "t-hero-price": "Sabit Eğitim: $2,075", "t-hero-sub": "İhtiyaçlarınıza uygun esnek ve basit ödeme seçenekleriyle eğitiminizi güçlendirin.",
+                "t-plans-header": "Ödeme Seçenekleri", "t-p1-title": "Tamamını Öde", "t-p1-desc": "Dönem başlamadan önce tüm tutarı tek seferde ödeyin.", "t-p1-int": "Faiz: $0",
                 "t-p2-title": "İkiye Böl", "t-p2-desc": "Başlangıçta $1,000, ardından $1,075.", "t-p2-int": "Faiz: $0",
-                "t-p3-title": "Üçe Böl", "t-p3-desc": "$708 + $708 + $709.", "t-p3-int": "Faiz: $50 dahil",
-                "t-p4-title": "Dörde Böl", "t-p4-desc": "Dört ay boyunca ayda $543.75.", "t-p4-int": "Faiz: $100 dahil",
-                "t-total-1": "Toplam", "t-total-2": "Toplam", "t-total-3": "Toplam", "t-total-4": "Toplam",
-                "t-disc-title": "Mevcut İndirimler", "t-disc-1": "Tamamını tek seferde nakit ödeyin", "t-disc-2": "5 yıldızlı Google değerlendirmesi", "t-disc-3": "Arkadaş Referansı (kaydolan her arkadaş için)",
-                "t-zelle-title": "Ödeme Talimatları", "t-zelle-method": "Güvenli Zelle Transferi", "t-zelle-name-lbl": "Hesap Adı", "t-zelle-acc-lbl": "Zelle Hesabı", "t-zelle-memo": "***LÜTFEN AÇIKLAMA KISMINA ADINIZI YAZIN***",
+                "t-p3-title": "Üçe Böl", "t-p3-desc": "İlk iki ay için $708, son ay için $709.", "t-p3-int": "Faiz: $50 dahil",
+                "t-p4-title": "Dörde Böl", "t-p4-desc": "Maliyeti dört aya yayın, aylık $543.75.", "t-p4-int": "Faiz: $100 dahil",
+                "t-disc-title": "Mevcut İndirimler", "t-disc-1": "Tamamını peşin nakit ödeyin", "t-disc-2": "5 yıldızlı Google değerlendirmesi bırakın", "t-disc-3": "Kayıtlı arkadaş referansı (kişi başı)",
+                "t-zelle-method": "Zelle Transferini Başlat", "t-zelle-name-lbl": "Hesap Adı", "t-zelle-acc-lbl": "Zelle Numarası", "t-zelle-memo": "*** LÜTFEN AÇIKLAMA KISMINA ADINIZI YAZIN ***",
                 "t-btn-copy1": "Kopyala", "t-btn-copy2": "Kopyala", "copied": "Kopyalandı!"
+            },
+            hi: {
+                "t-brand": "ट्यूशन पोर्टल", "t-hero-title": "रणनीतिक ट्यूशन योजनाएं", "t-hero-price": "निश्चित ट्यूशन: $2,075", "t-hero-sub": "अपनी आवश्यकताओं के अनुरूप लचीले भुगतान विकल्पों के साथ अपनी शिक्षा को सशक्त बनाएं।",
+                "t-plans-header": "भुगतान विकल्प", "t-p1-title": "पूरा भुगतान करें", "t-p1-desc": "सेमेस्टर शुरू होने से पहले एक साथ पूरी राशि का भुगतान करें।", "t-p1-int": "ब्याज: $0",
+                "t-p2-title": "दो में विभाजित करें", "t-p2-desc": "शुरुआत में $1,000, उसके बाद $1,075।", "t-p2-int": "ब्याज: $0",
+                "t-p3-title": "तीन में विभाजित करें", "t-p3-desc": "पहले दो महीनों के लिए $708, और अंतिम महीने के लिए $709।", "t-p3-int": "ब्याज: $50 शामिल",
+                "t-p4-title": "चार में विभाजित करें", "t-p4-desc": "लागत को चार मासिक भुगतानों में फैलाएं ($543.75)।", "t-p4-int": "ब्याज: $100 शामिल",
+                "t-disc-title": "उपलब्ध छूट", "t-disc-1": "नकद में अग्रिम पूर्ण ट्यूशन भुगतान", "t-disc-2": "5-स्टार Google समीक्षा दें", "t-disc-3": " नामांकित मित्र का संदर्भ दें (प्रति रेफरल)",
+                "t-zelle-method": "ज़ेल ट्रांसफर प्रारंभ करें", "t-zelle-name-lbl": "खाता नाम", "t-zelle-acc-lbl": "ज़ेल नंबर", "t-zelle-memo": "*** कृपया मेमो पर अपना नाम अवश्य लिखें ***",
+                "t-btn-copy1": "कॉपी", "t-btn-copy2": "कॉपी", "copied": "कॉपी किया गया!"
+            },
+            es: {
+                "t-brand": "Portal de Matrícula", "t-hero-title": "Planes Estratégicos.", "t-hero-price": "Matrícula Fija: $2,075", "t-hero-sub": "Opciones de pago flexibles y directas adaptadas a tus necesidades.",
+                "t-plans-header": "Opciones de Pago", "t-p1-title": "Pago Total", "t-p1-desc": "Paga el monto total de una vez antes del inicio del semestre.", "t-p1-int": "Interés: $0",
+                "t-p2-title": "Dividir en Dos", "t-p2-desc": "$1,000 inicialmente, seguido de un segundo pago de $1,075.", "t-p2-int": "Interés: $0",
+                "t-p3-title": "Dividir en Tres", "t-p3-desc": "$708 por los primeros dos meses, y $709 para el mes final.", "t-p3-int": "Interés: $50 incluido",
+                "t-p4-title": "Dividir en Cuatro", "t-p4-desc": "Distribuye el costo en cuatro pagos mensuales de $543.75.", "t-p4-int": "Interés: $100 incluido",
+                "t-disc-title": "Reducciones Disponibles", "t-disc-1": "Pagar matrícula completa por adelantado en efectivo", "t-disc-2": "Dejar una reseña de 5 estrellas en Google", "t-disc-3": "Referir a un amigo inscrito (por referencia)",
+                "t-zelle-method": "Iniciar Transferencia Zelle", "t-zelle-name-lbl": "Nombre de Cuenta", "t-zelle-acc-lbl": "Número Zelle", "t-zelle-memo": "*** Por favor escribe tu nombre en el memo ***",
+                "t-btn-copy1": "Copiar", "t-btn-copy2": "Copiar", "copied": "¡Copiado!"
+            },
+            ko: {
+                "t-brand": "등록금 포털", "t-hero-title": "전략적 등록금 플랜.", "t-hero-price": "고정 등록금: $2,075", "t-hero-sub": "귀하의 필요에 맞춘 유연하고 직관적인 결제 옵션으로 학업을 지원합니다.",
+                "t-plans-header": "결제 옵션", "t-p1-title": "전액 납부", "t-p1-desc": "학기 시작 전 전체 금액을 한 번에 결제합니다.", "t-p1-int": "이자: $0",
+                "t-p2-title": "2회 분할", "t-p2-desc": "초기 $1,000 결제 후, 두 번째 결제 $1,075.", "t-p2-int": "이자: $0",
+                "t-p3-title": "3회 분할", "t-p3-desc": "처음 두 달은 $708, 마지막 달은 $709.", "t-p3-int": "이자: $50 포함",
+                "t-p4-title": "4회 분할", "t-p4-desc": "4개월 동안 매월 $543.75씩 분할 납부.", "t-p4-int": "이자: $100 포함",
+                "t-disc-title": "할인 혜택", "t-disc-1": "현금으로 전액 선납", "t-disc-2": "구글 5성급 리뷰 작성", "t-disc-3": "등록한 친구 추천 (1인당)",
+                "t-zelle-method": "Zelle 이체 시작", "t-zelle-name-lbl": "계좌 이름", "t-zelle-acc-lbl": "Zelle 번호", "t-zelle-memo": "*** 메모란에 반드시 본인 이름을 적어주세요 ***",
+                "t-btn-copy1": "복사", "t-btn-copy2": "복사", "copied": "복사됨!"
+            },
+            zh: {
+                "t-brand": "学费门户", "t-hero-title": "战略性学费计划。", "t-hero-price": "固定学费: $2,075", "t-hero-sub": "为您量身定制的灵活支付选项，助力您的学业。",
+                "t-plans-header": "支付选项", "t-p1-title": "一次性付清", "t-p1-desc": "在学期开始前一次性支付全部金额。", "t-p1-int": "利息: $0",
+                "t-p2-title": "分为两次", "t-p2-desc": "首次支付 $1,000，随后支付 $1,075。", "t-p2-int": "利息: $0",
+                "t-p3-title": "分为三次", "t-p3-desc": "前两个月支付 $708，最后一个月支付 $709。", "t-p3-int": "利息: 包含 $50",
+                "t-p4-title": "分为四次", "t-p4-desc": "分摊到四个月，每月支付 $543.75。", "t-p4-int": "利息: 包含 $100",
+                "t-disc-title": "可用减免", "t-disc-1": "现金全额预付学费", "t-disc-2": "留下Google 5星评价", "t-disc-3": "推荐已注册的朋友（按推荐人数计）",
+                "t-zelle-method": "发起 Zelle 转账", "t-zelle-name-lbl": "账户名称", "t-zelle-acc-lbl": "Zelle 号码", "t-zelle-memo": "*** 请务必在备注中写下您的名字 ***",
+                "t-btn-copy1": "复制", "t-btn-copy2": "复制", "copied": "已复制!"
             }
         };
 
@@ -670,30 +665,33 @@
             currentLang = lang;
             const langData = translations[lang];
 
-            // Update Active Button State
             document.querySelectorAll('.lang-btn').forEach(btn => btn.classList.remove('active'));
             event.target.classList.add('active');
 
-            // Update Text Elements
             for (const key in langData) {
                 const element = document.getElementById(key);
                 if (element) {
                     element.innerText = langData[key];
                 }
             }
+            
+            // Adjust active accordions to recalculate height if text length changes
+            document.querySelectorAll('.accordion-item.active .accordion-content').forEach(content => {
+                content.style.maxHeight = content.scrollHeight + "px";
+            });
         }
 
         function copyText(text, btnElement) {
             navigator.clipboard.writeText(text).then(() => {
                 const originalText = btnElement.innerText;
                 btnElement.innerText = translations[currentLang]["copied"] || "Copied!";
-                btnElement.style.background = "var(--text-main)";
-                btnElement.style.color = "var(--bg-main)";
+                btnElement.style.background = "var(--color-white)";
+                btnElement.style.color = "var(--color-black)";
                 
                 setTimeout(() => {
                     btnElement.innerText = translations[currentLang][btnElement.id] || "Copy";
                     btnElement.style.background = "transparent";
-                    btnElement.style.color = "var(--text-main)";
+                    btnElement.style.color = "var(--color-white)";
                 }, 2000);
             }).catch(err => {
                 console.error("Failed to copy text: ", err);
