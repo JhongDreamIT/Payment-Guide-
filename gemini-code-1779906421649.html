@@ -1,0 +1,634 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tuition Payment Plans | Premium Agency Design</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800;900&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-main: #050505;
+            --bg-card: #0A0A0A;
+            --bg-panel: #111111;
+            --text-main: #FFFFFF;
+            --text-muted: #888888;
+            --accent: #F35422; /* Signature Orange/Red */
+            --border: #222222;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Inter', sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-main);
+            color: var(--text-main);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+            overflow-x: hidden;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        /* Marquee Runner */
+        .marquee-runner {
+            width: 100%;
+            background: var(--accent);
+            color: #000;
+            overflow: hidden;
+            white-space: nowrap;
+            padding: 12px 0;
+            position: relative;
+            display: flex;
+            z-index: 50;
+        }
+
+        .marquee-content {
+            display: flex;
+            animation: marquee 15s linear infinite;
+        }
+
+        .marquee-text {
+            font-size: 0.9rem;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-right: 50px;
+        }
+
+        @keyframes marquee {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(-50%); }
+        }
+
+        .container {
+            max-width: 1200px;
+            width: 100%;
+            padding: 50px 20px;
+        }
+
+        /* Language Switcher */
+        .lang-control {
+            display: flex;
+            justify-content: flex-end;
+            gap: 10px;
+            margin-bottom: 50px;
+            flex-wrap: wrap;
+        }
+
+        .lang-btn {
+            background: transparent;
+            border: 1px solid var(--border);
+            padding: 8px 16px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: var(--text-muted);
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .lang-btn:hover {
+            color: var(--text-main);
+            border-color: var(--text-muted);
+        }
+
+        .lang-btn.active {
+            background: var(--text-main);
+            color: var(--bg-main);
+            border-color: var(--text-main);
+        }
+
+        /* Hero Section */
+        .hero {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+            margin-bottom: 60px;
+            border-bottom: 1px solid var(--border);
+            padding-bottom: 40px;
+            flex-wrap: wrap;
+            gap: 30px;
+        }
+
+        .hero-content {
+            flex: 1;
+            min-width: 300px;
+            border-left: 4px solid var(--accent);
+            padding-left: 20px;
+        }
+
+        .hero h1 {
+            font-size: 4.5rem;
+            font-weight: 900;
+            line-height: 1;
+            letter-spacing: -2px;
+            margin-bottom: 15px;
+        }
+
+        .hero h2 {
+            font-size: 2rem;
+            color: var(--accent);
+            font-weight: 800;
+        }
+
+        .hero p {
+            font-size: 1.2rem;
+            color: var(--text-muted);
+            margin-top: 10px;
+        }
+
+        .hero-media {
+            flex: 0 0 250px;
+            height: 250px;
+            border-radius: 50%;
+            overflow: hidden;
+            border: 1px solid var(--border);
+            box-shadow: 0 10px 30px rgba(243, 84, 34, 0.15);
+        }
+
+        .hero-media img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            filter: grayscale(20%) contrast(1.2);
+            transition: transform 0.5s ease;
+        }
+
+        .hero-media:hover img {
+            transform: scale(1.05);
+            filter: grayscale(0%) contrast(1.1);
+        }
+
+        /* Payment Plans Grid */
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap: 1px;
+            background: var(--border);
+            border: 1px solid var(--border);
+            margin-bottom: 60px;
+        }
+
+        .card {
+            background: var(--bg-card);
+            padding: 40px 30px;
+            position: relative;
+            transition: all 0.4s ease;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(180deg, rgba(243, 84, 34, 0.08) 0%, transparent 100%);
+            opacity: 0;
+            transition: opacity 0.4s ease;
+        }
+
+        .card:hover {
+            background: var(--bg-panel);
+            transform: translateY(-5px);
+            z-index: 10;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.5);
+            border-bottom: 3px solid var(--accent);
+        }
+
+        .card:hover::before {
+            opacity: 1;
+        }
+
+        .card-number {
+            font-size: 3rem;
+            font-weight: 900;
+            color: var(--border);
+            line-height: 1;
+            margin-bottom: 20px;
+            transition: color 0.4s ease;
+        }
+
+        .card:hover .card-number {
+            color: var(--accent);
+        }
+
+        .plan-title { 
+            font-size: 1.6rem; 
+            font-weight: 800; 
+            margin-bottom: 15px; 
+            position: relative;
+        }
+        
+        .plan-detail {
+            font-size: 0.95rem;
+            color: var(--text-muted);
+            line-height: 1.6;
+            margin-bottom: 30px;
+            position: relative;
+        }
+
+        .plan-detail strong {
+            color: var(--text-main);
+        }
+
+        .price-total {
+            margin-top: auto;
+            padding-top: 20px;
+            border-top: 1px solid var(--border);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: relative;
+        }
+
+        .price-label {
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: var(--text-muted);
+        }
+
+        .price-value {
+            font-size: 1.5rem;
+            font-weight: 900;
+            color: var(--text-main);
+        }
+
+        /* Discounts Section */
+        .discounts-wrapper {
+            border: 1px solid var(--border);
+            background: var(--bg-card);
+            padding: 50px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .discounts-wrapper::after {
+            content: '%';
+            position: absolute;
+            right: -20px;
+            bottom: -50px;
+            font-size: 15rem;
+            font-weight: 900;
+            color: var(--border);
+            opacity: 0.3;
+            line-height: 1;
+            z-index: 0;
+        }
+
+        .discounts-title {
+            font-size: 2rem;
+            font-weight: 900;
+            margin-bottom: 30px;
+            position: relative;
+            z-index: 1;
+            display: inline-block;
+            border-bottom: 2px solid var(--accent);
+            padding-bottom: 5px;
+        }
+
+        .discount-list {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .discount-item {
+            display: flex;
+            align-items: center;
+            padding: 20px;
+            background: var(--bg-panel);
+            border: 1px solid var(--border);
+            transition: transform 0.3s ease, border-color 0.3s ease;
+        }
+
+        .discount-item:hover {
+            transform: translateX(10px);
+            border-color: var(--accent);
+        }
+
+        .discount-amount {
+            font-size: 1.8rem;
+            font-weight: 900;
+            color: var(--accent);
+            width: 120px;
+            flex-shrink: 0;
+        }
+
+        .discount-desc {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--text-main);
+        }
+
+        @media (max-width: 768px) {
+            .hero h1 { font-size: 3rem; }
+            .hero-media { height: 150px; flex-basis: 150px; margin: 0 auto; }
+            .hero-content { border-left: none; padding-left: 0; text-align: center; }
+            .discounts-wrapper { padding: 30px 20px; }
+            .discount-item { flex-direction: column; align-items: flex-start; gap: 10px; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="marquee-runner">
+        <div class="marquee-content">
+            <div class="marquee-text">✦ Flexible Tuition Plans</div>
+            <div class="marquee-text">✦ Start Your Journey Today</div>
+            <div class="marquee-text">✦ Multiple Discount Options</div>
+            <div class="marquee-text">✦ Premium Education</div>
+            <div class="marquee-text">✦ Flexible Tuition Plans</div>
+            <div class="marquee-text">✦ Start Your Journey Today</div>
+            <div class="marquee-text">✦ Multiple Discount Options</div>
+            <div class="marquee-text">✦ Premium Education</div>
+        </div>
+    </div>
+
+    <div class="container">
+        
+        <div class="lang-control">
+            <button class="lang-btn active" onclick="setLanguage('en')">EN</button>
+            <button class="lang-btn" onclick="setLanguage('es')">Español</button>
+            <button class="lang-btn" onclick="setLanguage('zh')">中文</button>
+            <button class="lang-btn" onclick="setLanguage('ko')">한국어</button>
+            <button class="lang-btn" onclick="setLanguage('th')">ไทย</button>
+            <button class="lang-btn" onclick="setLanguage('hi')">Hindi (IN)</button>
+            <button class="lang-btn" onclick="setLanguage('bn')">Bengali (BD)</button>
+        </div>
+
+        <div class="hero">
+            <div class="hero-content">
+                <h1 id="t-hero-title">Tuition Plans.</h1>
+                <h2 id="t-hero-price">Fixed Tuition: $2,075</h2>
+                <p id="t-hero-sub">Select a strategic payment approach for your semester.</p>
+            </div>
+            <div class="hero-media">
+                <img src="new york city GIF by ali mac.gif" alt="New York City Vibe">
+            </div>
+        </div>
+
+        <div class="grid">
+            <div class="card">
+                <div class="card-number">01</div>
+                <div class="plan-title" id="t-p1-title">Pay in Full</div>
+                <div class="plan-detail">
+                    <span id="t-p1-desc">Pay the full amount all at once.</span><br><br>
+                    <strong id="t-p1-int">Interest: $0</strong>
+                </div>
+                <div class="price-total">
+                    <span class="price-label" id="t-total-1">Total</span>
+                    <span class="price-value">$2,075</span>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-number">02</div>
+                <div class="plan-title" id="t-p2-title">Divide by Two</div>
+                <div class="plan-detail">
+                    <span id="t-p2-desc">$1,000 initially, followed by $1,075.</span><br><br>
+                    <strong id="t-p2-int">Interest: $0</strong>
+                </div>
+                <div class="price-total">
+                    <span class="price-label" id="t-total-2">Total</span>
+                    <span class="price-value">$2,075</span>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-number">03</div>
+                <div class="plan-title" id="t-p3-title">Divide by Three</div>
+                <div class="plan-detail">
+                    <span id="t-p3-desc">$708 + $708 + $709.</span><br><br>
+                    <strong id="t-p3-int" style="color: var(--accent);">Interest: $50 included</strong>
+                </div>
+                <div class="price-total">
+                    <span class="price-label" id="t-total-3">Total</span>
+                    <span class="price-value">$2,125</span>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-number">04</div>
+                <div class="plan-title" id="t-p4-title">Divide by Four</div>
+                <div class="plan-detail">
+                    <span id="t-p4-desc">$543.75 per month for four months.</span><br><br>
+                    <strong id="t-p4-int" style="color: var(--accent);">Interest: $100 included</strong>
+                </div>
+                <div class="price-total">
+                    <span class="price-label" id="t-total-4">Total</span>
+                    <span class="price-value">$2,175</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="discounts-wrapper">
+            <h3 class="discounts-title" id="t-disc-title">Available Discounts</h3>
+            <div class="discount-list">
+                <div class="discount-item">
+                    <div class="discount-amount">-$40</div>
+                    <div class="discount-desc" id="t-disc-1">Pay all cash at once</div>
+                </div>
+                <div class="discount-item">
+                    <div class="discount-amount">-$15</div>
+                    <div class="discount-desc" id="t-disc-2">5-star Google review</div>
+                </div>
+                <div class="discount-item">
+                    <div class="discount-amount">-$100</div>
+                    <div class="discount-desc" id="t-disc-3">Friend Referral (per enrolled friend)</div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <script>
+        const translations = {
+            en: {
+                "t-hero-title": "Tuition Plans.",
+                "t-hero-price": "Fixed Tuition: $2,075",
+                "t-hero-sub": "Select a strategic payment approach for your semester.",
+                "t-p1-title": "Pay in Full",
+                "t-p1-desc": "Pay the full amount all at once.",
+                "t-p1-int": "Interest: $0",
+                "t-p2-title": "Divide by Two",
+                "t-p2-desc": "$1,000 initially, followed by $1,075.",
+                "t-p2-int": "Interest: $0",
+                "t-p3-title": "Divide by Three",
+                "t-p3-desc": "$708 + $708 + $709.",
+                "t-p3-int": "Interest: $50 included",
+                "t-p4-title": "Divide by Four",
+                "t-p4-desc": "$543.75 per month for four months.",
+                "t-p4-int": "Interest: $100 included",
+                "t-total-1": "Total", "t-total-2": "Total", "t-total-3": "Total", "t-total-4": "Total",
+                "t-disc-title": "Available Discounts",
+                "t-disc-1": "Pay all cash at once",
+                "t-disc-2": "5-star Google review",
+                "t-disc-3": "Friend Referral (per enrolled friend)"
+            },
+            es: {
+                "t-hero-title": "Planes de Pago.",
+                "t-hero-price": "Matrícula Fija: $2,075",
+                "t-hero-sub": "Selecciona un enfoque de pago estratégico para tu semestre.",
+                "t-p1-title": "Pago Total",
+                "t-p1-desc": "Paga el monto total de una vez.",
+                "t-p1-int": "Interés: $0",
+                "t-p2-title": "Dividir en Dos",
+                "t-p2-desc": "$1,000 inicial, seguido de $1,075.",
+                "t-p2-int": "Interés: $0",
+                "t-p3-title": "Dividir en Tres",
+                "t-p3-desc": "$708 + $708 + $709.",
+                "t-p3-int": "Interés: $50 incluido",
+                "t-p4-title": "Dividir en Cuatro",
+                "t-p4-desc": "$543.75 por mes durante cuatro meses.",
+                "t-p4-int": "Interés: $100 incluido",
+                "t-total-1": "Total", "t-total-2": "Total", "t-total-3": "Total", "t-total-4": "Total",
+                "t-disc-title": "Descuentos Disponibles",
+                "t-disc-1": "Pago total en efectivo",
+                "t-disc-2": "Reseña de 5 estrellas en Google",
+                "t-disc-3": "Referencia de un amigo (por amigo inscrito)"
+            },
+            zh: {
+                "t-hero-title": "学费支付计划。",
+                "t-hero-price": "固定学费: $2,075",
+                "t-hero-sub": "为您的学期选择一个策略性的支付方案。",
+                "t-p1-title": "一次性付清",
+                "t-p1-desc": "一次性支付全部金额。",
+                "t-p1-int": "利息: $0",
+                "t-p2-title": "分为两次",
+                "t-p2-desc": "首次 $1,000，随后 $1,075。",
+                "t-p2-int": "利息: $0",
+                "t-p3-title": "分为三次",
+                "t-p3-desc": "$708 + $708 + $709。",
+                "t-p3-int": "利息: 包含 $50",
+                "t-p4-title": "分为四次",
+                "t-p4-desc": "连续四个月，每月 $543.75。",
+                "t-p4-int": "利息: 包含 $100",
+                "t-total-1": "总计", "t-total-2": "总计", "t-total-3": "总计", "t-total-4": "总计",
+                "t-disc-title": "可用折扣",
+                "t-disc-1": "全额现金支付",
+                "t-disc-2": "Google 5星评价",
+                "t-disc-3": "推荐朋友（每注册一位）"
+            },
+            ko: {
+                "t-hero-title": "학비 납부 플랜.",
+                "t-hero-price": "고정 학비: $2,075",
+                "t-hero-sub": "이번 학기를 위한 전략적 결제 방식을 선택하세요.",
+                "t-p1-title": "전액 납부",
+                "t-p1-desc": "전체 금액을 한 번에 결제합니다.",
+                "t-p1-int": "이자: $0",
+                "t-p2-title": "2회 분할",
+                "t-p2-desc": "초기 $1,000 결제 후 $1,075 결제.",
+                "t-p2-int": "이자: $0",
+                "t-p3-title": "3회 분할",
+                "t-p3-desc": "$708 + $708 + $709.",
+                "t-p3-int": "이자: $50 포함",
+                "t-p4-title": "4회 분할",
+                "t-p4-desc": "4개월 동안 매월 $543.75 결제.",
+                "t-p4-int": "이자: $100 포함",
+                "t-total-1": "총액", "t-total-2": "총액", "t-total-3": "총액", "t-total-4": "총액",
+                "t-disc-title": "사용 가능한 할인",
+                "t-disc-1": "전액 현금 결제",
+                "t-disc-2": "구글 5성급 리뷰",
+                "t-disc-3": "친구 추천 (등록된 친구당)"
+            },
+            th: {
+                "t-hero-title": "แผนการชำระค่าเล่าเรียน",
+                "t-hero-price": "ค่าเล่าเรียนคงที่: $2,075",
+                "t-hero-sub": "เลือกวิธีการชำระเงินที่เหมาะสมสำหรับภาคการศึกษาของคุณ",
+                "t-p1-title": "จ่ายเต็มจำนวน",
+                "t-p1-desc": "จ่ายจำนวนเงินทั้งหมดในครั้งเดียว",
+                "t-p1-int": "ดอกเบี้ย: $0",
+                "t-p2-title": "แบ่งจ่ายสองงวด",
+                "t-p2-desc": "$1,000 ในตอนแรก ตามด้วย $1,075",
+                "t-p2-int": "ดอกเบี้ย: $0",
+                "t-p3-title": "แบ่งจ่ายสามงวด",
+                "t-p3-desc": "$708 + $708 + $709.",
+                "t-p3-int": "ดอกเบี้ย: รวม $50",
+                "t-p4-title": "แบ่งจ่ายสี่งวด",
+                "t-p4-desc": "$543.75 ต่อเดือน เป็นเวลา 4 เดือน",
+                "t-p4-int": "ดอกเบี้ย: รวม $100",
+                "t-total-1": "รวม", "t-total-2": "รวม", "t-total-3": "รวม", "t-total-4": "รวม",
+                "t-disc-title": "ส่วนลดที่มี",
+                "t-disc-1": "จ่ายเงินสดเต็มจำนวน",
+                "t-disc-2": "รีวิว 5 ดาวบน Google",
+                "t-disc-3": "แนะนำเพื่อน (ต่อเพื่อนที่สมัครเรียน)"
+            },
+            hi: {
+                "t-hero-title": "ट्यूशन भुगतान योजनाएं",
+                "t-hero-price": "निश्चित ट्यूशन: $2,075",
+                "t-hero-sub": "अपने सेमेस्टर के लिए एक रणनीतिक भुगतान दृष्टिकोण चुनें।",
+                "t-p1-title": "पूरा भुगतान करें",
+                "t-p1-desc": "पूरी राशि का एक साथ भुगतान करें।",
+                "t-p1-int": "ब्याज: $0",
+                "t-p2-title": "दो भागों में बांटें",
+                "t-p2-desc": "शुरुआत में $1,000, उसके बाद $1,075।",
+                "t-p2-int": "ब्याज: $0",
+                "t-p3-title": "तीन भागों में बांटें",
+                "t-p3-desc": "$708 + $708 + $709।",
+                "t-p3-int": "ब्याज: $50 शामिल",
+                "t-p4-title": "चार भागों में बांटें",
+                "t-p4-desc": "चार महीने के लिए $543.75 प्रति माह।",
+                "t-p4-int": "ब्याज: $100 शामिल",
+                "t-total-1": "कुल", "t-total-2": "कुल", "t-total-3": "कुल", "t-total-4": "कुल",
+                "t-disc-title": "उपलब्ध छूट",
+                "t-disc-1": "एक बार में पूरा नकद भुगतान",
+                "t-disc-2": "5-स्टार गूगल समीक्षा",
+                "t-disc-3": "मित्र रेफरल (प्रति नामांकित मित्र)"
+            },
+            bn: {
+                "t-hero-title": "টিউশন পেমেন্ট প্ল্যান",
+                "t-hero-price": "নির্দিষ্ট টিউশন: $2,075",
+                "t-hero-sub": "আপনার সেমিস্টারের জন্য একটি কৌশলগত অর্থপ্রদানের পদ্ধতি নির্বাচন করুন।",
+                "t-p1-title": "সম্পূর্ণ পেমেন্ট",
+                "t-p1-desc": "একবারে সম্পূর্ণ পরিমাণ পরিশোধ করুন।",
+                "t-p1-int": "সুদ: $0",
+                "t-p2-title": "দুই ভাগে বিভক্ত করুন",
+                "t-p2-desc": "শুরুতে $1,000, এরপরে $1,075।",
+                "t-p2-int": "সুদ: $0",
+                "t-p3-title": "তিন ভাগে বিভক্ত করুন",
+                "t-p3-desc": "$708 + $708 + $709।",
+                "t-p3-int": "সুদ: $50 অন্তর্ভুক্ত",
+                "t-p4-title": "চার ভাগে বিভক্ত করুন",
+                "t-p4-desc": "চার মাসের জন্য প্রতি মাসে $543.75।",
+                "t-p4-int": "সুদ: $100 অন্তর্ভুক্ত",
+                "t-total-1": "মোট", "t-total-2": "মোট", "t-total-3": "মোট", "t-total-4": "মোট",
+                "t-disc-title": "উপলব্ধ ডিসকাউন্ট",
+                "t-disc-1": "একবারে সম্পূর্ণ নগদ পেমেন্ট",
+                "t-disc-2": "৫-স্টার গুগল রিভিউ",
+                "t-disc-3": "বন্ধু রেফারেল (প্রতি নিবন্ধিত বন্ধু)"
+            }
+        };
+
+        function setLanguage(lang) {
+            const langData = translations[lang];
+
+            // Update Active Button State
+            document.querySelectorAll('.lang-btn').forEach(btn => btn.classList.remove('active'));
+            event.target.classList.add('active');
+
+            // Update Text Elements
+            for (const key in langData) {
+                const element = document.getElementById(key);
+                if (element) {
+                    element.innerText = langData[key];
+                }
+            }
+        }
+    </script>
+</body>
+</html>
