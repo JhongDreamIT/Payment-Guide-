@@ -58,6 +58,7 @@
             font-weight: 800;
             letter-spacing: -0.02em;
             cursor: pointer;
+            flex-shrink: 0;
         }
 
         .lang-nav {
@@ -144,7 +145,7 @@
             animation: fadeUp 1.4s var(--ease-clay) forwards;
         }
 
-        /* --- Updated Hero Media for full visibility --- */
+        /* --- Hero Media --- */
         .hero-media {
             margin-top: 60px;
             width: 100%;
@@ -390,11 +391,38 @@
             to { opacity: 1; transform: translateY(0); }
         }
 
+        /* --- Mobile Responsiveness --- */
         @media (max-width: 900px) {
+            .header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 20px;
+            }
+            .lang-nav {
+                width: 100%;
+                flex-wrap: nowrap;
+                overflow-x: auto;
+                justify-content: flex-start;
+                padding-bottom: 10px;
+                -webkit-overflow-scrolling: touch; /* Smooth scrolling on iOS */
+            }
+            .lang-btn {
+                white-space: nowrap; /* Prevent language names from breaking */
+                flex-shrink: 0; /* Prevent buttons from shrinking */
+            }
+            /* Hide scrollbar for a cleaner look */
+            .lang-nav::-webkit-scrollbar {
+                display: none;
+            }
+            .lang-nav {
+                -ms-overflow-style: none;  /* IE and Edge */
+                scrollbar-width: none;  /* Firefox */
+            }
+
             .footer-grid { grid-template-columns: 1fr; gap: 60px; }
             .accordion-inner { flex-direction: column; align-items: flex-start; }
             .accordion-details { text-align: left; margin-top: 20px; }
-            .lang-nav { display: none; } /* Simplified mobile for demo */
+            .zelle-value { flex-direction: column; align-items: flex-start; gap: 20px; }
         }
     </style>
 </head>
