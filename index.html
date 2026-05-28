@@ -3,466 +3,575 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tuition Payment Plans | Clay Agency Style</title>
+    <title>Tuition Payment Plans | DreamIT ESL</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Syne:wght@600;700;800&display=swap" rel="stylesheet">
+    
     <style>
         :root {
-            --color-white: #FFFFFF;
-            --color-black: #050411;
-            --color-grey-light: #F2F2F2;
-            --color-grey-medium: #888888;
-            --color-accent: #050411;
-            --ease-clay: cubic-bezier(0.19, 1, 0.22, 1);
+            --bg-color: #fafafa;
+            --text-color: #050411;
+            --accent-color: #e6e6e6;
+            --success-color: #10b981;
+            --danger-color: #ff4a4a;
+            --glow-color: rgba(80, 79, 237, 0.15);
+            --font-main: 'Inter', sans-serif;
+            --font-display: 'Syne', sans-serif;
+            --transition-smooth: cubic-bezier(0.19, 1, 0.22, 1);
+        }
+
+        [data-theme="dark"] {
+            --bg-color: #050411;
+            --text-color: #ffffff;
+            --accent-color: #333333;
+            --glow-color: rgba(80, 79, 237, 0.25);
         }
 
         * {
-            box-sizing: border-box;
             margin: 0;
             padding: 0;
+            box-sizing: border-box;
         }
 
         body {
-            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-            background-color: var(--color-white);
-            color: var(--color-black);
-            -webkit-font-smoothing: antialiased;
+            font-family: var(--font-main);
+            background-color: var(--bg-color);
+            color: var(--text-color);
             overflow-x: hidden;
-            line-height: 1.4;
+            -webkit-font-smoothing: antialiased;
+            cursor: none; 
+            transition: background-color 0.8s var(--transition-smooth), color 0.8s var(--transition-smooth);
+            line-height: 1.5;
         }
 
-        .container {
-            max-width: 1440px;
-            margin: 0 auto;
-            padding: 0 4vw;
-        }
-
-        /* --- Header & Languages --- */
-        .header {
+        /* Dual Cursor System */
+        .cursor {
             position: fixed;
             top: 0;
             left: 0;
+            width: 20px;
+            height: 20px;
+            background-color: var(--text-color);
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 99999;
+            transform: translate(-50%, -50%);
+            transition: width 0.3s var(--transition-smooth), height 0.3s var(--transition-smooth), background-color 0.3s var(--transition-smooth);
+            mix-blend-mode: difference;
+        }
+
+        .cursor.hovering {
+            width: 60px;
+            height: 60px;
+            background-color: #fff;
+        }
+
+        .cursor-glow {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 500px;
+            height: 500px;
+            background: radial-gradient(circle, var(--glow-color) 0%, transparent 60%);
+            border-radius: 50%;
+            pointer-events: none;
+            transform: translate(-50%, -50%);
+            z-index: 9998;
+            mix-blend-mode: multiply; /* Blends nicely over elements without washing them out */
+            transition: background 0.8s var(--transition-smooth);
+        }
+
+        [data-theme="dark"] .cursor-glow {
+            mix-blend-mode: screen;
+        }
+
+        /* Typography */
+        h1, h2, h3, h4 {
+            font-family: var(--font-display);
+            font-weight: 700;
+        }
+
+        a, button {
+            text-decoration: none;
+            color: inherit;
+            cursor: none;
+            background: none;
+            border: none;
+            font-family: inherit;
+        }
+
+        /* Header */
+        header {
+            position: fixed;
+            top: 0;
             width: 100%;
-            padding: 24px 4vw;
+            padding: 1.5rem 4rem;
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+            z-index: 100;
+            transition: padding 0.5s ease, background 0.5s ease;
+        }
+
+        .header-top {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            background: rgba(255, 255, 255, 0.95);
-            backdrop-filter: blur(10px);
-            z-index: 100;
+            mix-blend-mode: difference;
+            color: #fff;
         }
 
-        .header-logo {
-            font-size: 1.25rem;
+        header.scrolled {
+            padding: 1rem 4rem;
+            background: rgba(5, 4, 17, 0.05);
+            backdrop-filter: blur(15px);
+        }
+
+        header.scrolled .header-top {
+            mix-blend-mode: normal;
+            color: var(--text-color);
+        }
+
+        .logo {
+            font-size: 1.5rem;
             font-weight: 800;
-            letter-spacing: -0.02em;
-            cursor: pointer;
-            flex-shrink: 0;
+            letter-spacing: -1px;
+            font-family: var(--font-display);
         }
 
-        .lang-nav {
+        /* Language Switcher Nav */
+        .nav-scroll {
             display: flex;
-            gap: 24px;
-            flex-wrap: wrap;
-            justify-content: flex-end;
+            gap: 0.75rem;
+            overflow-x: auto;
+            scrollbar-width: none;
+            padding-bottom: 0.5rem;
         }
+        .nav-scroll::-webkit-scrollbar { display: none; }
 
         .lang-btn {
-            background: none;
-            border: none;
-            font-size: 1rem;
+            border: 1px solid var(--accent-color);
+            color: var(--text-color);
+            padding: 0.5rem 1.2rem;
+            border-radius: 100px;
+            font-size: 0.85rem;
             font-weight: 600;
-            color: var(--color-grey-medium);
-            cursor: pointer;
-            position: relative;
-            padding: 4px 0;
-            transition: color 0.4s var(--ease-clay);
+            white-space: nowrap;
+            transition: all 0.3s ease;
+            opacity: 0.7;
         }
 
-        .lang-btn::after {
-            content: '';
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            width: 100%;
-            height: 2px;
-            background-color: var(--color-black);
-            transform: scaleX(0);
-            transform-origin: right;
-            transition: transform 0.5s var(--ease-clay);
-        }
-
-        .lang-btn:hover {
-            color: var(--color-black);
-        }
-
+        header.scrolled .lang-btn { border-color: var(--text-color); }
+        .lang-btn:hover { opacity: 1; }
         .lang-btn.active {
-            color: var(--color-black);
+            background: var(--text-color);
+            color: var(--bg-color);
+            border-color: var(--text-color);
+            opacity: 1;
         }
 
-        .lang-btn.active::after {
-            transform: scaleX(1);
-            transform-origin: left;
-        }
-
-        /* --- Hero Section --- */
-        .hero {
-            padding-top: 180px;
-            padding-bottom: 80px;
-            min-height: 80vh;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-        }
-
-        .hero-title {
-            font-size: clamp(3rem, 7vw, 7.5rem);
-            font-weight: 800;
-            letter-spacing: -0.04em;
-            line-height: 1.05;
+        /* Layout */
+        .container {
             max-width: 1200px;
-            margin-bottom: 24px;
-            animation: fadeUp 1s var(--ease-clay) forwards;
+            margin: 0 auto;
+            padding: 0 4rem;
         }
+        .section-pad { padding: 6rem 0; }
+        
+        #content-wrapper {
+            opacity: 1;
+            transition: opacity 0.4s ease;
+        }
+
+        /* Animations */
+        .reveal {
+            opacity: 0;
+            transform: translateY(50px);
+            transition: opacity 1s var(--transition-smooth), transform 1s var(--transition-smooth);
+        }
+        .reveal.active { opacity: 1; transform: translateY(0); }
+
+        /* Hero */
+        .hero {
+            min-height: 85vh;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            align-items: center;
+            gap: 4rem;
+            position: relative;
+            padding-top: 8rem;
+            padding-bottom: 4rem;
+        }
+        .hero-content {
+            position: relative;
+            z-index: 2;
+        }
+        .hero-graphic {
+            position: absolute;
+            left: -5%; /* Placed on the left to avoid overlapping the GIF */
+            top: 15%;
+            width: 500px;
+            height: 500px;
+            background: linear-gradient(45deg, var(--accent-color), rgba(80, 79, 237, 0.1));
+            border-radius: 40% 60% 70% 30% / 40% 50% 60% 50%;
+            animation: morphShape 15s ease-in-out infinite alternate;
+            z-index: 0;
+            opacity: 0.8;
+            transition: background 0.8s var(--transition-smooth);
+        }
+        @keyframes morphShape {
+            0% { border-radius: 40% 60% 70% 30% / 40% 50% 60% 50%; }
+            34% { border-radius: 70% 30% 50% 50% / 30% 30% 70% 70%; }
+            67% { border-radius: 100% 60% 60% 100% / 100% 100% 60% 60%; }
+            100% { border-radius: 40% 60% 70% 30% / 40% 50% 60% 50%; }
+        }
+
+        .hero h1 {
+            font-size: clamp(3rem, 5vw, 5.5rem);
+            line-height: 1;
+            letter-spacing: -2px;
+            margin-bottom: 1.5rem;
+        }
+        .hero-text-line { overflow: hidden; display: block; }
+        .hero-text-line span {
+            display: block;
+            transform: translateY(100%);
+            animation: slideUp 1s var(--transition-smooth) forwards;
+        }
+        .hero-text-line:nth-child(2) span { animation-delay: 0.15s; }
+        @keyframes slideUp { to { transform: translateY(0); } }
 
         .hero-subtitle {
-            font-size: clamp(1.2rem, 2vw, 1.8rem);
-            font-weight: 400;
-            color: var(--color-grey-medium);
-            max-width: 700px;
-            margin-bottom: 40px;
-            animation: fadeUp 1.2s var(--ease-clay) forwards;
+            font-size: 1.25rem;
+            color: #666;
+            margin-bottom: 2rem;
+            animation: fadeIn 1.2s ease forwards 0.4s;
+            opacity: 0;
         }
+        [data-theme="dark"] .hero-subtitle { color: #aaa; }
+        @keyframes fadeIn { to { opacity: 1; } }
 
-        .hero-price {
+        .hero-price-badge {
             display: inline-block;
-            font-size: 1.2rem;
+            font-family: var(--font-display);
+            font-size: 1.25rem;
             font-weight: 700;
             padding: 12px 24px;
-            border: 2px solid var(--color-black);
+            border: 2px solid var(--text-color);
             border-radius: 50px;
-            animation: fadeUp 1.4s var(--ease-clay) forwards;
+            animation: fadeIn 1.2s ease forwards 0.6s;
+            opacity: 0;
+            color: var(--text-color);
         }
 
-        /* --- Hero Media --- */
         .hero-media {
-            margin-top: 60px;
+            position: relative;
             width: 100%;
-            border-radius: 12px;
-            overflow: hidden;
-            background: var(--color-grey-light);
-            animation: fadeUp 1.6s var(--ease-clay) forwards;
             display: flex;
             justify-content: center;
             align-items: center;
+            animation: fadeIn 1.2s ease forwards 0.8s;
+            opacity: 0;
+            z-index: 2;
         }
-
         .hero-media img {
             width: 100%;
             height: auto;
-            max-height: 75vh;
-            object-fit: contain;
+            max-height: 65vh;
+            object-fit: contain; /* Ensures the GIF is fully visible and not cropped */
             display: block;
-            transition: filter 1.5s var(--ease-clay);
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.08);
+            transition: filter 0.8s ease, transform 0.8s ease;
+        }
+        .hero-media img:hover { 
+            transform: translateY(-5px);
         }
 
-        /* --- Accordion Section (Payment Plans) --- */
-        .section {
-            padding: 120px 0;
-        }
-
+        /* Section Components */
         .section-header {
-            font-size: 2.5rem;
-            font-weight: 700;
-            letter-spacing: -0.03em;
-            margin-bottom: 60px;
+            font-size: 3.5rem;
+            letter-spacing: -1px;
+            margin-bottom: 2.5rem;
+            padding-bottom: 1rem;
+            border-bottom: 2px solid var(--text-color);
         }
 
-        .accordion-wrapper {
-            border-top: 1px solid #E5E5E5;
+        /* Accordion Style */
+        .accordion {
+            border-top: 2px solid var(--text-color);
         }
-
         .accordion-item {
-            border-bottom: 1px solid #E5E5E5;
-            overflow: hidden;
+            border-bottom: 1px solid var(--accent-color);
+            position: relative;
         }
-
-        .accordion-btn {
+        .accordion-header {
             width: 100%;
+            padding: 2.5rem 0;
             display: flex;
             justify-content: space-between;
             align-items: center;
             background: none;
             border: none;
-            padding: 40px 0;
-            cursor: pointer;
-            font-size: clamp(1.5rem, 3vw, 2.5rem);
+            font-family: var(--font-display);
+            font-size: 2.25rem;
             font-weight: 600;
-            letter-spacing: -0.02em;
-            color: var(--color-black);
+            color: var(--text-color);
+            transition: color 0.3s ease;
             text-align: left;
-            transition: color 0.4s var(--ease-clay);
         }
-
-        .accordion-btn:hover {
-            color: var(--color-grey-medium);
-        }
-
+        .accordion-header:hover { opacity: 0.6; }
         .accordion-icon {
-            width: 24px;
-            height: 24px;
-            position: relative;
-            transition: transform 0.6s var(--ease-clay);
+            font-size: 2.5rem;
+            font-weight: 300;
+            transition: transform 0.5s var(--transition-smooth);
         }
-
-        .accordion-icon::before, .accordion-icon::after {
-            content: '';
-            position: absolute;
-            background: currentColor;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-        }
-
-        .accordion-icon::before { width: 100%; height: 2px; }
-        .accordion-icon::after { width: 2px; height: 100%; transition: transform 0.6s var(--ease-clay); }
-        .accordion-item.active .accordion-icon::after { transform: translate(-50%, -50%) rotate(90deg); opacity: 0; }
-
+        .accordion-item.active .accordion-icon { transform: rotate(45deg); }
         .accordion-content {
             max-height: 0;
-            transition: max-height 0.8s var(--ease-clay);
+            overflow: hidden;
+            transition: max-height 0.8s var(--transition-smooth);
         }
-
         .accordion-inner {
-            padding-bottom: 40px;
+            padding-bottom: 3rem;
             display: flex;
             justify-content: space-between;
             align-items: flex-end;
             flex-wrap: wrap;
-            gap: 20px;
+            gap: 2rem;
         }
-
         .accordion-desc {
             font-size: 1.25rem;
-            color: var(--color-grey-medium);
+            color: #666;
             max-width: 600px;
         }
-
-        .accordion-details {
-            text-align: right;
-        }
-
+        [data-theme="dark"] .accordion-desc { color: #aaa; }
+        .accordion-details { text-align: right; }
         .accordion-int {
             font-size: 1rem;
             font-weight: 700;
             text-transform: uppercase;
             letter-spacing: 0.05em;
-            margin-bottom: 8px;
+            margin-bottom: 0.5rem;
+            opacity: 0.6;
         }
-
+        .accordion-int.fee { color: var(--danger-color); opacity: 1; }
         .accordion-price {
-            font-size: 2.5rem;
+            font-family: var(--font-display);
+            font-size: 3rem;
             font-weight: 800;
-            letter-spacing: -0.03em;
+            letter-spacing: -1px;
         }
 
-        /* --- Grid Section (Discounts) --- */
+        /* Discounts Grid */
         .grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
-            gap: 40px;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
         }
-
         .card {
-            background: var(--color-grey-light);
-            padding: 60px 40px;
-            border-radius: 8px;
+            background: var(--bg-color);
+            border: 1px solid var(--accent-color);
+            padding: 3rem 2.5rem;
+            border-radius: 16px;
             position: relative;
             overflow: hidden;
             display: flex;
             flex-direction: column;
             justify-content: space-between;
-            min-height: 350px;
-            transition: transform 0.6s var(--ease-clay);
+            min-height: 280px;
+            transition: transform 0.6s var(--transition-smooth), border-color 0.3s;
         }
-
-        .card:hover {
-            transform: translateY(-10px);
+        .card::before {
+            content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            background: var(--text-color); transform: scaleY(0); transform-origin: bottom;
+            transition: transform 0.5s var(--transition-smooth); z-index: 0;
         }
-
+        .card:hover { transform: translateY(-10px); border-color: var(--text-color); }
+        .card.active { border-color: var(--text-color); color: var(--bg-color); }
+        .card:hover::before { transform: scaleY(1); }
+        
+        .card-content { position: relative; z-index: 1; transition: color 0.3s ease; }
+        .card:hover .card-content { color: var(--bg-color); }
+        
         .card-amount {
-            font-size: 4.5rem;
+            font-family: var(--font-display);
+            font-size: 4rem;
             font-weight: 800;
-            letter-spacing: -0.05em;
-            color: var(--color-black);
-            margin-bottom: 20px;
+            letter-spacing: -2px;
+            margin-bottom: 1.5rem;
+            color: var(--success-color);
         }
-
         .card-desc {
-            font-size: 1.5rem;
+            font-size: 1.25rem;
             font-weight: 600;
-            letter-spacing: -0.02em;
-            max-width: 250px;
+            line-height: 1.4;
         }
 
-        /* --- Footer Section (Zelle) --- */
-        .footer {
-            background-color: var(--color-black);
-            color: var(--color-white);
-            padding: 120px 0;
-            margin-top: 40px;
+        /* Marquee */
+        .marquee-wrapper {
+            overflow: hidden;
+            white-space: nowrap;
+            padding: 4rem 0;
+            border-top: 1px solid var(--accent-color);
+            border-bottom: 1px solid var(--accent-color);
+            background-color: var(--bg-color);
+            position: relative;
+            transition: background 0.8s var(--transition-smooth);
         }
+        .marquee-wrapper::before, .marquee-wrapper::after {
+            content: ''; position: absolute; top: 0; width: 150px; height: 100%; z-index: 2;
+        }
+        .marquee-wrapper::before { background: linear-gradient(to right, var(--bg-color) 0%, transparent 100%); left: 0; }
+        .marquee-wrapper::after { background: linear-gradient(to left, var(--bg-color) 0%, transparent 100%); right: 0; }
+        .marquee { display: inline-block; animation: marquee 25s linear infinite; }
+        .marquee span {
+            font-family: var(--font-display); font-size: 3rem; font-weight: 700;
+            margin: 0 2rem; color: transparent; -webkit-text-stroke: 1px var(--text-color);
+        }
+        @keyframes marquee { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
 
-        .footer-grid {
+        /* Zelle Footer Section */
+        .zelle-section {
+            padding: 8rem 0;
+            background-color: var(--bg-color);
+            transition: background-color 0.8s var(--transition-smooth);
+        }
+        .zelle-grid {
             display: grid;
             grid-template-columns: 1fr 1fr;
-            gap: 80px;
+            gap: 4rem;
         }
-
-        .footer-title {
-            font-size: clamp(3rem, 5vw, 5rem);
+        .zelle-title {
+            font-size: clamp(3rem, 5vw, 4.5rem);
+            font-family: var(--font-display);
             font-weight: 800;
-            letter-spacing: -0.04em;
-            line-height: 1;
-            margin-bottom: 24px;
+            letter-spacing: -2px;
+            line-height: 1.1;
+            margin-bottom: 1.5rem;
         }
-
-        .footer-memo {
+        .zelle-memo {
             display: inline-block;
-            font-size: 1rem;
+            font-size: 0.9rem;
             font-weight: 600;
             letter-spacing: 0.05em;
             text-transform: uppercase;
-            padding: 12px 24px;
-            border: 1px solid rgba(255,255,255,0.2);
+            padding: 10px 20px;
+            border: 1px solid var(--text-color);
             border-radius: 50px;
-            margin-top: 20px;
+            opacity: 0.8;
         }
-
-        .zelle-details {
-            display: flex;
-            flex-direction: column;
-            gap: 40px;
-            justify-content: center;
-        }
-
+        .zelle-details { display: flex; flex-direction: column; gap: 2rem; justify-content: center; }
         .zelle-item {
-            display: flex;
-            flex-direction: column;
-            gap: 12px;
-            padding-bottom: 40px;
-            border-bottom: 1px solid rgba(255,255,255,0.1);
+            padding-bottom: 2rem;
+            border-bottom: 1px solid var(--accent-color);
         }
-
-        .zelle-label {
-            font-size: 1rem;
-            color: var(--color-grey-medium);
-            font-weight: 500;
-        }
-
+        .zelle-label { font-size: 1rem; opacity: 0.6; font-weight: 500; margin-bottom: 0.5rem; display: block; }
         .zelle-value {
+            font-family: var(--font-display);
             font-size: clamp(1.5rem, 3vw, 2.5rem);
             font-weight: 700;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            letter-spacing: -0.02em;
         }
-
         .copy-btn {
-            background: var(--color-white);
-            color: var(--color-black);
+            background: var(--text-color);
+            color: var(--bg-color);
             border: none;
             padding: 10px 24px;
             border-radius: 50px;
             font-size: 0.9rem;
             font-weight: 600;
-            cursor: pointer;
-            transition: all 0.4s var(--ease-clay);
+            transition: transform 0.3s ease;
+        }
+        .copy-btn:hover { transform: scale(1.05); }
+
+        footer.main-footer {
+            padding: 3rem 0;
+            text-align: center;
+            border-top: 1px solid var(--accent-color);
         }
 
-        .copy-btn:hover {
-            transform: scale(1.05);
+        @media (max-width: 1024px) {
+            header { padding: 1.5rem 2rem; }
+            .container { padding: 0 2rem; }
+            .hero {
+                grid-template-columns: 1fr;
+                text-align: center;
+                gap: 2rem;
+            }
+            .hero-graphic {
+                left: 50%;
+                transform: translateX(-50%);
+                top: 5%;
+            }
+            .hero h1 { margin-left: auto; margin-right: auto; }
+            .hero-subtitle { margin-left: auto; margin-right: auto; }
         }
-
-        @keyframes fadeUp {
-            from { opacity: 0; transform: translateY(30px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        /* --- Mobile Responsiveness --- */
-        @media (max-width: 900px) {
-            .header {
-                flex-direction: column;
-                align-items: flex-start;
-                gap: 20px;
-            }
-            .lang-nav {
-                width: 100%;
-                flex-wrap: nowrap;
-                overflow-x: auto;
-                justify-content: flex-start;
-                padding-bottom: 10px;
-                -webkit-overflow-scrolling: touch; /* Smooth scrolling on iOS */
-            }
-            .lang-btn {
-                white-space: nowrap; /* Prevent language names from breaking */
-                flex-shrink: 0; /* Prevent buttons from shrinking */
-            }
-            /* Hide scrollbar for a cleaner look */
-            .lang-nav::-webkit-scrollbar {
-                display: none;
-            }
-            .lang-nav {
-                -ms-overflow-style: none;  /* IE and Edge */
-                scrollbar-width: none;  /* Firefox */
-            }
-
-            .footer-grid { grid-template-columns: 1fr; gap: 60px; }
-            .accordion-inner { flex-direction: column; align-items: flex-start; }
-            .accordion-details { text-align: left; margin-top: 20px; }
-            .zelle-value { flex-direction: column; align-items: flex-start; gap: 20px; }
+        
+        @media (max-width: 768px) {
+            .hero h1 { font-size: 3.5rem; }
+            .accordion-header { font-size: 1.5rem; }
+            .accordion-inner { flex-direction: column; align-items: flex-start; gap: 1rem; }
+            .accordion-details { text-align: left; }
+            .zelle-grid { grid-template-columns: 1fr; gap: 3rem; }
+            .zelle-value { flex-direction: column; align-items: flex-start; gap: 1rem; }
+            .cursor { display: none; }
         }
     </style>
 </head>
 <body>
 
-    <header class="header">
-        <div class="header-logo" id="t-brand">Tuition Portal</div>
-        <nav class="lang-nav">
-            <button class="lang-btn active" onclick="setLanguage('en')">English</button>
-            <button class="lang-btn" onclick="setLanguage('th')">Thailand</button>
-            <button class="lang-btn" onclick="setLanguage('bn')">Bangladesh</button>
-            <button class="lang-btn" onclick="setLanguage('kk')">Kazakhstan</button>
-            <button class="lang-btn" onclick="setLanguage('tr')">Turkey</button>
-            <button class="lang-btn" onclick="setLanguage('hi')">India</button>
-            <button class="lang-btn" onclick="setLanguage('es')">Mexico</button>
-            <button class="lang-btn" onclick="setLanguage('ko')">Korea</button>
-            <button class="lang-btn" onclick="setLanguage('zh')">China</button>
+    <div class="cursor-glow" id="cursorGlow"></div>
+    <div class="cursor" id="custom-cursor"></div>
+
+    <header id="main-header">
+        <div class="header-top">
+            <a href="#" class="logo">DreamIT ESL</a>
+        </div>
+        <nav class="nav-scroll">
+            <button class="lang-btn active hover-target" onclick="switchLang('en', this)">english</button>
+            <button class="lang-btn hover-target" onclick="switchLang('es', this)">español</button>
+            <button class="lang-btn hover-target" onclick="switchLang('zh', this)">中文</button>
+            <button class="lang-btn hover-target" onclick="switchLang('ko', this)">한국어</button>
+            <button class="lang-btn hover-target" onclick="switchLang('th', this)">ไทย</button>
+            <button class="lang-btn hover-target" onclick="switchLang('bn', this)">বাংলা</button>
+            <button class="lang-btn hover-target" onclick="switchLang('tr', this)">türkçe</button>
+            <button class="lang-btn hover-target" onclick="switchLang('hi', this)">हिन्दी</button>
+            <button class="lang-btn hover-target" onclick="switchLang('kk', this)">қазақша</button>
         </nav>
     </header>
 
-    <div class="container">
-        <section class="hero">
-            <h1 class="hero-title" id="t-hero-title">Strategic Tuition Plans.</h1>
-            <p class="hero-subtitle" id="t-hero-sub">We build transformative digital experiences for your education with flexible, straightforward payment options tailored to your needs.</p>
-            <div>
-                <span class="hero-price" id="t-hero-price">Fixed Tuition: $2,075</span>
+    <main id="content-wrapper">
+        
+        <section class="hero container" data-theme-trigger="light">
+            <div class="hero-graphic"></div>
+            <div class="hero-content">
+                <h1 id="t-hero-title">
+                    <span class="hero-text-line"><span>Strategic</span></span>
+                    <span class="hero-text-line"><span>Tuition Plans.</span></span>
+                </h1>
+                <p class="hero-subtitle" id="t-hero-sub">We build transformative digital experiences for your education with flexible, straightforward payment options tailored to your needs.</p>
+                <div>
+                    <span class="hero-price-badge" id="t-hero-price">Fixed Tuition: $2,075</span>
+                </div>
             </div>
-            <div class="hero-media">
-                <img src="new-york-city.gif.gif" alt="New York City Vibe">
+            
+            <div class="hero-media reveal">
+                <img src="new-york-city.gif.gif" alt="New York City Vibe" onerror="this.style.display='none'">
             </div>
         </section>
 
-        <section class="section">
+        <section class="section-pad container reveal" data-theme-trigger="light">
             <h2 class="section-header" id="t-plans-header">Payment Options</h2>
-            <div class="accordion-wrapper">
-                
-                <div class="accordion-item">
-                    <button class="accordion-btn" onclick="toggleAccordion(this)">
+            
+            <div class="accordion">
+                <div class="accordion-item hover-target">
+                    <button class="accordion-header" onclick="toggleAccordion(this)">
                         <span id="t-p1-title">Pay in Full</span>
-                        <div class="accordion-icon"></div>
+                        <div class="accordion-icon">+</div>
                     </button>
                     <div class="accordion-content">
                         <div class="accordion-inner">
@@ -475,10 +584,10 @@
                     </div>
                 </div>
 
-                <div class="accordion-item">
-                    <button class="accordion-btn" onclick="toggleAccordion(this)">
+                <div class="accordion-item hover-target">
+                    <button class="accordion-header" onclick="toggleAccordion(this)">
                         <span id="t-p2-title">Divide by Two</span>
-                        <div class="accordion-icon"></div>
+                        <div class="accordion-icon">+</div>
                     </button>
                     <div class="accordion-content">
                         <div class="accordion-inner">
@@ -491,96 +600,168 @@
                     </div>
                 </div>
 
-                <div class="accordion-item">
-                    <button class="accordion-btn" onclick="toggleAccordion(this)">
+                <div class="accordion-item hover-target">
+                    <button class="accordion-header" onclick="toggleAccordion(this)">
                         <span id="t-p3-title">Divide by Three</span>
-                        <div class="accordion-icon"></div>
+                        <div class="accordion-icon">+</div>
                     </button>
                     <div class="accordion-content">
                         <div class="accordion-inner">
                             <p class="accordion-desc" id="t-p3-desc">$708 for the first two months, and $709 for the final month.</p>
                             <div class="accordion-details">
-                                <div class="accordion-int" id="t-p3-int" style="color: #F35422;">Interest: $50 included</div>
+                                <div class="accordion-int fee" id="t-p3-int">Interest: $50 included</div>
                                 <div class="accordion-price">$2,125</div>
                             </div>
                         </div>
                     </div>
                 </div>
 
-                <div class="accordion-item">
-                    <button class="accordion-btn" onclick="toggleAccordion(this)">
+                <div class="accordion-item hover-target">
+                    <button class="accordion-header" onclick="toggleAccordion(this)">
                         <span id="t-p4-title">Divide by Four</span>
-                        <div class="accordion-icon"></div>
+                        <div class="accordion-icon">+</div>
                     </button>
                     <div class="accordion-content">
                         <div class="accordion-inner">
                             <p class="accordion-desc" id="t-p4-desc">Spread the cost across four monthly payments of $543.75.</p>
                             <div class="accordion-details">
-                                <div class="accordion-int" id="t-p4-int" style="color: #F35422;">Interest: $100 included</div>
+                                <div class="accordion-int fee" id="t-p4-int">Interest: $100 included</div>
                                 <div class="accordion-price">$2,175</div>
                             </div>
                         </div>
                     </div>
                 </div>
-
             </div>
         </section>
 
-        <section class="section">
+        <section class="marquee-wrapper">
+            <div class="marquee">
+                <span>NO HIDDEN FEES</span> <span>FLEXIBLE PLANS</span> <span>SECURE TRANSFER</span>
+                <span>NO HIDDEN FEES</span> <span>FLEXIBLE PLANS</span> <span>SECURE TRANSFER</span>
+            </div>
+        </section>
+
+        <section class="section-pad container reveal" data-theme-trigger="dark">
             <h2 class="section-header" id="t-disc-title">Available Reductions</h2>
+            
             <div class="grid">
-                <div class="card">
-                    <div class="card-amount">-$40</div>
-                    <div class="card-desc" id="t-disc-1">Pay full tuition upfront in cash</div>
+                <div class="card hover-target">
+                    <div class="card-content">
+                        <div class="card-amount">-$40</div>
+                        <div class="card-desc" id="t-disc-1">Pay full tuition upfront in cash</div>
+                    </div>
                 </div>
-                <div class="card">
-                    <div class="card-amount">-$15</div>
-                    <div class="card-desc" id="t-disc-2">Leave a 5-star Google review</div>
+                <div class="card hover-target">
+                    <div class="card-content">
+                        <div class="card-amount">-$15</div>
+                        <div class="card-desc" id="t-disc-2">Leave a 5-star Google review</div>
+                    </div>
                 </div>
-                <div class="card">
-                    <div class="card-amount">-$100</div>
-                    <div class="card-desc" id="t-disc-3">Refer an enrolled friend (per referral)</div>
+                <div class="card hover-target">
+                    <div class="card-content">
+                        <div class="card-amount">-$100</div>
+                        <div class="card-desc" id="t-disc-3">Refer an enrolled friend (per referral)</div>
+                    </div>
                 </div>
             </div>
         </section>
-    </div>
 
-    <footer class="footer">
-        <div class="container footer-grid">
-            <div>
-                <h2 class="footer-title" id="t-zelle-method">Initiate Zelle Transfer</h2>
-                <div class="footer-memo" id="t-zelle-memo">*** Please write down your name on the memo ***</div>
-            </div>
-            <div class="zelle-details">
-                <div class="zelle-item">
-                    <span class="zelle-label" id="t-zelle-name-lbl">Account Name</span>
-                    <div class="zelle-value">
-                        <span>DREAMIT ESL, INC</span>
-                        <button class="copy-btn" onclick="copyText('DREAMIT ESL, INC', this)" id="t-btn-copy1">Copy</button>
+        <section class="zelle-section container reveal" data-theme-trigger="dark">
+            <div class="zelle-grid">
+                <div>
+                    <h2 class="zelle-title" id="t-zelle-method">Initiate Zelle Transfer</h2>
+                    <div class="zelle-memo" id="t-zelle-memo">*** Please write down your name on the memo ***</div>
+                </div>
+                <div class="zelle-details">
+                    <div class="zelle-item">
+                        <span class="zelle-label" id="t-zelle-name-lbl">Account Name</span>
+                        <div class="zelle-value">
+                            <span>DREAMIT ESL, INC</span>
+                            <button class="copy-btn hover-target" onclick="copyText('DREAMIT ESL, INC', this)" id="t-btn-copy1">Copy</button>
+                        </div>
+                    </div>
+                    <div class="zelle-item" style="border:none; padding:0;">
+                        <span class="zelle-label" id="t-zelle-acc-lbl">Zelle Number</span>
+                        <div class="zelle-value">
+                            <span>917-717-0385</span>
+                            <button class="copy-btn hover-target" onclick="copyText('9177170385', this)" id="t-btn-copy2">Copy</button>
+                        </div>
                     </div>
                 </div>
-                <div class="zelle-item">
-                    <span class="zelle-label" id="t-zelle-acc-lbl">Zelle Number</span>
-                    <div class="zelle-value">
-                        <span>917-717-0385</span>
-                        <button class="copy-btn" onclick="copyText('9177170385', this)" id="t-btn-copy2">Copy</button>
-                    </div>
-                </div>
             </div>
-        </div>
+        </section>
+
+    </main>
+
+    <footer class="main-footer reveal">
+        <h2 style="font-family: var(--font-display); font-size: 1.5rem; margin-bottom: 0.5rem;">DreamIT ESL</h2>
+        <p style="color: #666; font-size: 0.9rem;">Tuition & Billing &copy; 2024</p>
     </footer>
 
     <script>
-        // Clay-style Accordion Logic
+        // Dual Cursor Logic
+        const dotCursor = document.getElementById('custom-cursor');
+        const glowCursor = document.getElementById('cursorGlow');
+
+        document.addEventListener('mousemove', (e) => {
+            dotCursor.style.left = e.clientX + 'px';
+            dotCursor.style.top = e.clientY + 'px';
+            glowCursor.style.left = e.clientX + 'px';
+            glowCursor.style.top = e.clientY + 'px';
+        });
+
+        function attachHoverEvents() {
+            document.querySelectorAll('.hover-target, a, button').forEach(target => {
+                target.addEventListener('mouseenter', () => dotCursor.classList.add('hovering'));
+                target.addEventListener('mouseleave', () => dotCursor.classList.remove('hovering'));
+            });
+        }
+        attachHoverEvents();
+
+        // Header Scroll
+        const header = document.getElementById('main-header');
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 50) header.classList.add('scrolled');
+            else header.classList.remove('scrolled');
+        });
+
+        // Scroll Reveal
+        const revealOptions = { threshold: 0.15, rootMargin: "0px 0px -50px 0px" };
+        const revealOnScroll = new IntersectionObserver(function(entries, observer) {
+            entries.forEach(entry => {
+                if (!entry.isIntersecting) return;
+                entry.target.classList.add('active');
+                observer.unobserve(entry.target);
+            });
+        }, revealOptions);
+        document.querySelectorAll('.reveal').forEach(el => revealOnScroll.observe(el));
+
+        // Dynamic Theme Switcher
+        const themeTriggers = document.querySelectorAll('[data-theme-trigger]');
+        const body = document.body;
+        const themeObserver = new IntersectionObserver(function(entries) {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    const theme = entry.target.getAttribute('data-theme-trigger');
+                    if (theme === 'dark') body.setAttribute('data-theme', 'dark');
+                    else body.removeAttribute('data-theme');
+                }
+            });
+        }, { threshold: 0.4 });
+        themeTriggers.forEach(trigger => themeObserver.observe(trigger));
+
+        // Accordion Logic
         function toggleAccordion(btn) {
             const item = btn.parentElement;
-            const content = btn.nextElementSibling;
+            const content = item.querySelector('.accordion-content');
+            const icon = item.querySelector('.accordion-icon');
             
-            // Close all others
-            document.querySelectorAll('.accordion-item').forEach(otherItem => {
-                if (otherItem !== item) {
-                    otherItem.classList.remove('active');
-                    otherItem.querySelector('.accordion-content').style.maxHeight = null;
+            // Close others
+            document.querySelectorAll('.accordion-item').forEach(other => {
+                if (other !== item) {
+                    other.classList.remove('active');
+                    other.querySelector('.accordion-content').style.maxHeight = null;
+                    other.querySelector('.accordion-icon').innerText = '+';
                 }
             });
 
@@ -588,141 +769,203 @@
             item.classList.toggle('active');
             if (item.classList.contains('active')) {
                 content.style.maxHeight = content.scrollHeight + "px";
+                icon.innerText = '×';
             } else {
                 content.style.maxHeight = null;
+                icon.innerText = '+';
             }
         }
 
         // Translation Dictionary
         const translations = {
             en: {
-                "t-brand": "Tuition Portal", "t-hero-title": "Strategic Tuition Plans.", "t-hero-price": "Fixed Tuition: $2,075", "t-hero-sub": "We build transformative digital experiences for your education with flexible, straightforward payment options tailored to your needs.",
-                "t-plans-header": "Payment Options", "t-p1-title": "Pay in Full", "t-p1-desc": "Pay the full amount all at once prior to the start of the semester.", "t-p1-int": "Interest: $0",
+                "t-hero-title": '<span class="hero-text-line"><span>Strategic</span></span><span class="hero-text-line"><span>Tuition Plans.</span></span>',
+                "t-hero-sub": "We build transformative digital experiences for your education with flexible, straightforward payment options tailored to your needs.",
+                "t-hero-price": "Fixed Tuition: $2,075",
+                "t-plans-header": "Payment Options",
+                "t-p1-title": "Pay in Full", "t-p1-desc": "Pay the full amount all at once prior to the start of the semester.", "t-p1-int": "Interest: $0",
                 "t-p2-title": "Divide by Two", "t-p2-desc": "$1,000 initially, followed by a second payment of $1,075.", "t-p2-int": "Interest: $0",
                 "t-p3-title": "Divide by Three", "t-p3-desc": "$708 for the first two months, and $709 for the final month.", "t-p3-int": "Interest: $50 included",
                 "t-p4-title": "Divide by Four", "t-p4-desc": "Spread the cost across four monthly payments of $543.75.", "t-p4-int": "Interest: $100 included",
-                "t-disc-title": "Available Reductions", "t-disc-1": "Pay full tuition upfront in cash", "t-disc-2": "Leave a 5-star Google review", "t-disc-3": "Refer an enrolled friend (per referral)",
-                "t-zelle-method": "Initiate Zelle Transfer", "t-zelle-name-lbl": "Account Name", "t-zelle-acc-lbl": "Zelle Number", "t-zelle-memo": "*** Please write down your name on the memo ***",
+                "t-disc-title": "Available Reductions",
+                "t-disc-1": "Pay full tuition upfront in cash", "t-disc-2": "Leave a 5-star Google review", "t-disc-3": "Refer an enrolled friend (per referral)",
+                "t-zelle-method": "Initiate Zelle Transfer", "t-zelle-memo": "*** Please write down your name on the memo ***",
+                "t-zelle-name-lbl": "Account Name", "t-zelle-acc-lbl": "Zelle Number",
                 "t-btn-copy1": "Copy", "t-btn-copy2": "Copy", "copied": "Copied!"
             },
-            th: {
-                "t-brand": "พอร์ทัลค่าเล่าเรียน", "t-hero-title": "แผนค่าเล่าเรียนเชิงกลยุทธ์", "t-hero-price": "ค่าเล่าเรียนคงที่: $2,075", "t-hero-sub": "ตัวเลือกการชำระเงินที่ยืดหยุ่นและตรงไปตรงมา",
-                "t-plans-header": "ตัวเลือกการชำระเงิน", "t-p1-title": "จ่ายเต็มจำนวน", "t-p1-desc": "จ่ายจำนวนเงินทั้งหมดในครั้งเดียวก่อนเริ่มภาคเรียน", "t-p1-int": "ดอกเบี้ย: $0",
-                "t-p2-title": "แบ่งจ่ายสองงวด", "t-p2-desc": "$1,000 ในตอนแรก ตามด้วย $1,075", "t-p2-int": "ดอกเบี้ย: $0",
-                "t-p3-title": "แบ่งจ่ายสามงวด", "t-p3-desc": "$708 สำหรับสองเดือนแรก และ $709 ในเดือนสุดท้าย", "t-p3-int": "ดอกเบี้ย: รวม $50",
-                "t-p4-title": "แบ่งจ่ายสี่งวด", "t-p4-desc": "แบ่งชำระเป็น 4 งวด งวดละ $543.75", "t-p4-int": "ดอกเบี้ย: รวม $100",
-                "t-disc-title": "ส่วนลดที่มี", "t-disc-1": "จ่ายเงินสดเต็มจำนวนล่วงหน้า", "t-disc-2": "รีวิว 5 ดาวบน Google", "t-disc-3": "แนะนำเพื่อนที่ลงทะเบียนเรียน (ต่อคน)",
-                "t-zelle-method": "เริ่มต้นการโอน Zelle", "t-zelle-name-lbl": "ชื่อบัญชี", "t-zelle-acc-lbl": "หมายเลข Zelle", "t-zelle-memo": "*** กรุณาเขียนชื่อของคุณลงในช่องบันทึก (MEMO) ***",
-                "t-btn-copy1": "คัดลอก", "t-btn-copy2": "คัดลอก", "copied": "คัดลอกแล้ว!"
-            },
-            bn: {
-                "t-brand": "টিউশন পোর্টাল", "t-hero-title": "কৌশলগত টিউশন প্ল্যান", "t-hero-price": "নির্দিষ্ট টিউশন: $2,075", "t-hero-sub": "আপনার প্রয়োজন অনুযায়ী নমনীয় পেমেন্ট বিকল্পের মাধ্যমে শিক্ষাকে সহজতর করুন।",
-                "t-plans-header": "পেমেন্ট অপশন", "t-p1-title": "সম্পূর্ণ পেমেন্ট", "t-p1-desc": "সেমিস্টার শুরুর আগে একবারে সম্পূর্ণ পরিমাণ পরিশোধ করুন।", "t-p1-int": "সুদ: $0",
-                "t-p2-title": "দুই ভাগে বিভক্ত", "t-p2-desc": "শুরুতে $1,000, এরপরে $1,075।", "t-p2-int": "সুদ: $0",
-                "t-p3-title": "তিন ভাগে বিভক্ত", "t-p3-desc": "প্রথম দুই মাসে $708 এবং শেষ মাসে $709।", "t-p3-int": "সুদ: $50 অন্তর্ভুক্ত",
-                "t-p4-title": "চার ভাগে বিভক্ত", "t-p4-desc": "৪ মাসের জন্য প্রতি মাসে $543.75।", "t-p4-int": "সুদ: $100 অন্তর্ভুক্ত",
-                "t-disc-title": "উপলব্ধ ডিসকাউন্ট", "t-disc-1": "অগ্রিম সম্পূর্ণ নগদ পেমেন্ট", "t-disc-2": "৫-স্টার গুগল রিভিউ", "t-disc-3": "বন্ধু রেফারেল (প্রতি নিবন্ধিত বন্ধু)",
-                "t-zelle-method": "জেলি ট্রান্সফার করুন", "t-zelle-name-lbl": "অ্যাকাউন্টের নাম", "t-zelle-acc-lbl": "জেলি নম্বর", "t-zelle-memo": "*** অনুগ্রহ করে মেমোতে আপনার নাম লিখুন ***",
-                "t-btn-copy1": "কপি", "t-btn-copy2": "কপি", "copied": "কপি করা হয়েছে!"
-            },
-            kk: {
-                "t-brand": "Оқу ақысы порталы", "t-hero-title": "Стратегиялық оқу жоспарлары", "t-hero-price": "Тұрақты оқу ақысы: $2,075", "t-hero-sub": "Сіздің қажеттіліктеріңізге бейімделген икемді төлем опциялары.",
-                "t-plans-header": "Төлем опциялары", "t-p1-title": "Толық төлем", "t-p1-desc": "Семестр басталғанға дейін барлық соманы бірден төлеңіз.", "t-p1-int": "Пайыз: $0",
-                "t-p2-title": "Екіге бөлу", "t-p2-desc": "Бастапқыда $1,000, содан кейін $1,075.", "t-p2-int": "Пайыз: $0",
-                "t-p3-title": "Үшке бөлу", "t-p3-desc": "Алғашқы екі айда $708, соңғы айда $709.", "t-p3-int": "Пайыз: $50 қосылған",
-                "t-p4-title": "Төртке бөлу", "t-p4-desc": "Төрт ай бойы айына $543.75.", "t-p4-int": "Пайыз: $100 қосылған",
-                "t-disc-title": "Қолжетімді жеңілдіктер", "t-disc-1": "Алдын ала қолма-қол төлеу", "t-disc-2": "Google-де 5 жұлдызды пікір", "t-disc-3": "Досыңызды шақыру (тіркелген дос үшін)",
-                "t-zelle-method": "Zelle аударымын бастау", "t-zelle-name-lbl": "Шот атауы", "t-zelle-acc-lbl": "Zelle нөмірі", "t-zelle-memo": "*** ТҮСІНІКТЕМЕГЕ ӨЗ АТЫҢЫЗДЫ ЖАЗЫҢЫЗ ***",
-                "t-btn-copy1": "Көшіру", "t-btn-copy2": "Көшіру", "copied": "Көшірілді!"
-            },
-            tr: {
-                "t-brand": "Eğitim Portalı", "t-hero-title": "Stratejik Eğitim Planları", "t-hero-price": "Sabit Eğitim: $2,075", "t-hero-sub": "İhtiyaçlarınıza uygun esnek ve basit ödeme seçenekleriyle eğitiminizi güçlendirin.",
-                "t-plans-header": "Ödeme Seçenekleri", "t-p1-title": "Tamamını Öde", "t-p1-desc": "Dönem başlamadan önce tüm tutarı tek seferde ödeyin.", "t-p1-int": "Faiz: $0",
-                "t-p2-title": "İkiye Böl", "t-p2-desc": "Başlangıçta $1,000, ardından $1,075.", "t-p2-int": "Faiz: $0",
-                "t-p3-title": "Üçe Böl", "t-p3-desc": "İlk iki ay için $708, son ay için $709.", "t-p3-int": "Faiz: $50 dahil",
-                "t-p4-title": "Dörde Böl", "t-p4-desc": "Maliyeti dört aya yayın, aylık $543.75.", "t-p4-int": "Faiz: $100 dahil",
-                "t-disc-title": "Mevcut İndirimler", "t-disc-1": "Tamamını peşin nakit ödeyin", "t-disc-2": "5 yıldızlı Google değerlendirmesi bırakın", "t-disc-3": "Kayıtlı arkadaş referansı (kişi başı)",
-                "t-zelle-method": "Zelle Transferini Başlat", "t-zelle-name-lbl": "Hesap Adı", "t-zelle-acc-lbl": "Zelle Numarası", "t-zelle-memo": "*** LÜTFEN AÇIKLAMA KISMINA ADINIZI YAZIN ***",
-                "t-btn-copy1": "Kopyala", "t-btn-copy2": "Kopyala", "copied": "Kopyalandı!"
-            },
-            hi: {
-                "t-brand": "ट्यूशन पोर्टल", "t-hero-title": "रणनीतिक ट्यूशन योजनाएं", "t-hero-price": "निश्चित ट्यूशन: $2,075", "t-hero-sub": "अपनी आवश्यकताओं के अनुरूप लचीले भुगतान विकल्पों के साथ अपनी शिक्षा को सशक्त बनाएं।",
-                "t-plans-header": "भुगतान विकल्प", "t-p1-title": "पूरा भुगतान करें", "t-p1-desc": "सेमेस्टर शुरू होने से पहले एक साथ पूरी राशि का भुगतान करें।", "t-p1-int": "ब्याज: $0",
-                "t-p2-title": "दो में विभाजित करें", "t-p2-desc": "शुरुआत में $1,000, उसके बाद $1,075।", "t-p2-int": "ब्याज: $0",
-                "t-p3-title": "तीन में विभाजित करें", "t-p3-desc": "पहले दो महीनों के लिए $708, और अंतिम महीने के लिए $709।", "t-p3-int": "ब्याज: $50 शामिल",
-                "t-p4-title": "चार में विभाजित करें", "t-p4-desc": "लागत को चार मासिक भुगतानों में फैलाएं ($543.75)।", "t-p4-int": "ब्याज: $100 शामिल",
-                "t-disc-title": "उपलब्ध छूट", "t-disc-1": "नकद में अग्रिम पूर्ण ट्यूशन भुगतान", "t-disc-2": "5-स्टार Google समीक्षा दें", "t-disc-3": " नामांकित मित्र का संदर्भ दें (प्रति रेफरल)",
-                "t-zelle-method": "ज़ेल ट्रांसफर प्रारंभ करें", "t-zelle-name-lbl": "खाता नाम", "t-zelle-acc-lbl": "ज़ेल नंबर", "t-zelle-memo": "*** कृपया मेमो पर अपना नाम अवश्य लिखें ***",
-                "t-btn-copy1": "कॉपी", "t-btn-copy2": "कॉपी", "copied": "कॉपी किया गया!"
-            },
             es: {
-                "t-brand": "Portal de Matrícula", "t-hero-title": "Planes Estratégicos.", "t-hero-price": "Matrícula Fija: $2,075", "t-hero-sub": "Opciones de pago flexibles y directas adaptadas a tus necesidades.",
-                "t-plans-header": "Opciones de Pago", "t-p1-title": "Pago Total", "t-p1-desc": "Paga el monto total de una vez antes del inicio del semestre.", "t-p1-int": "Interés: $0",
+                "t-hero-title": '<span class="hero-text-line"><span>Planes</span></span><span class="hero-text-line"><span>Estratégicos.</span></span>',
+                "t-hero-sub": "Opciones de pago flexibles y directas adaptadas a tus necesidades.",
+                "t-hero-price": "Matrícula Fija: $2,075",
+                "t-plans-header": "Opciones de Pago",
+                "t-p1-title": "Pago Total", "t-p1-desc": "Paga el monto total de una vez antes del inicio del semestre.", "t-p1-int": "Interés: $0",
                 "t-p2-title": "Dividir en Dos", "t-p2-desc": "$1,000 inicialmente, seguido de un segundo pago de $1,075.", "t-p2-int": "Interés: $0",
                 "t-p3-title": "Dividir en Tres", "t-p3-desc": "$708 por los primeros dos meses, y $709 para el mes final.", "t-p3-int": "Interés: $50 incluido",
                 "t-p4-title": "Dividir en Cuatro", "t-p4-desc": "Distribuye el costo en cuatro pagos mensuales de $543.75.", "t-p4-int": "Interés: $100 incluido",
-                "t-disc-title": "Reducciones Disponibles", "t-disc-1": "Pagar matrícula completa por adelantado en efectivo", "t-disc-2": "Dejar una reseña de 5 estrellas en Google", "t-disc-3": "Referir a un amigo inscrito (por referencia)",
-                "t-zelle-method": "Iniciar Transferencia Zelle", "t-zelle-name-lbl": "Nombre de Cuenta", "t-zelle-acc-lbl": "Número Zelle", "t-zelle-memo": "*** Por favor escribe tu nombre en el memo ***",
+                "t-disc-title": "Reducciones Disponibles",
+                "t-disc-1": "Pagar matrícula completa por adelantado en efectivo", "t-disc-2": "Dejar una reseña de 5 estrellas en Google", "t-disc-3": "Referir a un amigo inscrito (por referencia)",
+                "t-zelle-method": "Iniciar Transferencia Zelle", "t-zelle-memo": "*** Por favor escribe tu nombre en el memo ***",
+                "t-zelle-name-lbl": "Nombre de Cuenta", "t-zelle-acc-lbl": "Número Zelle",
                 "t-btn-copy1": "Copiar", "t-btn-copy2": "Copiar", "copied": "¡Copiado!"
             },
-            ko: {
-                "t-brand": "등록금 포털", "t-hero-title": "전략적 등록금 플랜.", "t-hero-price": "고정 등록금: $2,075", "t-hero-sub": "귀하의 필요에 맞춘 유연하고 직관적인 결제 옵션으로 학업을 지원합니다.",
-                "t-plans-header": "결제 옵션", "t-p1-title": "전액 납부", "t-p1-desc": "학기 시작 전 전체 금액을 한 번에 결제합니다.", "t-p1-int": "이자: $0",
-                "t-p2-title": "2회 분할", "t-p2-desc": "초기 $1,000 결제 후, 두 번째 결제 $1,075.", "t-p2-int": "이자: $0",
-                "t-p3-title": "3회 분할", "t-p3-desc": "처음 두 달은 $708, 마지막 달은 $709.", "t-p3-int": "이자: $50 포함",
-                "t-p4-title": "4회 분할", "t-p4-desc": "4개월 동안 매월 $543.75씩 분할 납부.", "t-p4-int": "이자: $100 포함",
-                "t-disc-title": "할인 혜택", "t-disc-1": "현금으로 전액 선납", "t-disc-2": "구글 5성급 리뷰 작성", "t-disc-3": "등록한 친구 추천 (1인당)",
-                "t-zelle-method": "Zelle 이체 시작", "t-zelle-name-lbl": "계좌 이름", "t-zelle-acc-lbl": "Zelle 번호", "t-zelle-memo": "*** 메모란에 반드시 본인 이름을 적어주세요 ***",
-                "t-btn-copy1": "복사", "t-btn-copy2": "복사", "copied": "복사됨!"
-            },
             zh: {
-                "t-brand": "学费门户", "t-hero-title": "战略性学费计划。", "t-hero-price": "固定学费: $2,075", "t-hero-sub": "为您量身定制的灵活支付选项，助力您的学业。",
-                "t-plans-header": "支付选项", "t-p1-title": "一次性付清", "t-p1-desc": "在学期开始前一次性支付全部金额。", "t-p1-int": "利息: $0",
+                "t-hero-title": '<span class="hero-text-line"><span>战略性</span></span><span class="hero-text-line"><span>学费计划。</span></span>',
+                "t-hero-sub": "为您量身定制的灵活支付选项，助力您的学业。",
+                "t-hero-price": "固定学费: $2,075",
+                "t-plans-header": "支付选项",
+                "t-p1-title": "一次性付清", "t-p1-desc": "在学期开始前一次性支付全部金额。", "t-p1-int": "利息: $0",
                 "t-p2-title": "分为两次", "t-p2-desc": "首次支付 $1,000，随后支付 $1,075。", "t-p2-int": "利息: $0",
                 "t-p3-title": "分为三次", "t-p3-desc": "前两个月支付 $708，最后一个月支付 $709。", "t-p3-int": "利息: 包含 $50",
                 "t-p4-title": "分为四次", "t-p4-desc": "分摊到四个月，每月支付 $543.75。", "t-p4-int": "利息: 包含 $100",
-                "t-disc-title": "可用减免", "t-disc-1": "现金全额预付学费", "t-disc-2": "留下Google 5星评价", "t-disc-3": "推荐已注册的朋友（按推荐人数计）",
-                "t-zelle-method": "发起 Zelle 转账", "t-zelle-name-lbl": "账户名称", "t-zelle-acc-lbl": "Zelle 号码", "t-zelle-memo": "*** 请务必在备注中写下您的名字 ***",
+                "t-disc-title": "可用减免",
+                "t-disc-1": "现金全额预付学费", "t-disc-2": "留下Google 5星评价", "t-disc-3": "推荐已注册的朋友（按推荐人数计）",
+                "t-zelle-method": "发起 Zelle 转账", "t-zelle-memo": "*** 请务必在备注中写下您的名字 ***",
+                "t-zelle-name-lbl": "账户名称", "t-zelle-acc-lbl": "Zelle 号码",
                 "t-btn-copy1": "复制", "t-btn-copy2": "复制", "copied": "已复制!"
+            },
+            ko: {
+                "t-hero-title": '<span class="hero-text-line"><span>전략적</span></span><span class="hero-text-line"><span>등록금 플랜.</span></span>',
+                "t-hero-sub": "귀하의 필요에 맞춘 유연하고 직관적인 결제 옵션으로 학업을 지원합니다.",
+                "t-hero-price": "고정 등록금: $2,075",
+                "t-plans-header": "결제 옵션",
+                "t-p1-title": "전액 납부", "t-p1-desc": "학기 시작 전 전체 금액을 한 번에 결제합니다.", "t-p1-int": "이자: $0",
+                "t-p2-title": "2회 분할", "t-p2-desc": "초기 $1,000 결제 후, 두 번째 결제 $1,075.", "t-p2-int": "이자: $0",
+                "t-p3-title": "3회 분할", "t-p3-desc": "처음 두 달은 $708, 마지막 달은 $709.", "t-p3-int": "이자: $50 포함",
+                "t-p4-title": "4회 분할", "t-p4-desc": "4개월 동안 매월 $543.75씩 분할 납부.", "t-p4-int": "이자: $100 포함",
+                "t-disc-title": "할인 혜택",
+                "t-disc-1": "현금으로 전액 선납", "t-disc-2": "구글 5성급 리뷰 작성", "t-disc-3": "등록한 친구 추천 (1인당)",
+                "t-zelle-method": "Zelle 이체 시작", "t-zelle-memo": "*** 메모란에 반드시 본인 이름을 적어주세요 ***",
+                "t-zelle-name-lbl": "계좌 이름", "t-zelle-acc-lbl": "Zelle 번호",
+                "t-btn-copy1": "복사", "t-btn-copy2": "복사", "copied": "복사됨!"
+            },
+            th: {
+                "t-hero-title": '<span class="hero-text-line"><span>แผนค่าเล่าเรียน</span></span><span class="hero-text-line"><span>เชิงกลยุทธ์</span></span>',
+                "t-hero-sub": "ตัวเลือกการชำระเงินที่ยืดหยุ่นและตรงไปตรงมา",
+                "t-hero-price": "ค่าเล่าเรียนคงที่: $2,075",
+                "t-plans-header": "ตัวเลือกการชำระเงิน",
+                "t-p1-title": "จ่ายเต็มจำนวน", "t-p1-desc": "จ่ายจำนวนเงินทั้งหมดในครั้งเดียวก่อนเริ่มภาคเรียน", "t-p1-int": "ดอกเบี้ย: $0",
+                "t-p2-title": "แบ่งจ่ายสองงวด", "t-p2-desc": "$1,000 ในตอนแรก ตามด้วย $1,075", "t-p2-int": "ดอกเบี้ย: $0",
+                "t-p3-title": "แบ่งจ่ายสามงวด", "t-p3-desc": "$708 สำหรับสองเดือนแรก และ $709 ในเดือนสุดท้าย", "t-p3-int": "ดอกเบี้ย: รวม $50",
+                "t-p4-title": "แบ่งจ่ายสี่งวด", "t-p4-desc": "แบ่งชำระเป็น 4 งวด งวดละ $543.75", "t-p4-int": "ดอกเบี้ย: รวม $100",
+                "t-disc-title": "ส่วนลดที่มี",
+                "t-disc-1": "จ่ายเงินสดเต็มจำนวนล่วงหน้า", "t-disc-2": "รีวิว 5 ดาวบน Google", "t-disc-3": "แนะนำเพื่อนที่ลงทะเบียนเรียน (ต่อคน)",
+                "t-zelle-method": "เริ่มต้นการโอน Zelle", "t-zelle-memo": "*** กรุณาเขียนชื่อของคุณลงในช่องบันทึก ***",
+                "t-zelle-name-lbl": "ชื่อบัญชี", "t-zelle-acc-lbl": "หมายเลข Zelle",
+                "t-btn-copy1": "คัดลอก", "t-btn-copy2": "คัดลอก", "copied": "คัดลอกแล้ว!"
+            },
+            bn: {
+                "t-hero-title": '<span class="hero-text-line"><span>কৌশলগত</span></span><span class="hero-text-line"><span>টিউশন প্ল্যান</span></span>',
+                "t-hero-sub": "আপনার প্রয়োজন অনুযায়ী নমনীয় পেমেন্ট বিকল্পের মাধ্যমে শিক্ষাকে সহজতর করুন।",
+                "t-hero-price": "নির্দিষ্ট টিউশন: $2,075",
+                "t-plans-header": "পেমেন্ট অপশন",
+                "t-p1-title": "সম্পূর্ণ পেমেন্ট", "t-p1-desc": "সেমিস্টার শুরুর আগে একবারে সম্পূর্ণ পরিমাণ পরিশোধ করুন।", "t-p1-int": "সুদ: $0",
+                "t-p2-title": "দুই ভাগে বিভক্ত", "t-p2-desc": "শুরুতে $1,000, এরপরে $1,075।", "t-p2-int": "সুদ: $0",
+                "t-p3-title": "তিন ভাগে বিভক্ত", "t-p3-desc": "প্রথম দুই মাসে $708 এবং শেষ মাসে $709।", "t-p3-int": "সুদ: $50 অন্তর্ভুক্ত",
+                "t-p4-title": "চার ভাগে বিভক্ত", "t-p4-desc": "৪ মাসের জন্য প্রতি মাসে $543.75।", "t-p4-int": "সুদ: $100 অন্তর্ভুক্ত",
+                "t-disc-title": "উপলব্ধ ডিসকাউন্ট",
+                "t-disc-1": "অগ্রিম সম্পূর্ণ নগদ পেমেন্ট", "t-disc-2": "৫-স্টার গুগল রিভিউ", "t-disc-3": "বন্ধু রেফারেল (প্রতি নিবন্ধিত বন্ধু)",
+                "t-zelle-method": "জেলি ট্রান্সফার করুন", "t-zelle-memo": "*** অনুগ্রহ করে মেমোতে আপনার নাম লিখুন ***",
+                "t-zelle-name-lbl": "অ্যাকাউন্টের নাম", "t-zelle-acc-lbl": "জেলি নম্বর",
+                "t-btn-copy1": "কপি", "t-btn-copy2": "কপি", "copied": "কপি করা হয়েছে!"
+            },
+            kk: {
+                "t-hero-title": '<span class="hero-text-line"><span>Стратегиялық</span></span><span class="hero-text-line"><span>оқу жоспарлары</span></span>',
+                "t-hero-sub": "Сіздің қажеттіліктеріңізге бейімделген икемді төлем опциялары.",
+                "t-hero-price": "Тұрақты оқу ақысы: $2,075",
+                "t-plans-header": "Төлем опциялары",
+                "t-p1-title": "Толық төлем", "t-p1-desc": "Семестр басталғанға дейін барлық соманы бірден төлеңіз.", "t-p1-int": "Пайыз: $0",
+                "t-p2-title": "Екіге бөлу", "t-p2-desc": "Бастапқыда $1,000, содан кейін $1,075.", "t-p2-int": "Пайыз: $0",
+                "t-p3-title": "Үшке бөлу", "t-p3-desc": "Алғашқы екі айда $708, соңғы айда $709.", "t-p3-int": "Пайыз: $50 қосылған",
+                "t-p4-title": "Төртке бөлу", "t-p4-desc": "Төрт ай бойы айына $543.75.", "t-p4-int": "Пайыз: $100 қосылған",
+                "t-disc-title": "Қолжетімді жеңілдіктер",
+                "t-disc-1": "Алдын ала қолма-қол төлеу", "t-disc-2": "Google-де 5 жұлдызды пікір", "t-disc-3": "Досыңызды шақыру (тіркелген дос үшін)",
+                "t-zelle-method": "Zelle аударымын бастау", "t-zelle-memo": "*** ТҮСІНІКТЕМЕГЕ ӨЗ АТЫҢЫЗДЫ ЖАЗЫҢЫЗ ***",
+                "t-zelle-name-lbl": "Шот атауы", "t-zelle-acc-lbl": "Zelle нөмірі",
+                "t-btn-copy1": "Көшіру", "t-btn-copy2": "Көшіру", "copied": "Көшірілді!"
+            },
+            tr: {
+                "t-hero-title": '<span class="hero-text-line"><span>Stratejik Eğitim</span></span><span class="hero-text-line"><span>Planları</span></span>',
+                "t-hero-sub": "İhtiyaçlarınıza uygun esnek ve basit ödeme seçenekleriyle eğitiminizi güçlendirin.",
+                "t-hero-price": "Sabit Eğitim: $2,075",
+                "t-plans-header": "Ödeme Seçenekleri",
+                "t-p1-title": "Tamamını Öde", "t-p1-desc": "Dönem başlamadan önce tüm tutarı tek seferde ödeyin.", "t-p1-int": "Faiz: $0",
+                "t-p2-title": "İkiye Böl", "t-p2-desc": "Başlangıçta $1,000, ardından $1,075.", "t-p2-int": "Faiz: $0",
+                "t-p3-title": "Üçe Böl", "t-p3-desc": "İlk iki ay için $708, son ay için $709.", "t-p3-int": "Faiz: $50 dahil",
+                "t-p4-title": "Dörde Böl", "t-p4-desc": "Maliyeti dört aya yayın, aylık $543.75.", "t-p4-int": "Faiz: $100 dahil",
+                "t-disc-title": "Mevcut İndirimler",
+                "t-disc-1": "Tamamını peşin nakit ödeyin", "t-disc-2": "5 yıldızlı Google değerlendirmesi", "t-disc-3": "Kayıtlı arkadaş referansı (kişi başı)",
+                "t-zelle-method": "Zelle Transferi", "t-zelle-memo": "*** LÜTFEN AÇIKLAMA KISMINA ADINIZI YAZIN ***",
+                "t-zelle-name-lbl": "Hesap Adı", "t-zelle-acc-lbl": "Zelle Numarası",
+                "t-btn-copy1": "Kopyala", "t-btn-copy2": "Kopyala", "copied": "Kopyalandı!"
+            },
+            hi: {
+                "t-hero-title": '<span class="hero-text-line"><span>रणनीतिक ट्यूशन</span></span><span class="hero-text-line"><span>योजनाएं</span></span>',
+                "t-hero-sub": "अपनी आवश्यकताओं के अनुरूप लचीले भुगतान विकल्पों के साथ अपनी शिक्षा को सशक्त बनाएं।",
+                "t-hero-price": "निश्चित ट्यूशन: $2,075",
+                "t-plans-header": "भुगतान विकल्प",
+                "t-p1-title": "पूरा भुगतान करें", "t-p1-desc": "सेमेस्टर शुरू होने से पहले एक साथ पूरी राशि का भुगतान करें।", "t-p1-int": "ब्याज: $0",
+                "t-p2-title": "दो में विभाजित करें", "t-p2-desc": "शुरुआत में $1,000, उसके बाद $1,075।", "t-p2-int": "ब्याज: $0",
+                "t-p3-title": "तीन में विभाजित करें", "t-p3-desc": "पहले दो महीनों के लिए $708, और अंतिम महीने के लिए $709।", "t-p3-int": "ब्याज: $50 शामिल",
+                "t-p4-title": "चार में विभाजित करें", "t-p4-desc": "लागत को चार मासिक भुगतानों में फैलाएं ($543.75)।", "t-p4-int": "ब्याज: $100 शामिल",
+                "t-disc-title": "उपलब्ध छूट",
+                "t-disc-1": "नकद में अग्रिम पूर्ण भुगतान", "t-disc-2": "5-स्टार Google समीक्षा दें", "t-disc-3": "नामांकित मित्र का संदर्भ दें (प्रति रेफरल)",
+                "t-zelle-method": "ज़ेल ट्रांसफर प्रारंभ करें", "t-zelle-memo": "*** कृपया मेमो पर अपना नाम अवश्य लिखें ***",
+                "t-zelle-name-lbl": "खाता नाम", "t-zelle-acc-lbl": "ज़ेल नंबर",
+                "t-btn-copy1": "कॉपी", "t-btn-copy2": "कॉपी", "copied": "कॉपी किया गया!"
             }
         };
 
         let currentLang = 'en';
 
-        function setLanguage(lang) {
+        function switchLang(lang, btnElement) {
             currentLang = lang;
             const langData = translations[lang];
 
             document.querySelectorAll('.lang-btn').forEach(btn => btn.classList.remove('active'));
-            event.target.classList.add('active');
+            btnElement.classList.add('active');
 
-            for (const key in langData) {
-                const element = document.getElementById(key);
-                if (element) {
-                    element.innerText = langData[key];
-                }
-            }
-            
-            // Adjust active accordions to recalculate height if text length changes
-            document.querySelectorAll('.accordion-item.active .accordion-content').forEach(content => {
-                content.style.maxHeight = content.scrollHeight + "px";
-            });
+            const wrapper = document.getElementById('content-wrapper');
+            wrapper.style.opacity = 0;
+
+            setTimeout(() => {
+                const keys = [
+                    "t-hero-title", "t-hero-sub", "t-hero-price",
+                    "t-plans-header", "t-p1-title", "t-p1-desc", "t-p1-int",
+                    "t-p2-title", "t-p2-desc", "t-p2-int",
+                    "t-p3-title", "t-p3-desc", "t-p3-int",
+                    "t-p4-title", "t-p4-desc", "t-p4-int",
+                    "t-disc-title", "t-disc-1", "t-disc-2", "t-disc-3",
+                    "t-zelle-method", "t-zelle-memo", "t-zelle-name-lbl", "t-zelle-acc-lbl",
+                    "t-btn-copy1", "t-btn-copy2"
+                ];
+
+                keys.forEach(key => {
+                    const el = document.getElementById(key);
+                    if (el) el.innerHTML = langData[key];
+                });
+
+                // Update max-height for active accordions
+                document.querySelectorAll('.accordion-item.active .accordion-content').forEach(content => {
+                    content.style.maxHeight = content.scrollHeight + "px";
+                });
+
+                attachHoverEvents();
+                wrapper.style.opacity = 1;
+            }, 400);
         }
 
         function copyText(text, btnElement) {
             navigator.clipboard.writeText(text).then(() => {
                 const originalText = btnElement.innerText;
                 btnElement.innerText = translations[currentLang]["copied"] || "Copied!";
-                btnElement.style.background = "var(--color-white)";
-                btnElement.style.color = "var(--color-black)";
+                btnElement.style.background = "var(--success-color)";
+                btnElement.style.color = "var(--bg-color)";
                 
                 setTimeout(() => {
                     btnElement.innerText = translations[currentLang][btnElement.id] || "Copy";
-                    btnElement.style.background = "transparent";
-                    btnElement.style.color = "var(--color-white)";
+                    btnElement.style.background = "var(--text-color)";
+                    btnElement.style.color = "var(--bg-color)";
                 }, 2000);
-            }).catch(err => {
-                console.error("Failed to copy text: ", err);
             });
         }
     </script>
