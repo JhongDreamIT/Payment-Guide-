@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Tuition Payment Plans | DreamIT ESL</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -32,20 +32,52 @@
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            /* Prevents text from overflowing its container */
             word-wrap: break-word;
             overflow-wrap: break-word;
         }
 
         body {
             font-family: var(--font-main);
-            background-color: var(--bg-color);
+            /* Set to transparent so the background video shows through */
+            background-color: transparent; 
             color: var(--text-color);
             overflow-x: hidden;
             -webkit-font-smoothing: antialiased;
             cursor: none; 
-            transition: background-color 0.8s var(--transition-smooth), color 0.8s var(--transition-smooth);
+            transition: color 0.8s var(--transition-smooth);
             line-height: 1.5;
+            width: 100%;
+        }
+
+        /* --- FULL PAGE VIDEO BACKGROUND --- */
+        .full-page-video-wrapper {
+            position: fixed;
+            inset: 0;
+            width: 100%;
+            height: 100vh; /* Fallback */
+            height: 100dvh; /* Dynamic viewport for mobile */
+            z-index: -10;
+            overflow: hidden;
+            pointer-events: none;
+            background-color: var(--bg-color);
+        }
+
+        .full-page-video-wrapper video {
+            width: 100%;
+            height: 100%;
+            object-fit: cover; /* Fills the whole screen */
+            object-position: center center; 
+        }
+
+        /* Overlay to make the video subtle and non-distracting */
+        .video-overlay {
+            position: absolute;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+            background-color: var(--bg-color);
+            opacity: 0.88; /* High opacity keeps text highly readable while showing motion */
+            transition: background-color 0.8s var(--transition-smooth);
         }
 
         /* Dual Cursor System */
@@ -102,6 +134,8 @@
             background: none;
             border: none;
             font-family: inherit;
+            outline: none;
+            -webkit-tap-highlight-color: transparent;
         }
 
         /* Header */
@@ -129,6 +163,7 @@
             padding: 1rem 4rem;
             background: rgba(5, 4, 17, 0.05);
             backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px);
         }
 
         header.scrolled .header-top {
@@ -150,6 +185,7 @@
             overflow-x: auto;
             scrollbar-width: none;
             padding-bottom: 0.5rem;
+            -webkit-overflow-scrolling: touch; 
         }
         .nav-scroll::-webkit-scrollbar { display: none; }
 
@@ -163,6 +199,7 @@
             white-space: nowrap;
             transition: all 0.3s ease;
             opacity: 0.7;
+            flex-shrink: 0;
         }
 
         header.scrolled .lang-btn { border-color: var(--text-color); }
@@ -198,10 +235,10 @@
         /* Hero */
         .hero {
             min-height: 85vh;
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            align-items: center;
-            gap: 4rem;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: flex-start;
             position: relative;
             padding-top: 10rem;
             padding-bottom: 4rem;
@@ -209,10 +246,11 @@
         .hero-content {
             position: relative;
             z-index: 2;
+            max-width: 800px;
         }
         .hero-graphic {
             position: absolute;
-            left: -5%;
+            right: 5%;
             top: 15%;
             width: 500px;
             height: 500px;
@@ -220,7 +258,7 @@
             border-radius: 40% 60% 70% 30% / 40% 50% 60% 50%;
             animation: morphShape 15s ease-in-out infinite alternate;
             z-index: 0;
-            opacity: 0.8;
+            opacity: 0.5;
             transition: background 0.8s var(--transition-smooth);
         }
         @keyframes morphShape {
@@ -231,8 +269,8 @@
         }
 
         .hero h1 {
-            font-size: clamp(3rem, 6vw, 5.5rem);
-            line-height: 1.1;
+            font-size: clamp(3.5rem, 8vw, 6.5rem);
+            line-height: 1.05;
             letter-spacing: -2px;
             margin-bottom: 1.5rem;
         }
@@ -246,9 +284,9 @@
         @keyframes slideUp { to { transform: translateY(0); } }
 
         .hero-subtitle {
-            font-size: 1.25rem;
+            font-size: clamp(1.1rem, 3vw, 1.5rem);
             color: #666;
-            margin-bottom: 2rem;
+            margin-bottom: 2.5rem;
             animation: fadeIn 1.2s ease forwards 0.4s;
             opacity: 0;
             max-width: 600px;
@@ -259,39 +297,15 @@
         .hero-price-badge {
             display: inline-block;
             font-family: var(--font-display);
-            font-size: clamp(1rem, 3vw, 1.25rem);
+            font-size: clamp(1.1rem, 3vw, 1.25rem);
             font-weight: 700;
-            padding: 12px 24px;
+            padding: 12px 28px;
             border: 2px solid var(--text-color);
             border-radius: 50px;
             animation: fadeIn 1.2s ease forwards 0.6s;
             opacity: 0;
             color: var(--text-color);
             text-align: center;
-        }
-
-        .hero-media {
-            position: relative;
-            width: 100%;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            animation: fadeIn 1.2s ease forwards 0.8s;
-            opacity: 0;
-            z-index: 2;
-        }
-        .hero-media img {
-            width: 100%;
-            height: auto;
-            max-height: 65vh;
-            object-fit: contain;
-            display: block;
-            border-radius: 20px;
-            box-shadow: 0 20px 40px rgba(0,0,0,0.08);
-            transition: filter 0.8s ease, transform 0.8s ease;
-        }
-        .hero-media img:hover { 
-            transform: translateY(-5px);
         }
 
         /* Section Components */
@@ -423,7 +437,7 @@
             padding: 4rem 0;
             border-top: 1px solid var(--accent-color);
             border-bottom: 1px solid var(--accent-color);
-            background-color: var(--bg-color);
+            background-color: transparent;
             position: relative;
             transition: background 0.8s var(--transition-smooth);
         }
@@ -446,7 +460,7 @@
         /* Zelle Footer Section */
         .zelle-section {
             padding: 8rem 0;
-            background-color: var(--bg-color);
+            background-color: transparent;
             transition: background-color 0.8s var(--transition-smooth);
         }
         .zelle-grid {
@@ -490,7 +504,7 @@
             align-items: center;
             gap: 1rem;
         }
-        .zelle-value span { word-break: break-all; } /* Ensure long names/numbers don't break flexbox */
+        .zelle-value span { word-break: break-all; }
         
         .copy-btn {
             background: var(--text-color);
@@ -509,6 +523,7 @@
             padding: 3rem 0;
             text-align: center;
             border-top: 1px solid var(--accent-color);
+            background-color: transparent;
         }
 
         /* Responsive Breakpoints */
@@ -517,22 +532,21 @@
             header.scrolled { padding: 1rem 2rem; }
             .container { padding: 0 2rem; }
             .hero {
-                grid-template-columns: 1fr;
-                text-align: center;
-                gap: 2rem;
                 padding-top: 8rem;
+                text-align: center;
+                align-items: center;
             }
             .hero-graphic {
                 left: 50%;
                 transform: translateX(-50%);
                 top: 5%;
+                right: auto;
             }
             .hero h1, .hero-subtitle { margin-left: auto; margin-right: auto; }
-            .hero-media img { max-height: 50vh; }
         }
         
         @media (max-width: 768px) {
-            .hero h1 { font-size: clamp(2.5rem, 10vw, 4rem); }
+            .hero h1 { font-size: clamp(3rem, 10vw, 4rem); }
             .accordion-inner { flex-direction: column; align-items: flex-start; gap: 1rem; }
             .accordion-details { text-align: left; }
             .zelle-grid { grid-template-columns: 1fr; gap: 3rem; }
@@ -564,6 +578,13 @@
     </style>
 </head>
 <body>
+
+    <div class="full-page-video-wrapper">
+        <video autoplay loop muted playsinline>
+            <source src="KOREAN WATER (1).mp4" type="video/mp4">
+        </video>
+        <div class="video-overlay"></div>
+    </div>
 
     <div class="cursor-glow" id="cursorGlow"></div>
     <div class="cursor" id="custom-cursor"></div>
@@ -598,10 +619,6 @@
                 <div>
                     <span class="hero-price-badge" id="t-hero-price">Fixed Tuition: $2,075</span>
                 </div>
-            </div>
-            
-            <div class="hero-media reveal">
-                <img src="new-york-city.gif.gif" alt="New York City Vibe" onerror="this.style.display='none'">
             </div>
         </section>
 
