@@ -4,11 +4,13 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Tuition Payment Plans | DreamIT ESL</title>
+    
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Syne:wght@600;700;800&display=swap" rel="stylesheet">
     
     <style>
+        /* Strict 8pt / 4pt Spacing Scale & Functional Color Matrix */
         :root {
             /* Light Theme (Default Glass) */
             --text-color: #050411;
@@ -16,11 +18,11 @@
             --success-color: #10b981;
             --danger-color: #e11d48;
             
-            /* Glassmorphism Variables */
-            --glass-bg: rgba(255, 255, 255, 0.7);
-            --glass-border: rgba(255, 255, 255, 0.4);
-            --glass-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.1);
-            --header-bg: rgba(255, 255, 255, 0.8);
+            /* Glassmorphism Variables for Light Mode */
+            --glass-bg: rgba(255, 255, 255, 0.85);
+            --glass-border: rgba(255, 255, 255, 0.6);
+            --glass-shadow: 0 12px 40px 0 rgba(0, 0, 0, 0.1);
+            --header-bg: rgba(255, 255, 255, 0.9);
 
             --font-main: 'Inter', sans-serif;
             --font-display: 'Syne', sans-serif;
@@ -34,11 +36,11 @@
             --success-color: #34d399;
             --danger-color: #fb7185;
 
-            /* Glassmorphism Variables */
-            --glass-bg: rgba(10, 10, 15, 0.65);
-            --glass-border: rgba(255, 255, 255, 0.1);
-            --glass-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.4);
-            --header-bg: rgba(10, 10, 15, 0.85);
+            /* Glassmorphism Variables for Dark Mode */
+            --glass-bg: rgba(15, 15, 20, 0.75);
+            --glass-border: rgba(255, 255, 255, 0.15);
+            --glass-shadow: 0 12px 40px 0 rgba(0, 0, 0, 0.5);
+            --header-bg: rgba(15, 15, 20, 0.85);
         }
 
         * {
@@ -57,15 +59,15 @@
             -webkit-font-smoothing: antialiased;
             cursor: none; 
             transition: color 0.8s var(--transition-smooth);
-            line-height: 1.5;
+            line-height: 1.6;
             width: 100%;
         }
 
-        /* --- VISIBLE VIDEO BACKGROUND --- */
-        .full-page-video-wrapper {
+        /* --- VISIBLE VIDEO BACKGROUND LAYER --- */
+        .video-background {
             position: fixed;
             inset: 0;
-            width: 100%;
+            width: 100vw;
             height: 100vh;
             height: 100dvh;
             z-index: -10;
@@ -74,24 +76,41 @@
             background-color: #000;
         }
 
-        .full-page-video-wrapper video {
+        .video-background video {
+            position: absolute;
+            top: 0;
+            left: 0;
             width: 100%;
             height: 100%;
             object-fit: cover;
             object-position: center center; 
+            transition: opacity 0.5s linear;
         }
 
-        /* Very light tint to ensure video is visible but doesn't completely blind the text */
+        #bg-video-top {
+            opacity: 1; 
+        }
+
+        #bg-video-bottom {
+            opacity: 0; 
+        }
+
+        /* Ambient overlay to protect contrast & legibility based on UI Principles */
         .video-overlay {
             position: absolute;
             inset: 0;
             width: 100%;
             height: 100%;
-            background-color: rgba(0, 0, 0, 0.25);
+            background-color: rgba(0, 0, 0, 0.35); /* Dark overlay */
             transition: background-color 0.8s var(--transition-smooth);
+            pointer-events: none;
         }
 
-        /* Single Custom Cursor */
+        body:not([data-theme="dark"]) .video-overlay {
+            background-color: rgba(255, 255, 255, 0.25); /* Light overlay */
+        }
+
+        /* Custom Cursor Engine */
         .cursor {
             position: fixed;
             top: 0;
@@ -113,7 +132,7 @@
             background-color: #fff;
         }
 
-        /* Typography */
+        /* Typography Hierarchy */
         h1, h2, h3, h4 {
             font-family: var(--font-display);
             font-weight: 700;
@@ -130,18 +149,18 @@
             -webkit-tap-highlight-color: transparent;
         }
 
-        /* Header */
+        /* Navigation Header */
         header {
             position: fixed;
             top: 0;
             width: 100%;
-            padding: 2rem 5vw; /* Strict grid alignment */
+            padding: 2rem 5vw; 
             display: flex;
             flex-direction: column;
             gap: 1.5rem;
             z-index: 100;
             transition: all 0.5s ease;
-            color: #fff;
+            color: #fff; /* Default white over video */
         }
 
         .header-top {
@@ -164,12 +183,12 @@
             font-weight: 800;
             letter-spacing: -1px;
             font-family: var(--font-display);
-            text-shadow: 0 2px 10px rgba(0,0,0,0.5); /* Pop against video */
+            text-shadow: 0 2px 10px rgba(0,0,0,0.5);
         }
         
         header.scrolled .logo { text-shadow: none; }
 
-        /* Language Switcher Nav */
+        /* Mobile-Friendly Language Switcher Nav */
         .nav-scroll {
             display: flex;
             gap: 0.75rem;
@@ -183,9 +202,9 @@
         .lang-btn {
             border: 1px solid rgba(255,255,255,0.4);
             color: #fff;
-            padding: 0.5rem 1.2rem;
+            padding: 10px 20px; /* Minimum 44px height tap target */
             border-radius: 100px;
-            font-size: 0.85rem;
+            font-size: 0.9rem;
             font-weight: 600;
             white-space: nowrap;
             transition: all 0.3s ease;
@@ -217,9 +236,9 @@
 
         /* Global Framing & Layout */
         .container {
-            max-width: 1400px;
+            max-width: 1200px;
             margin: 0 auto;
-            padding: 0 5vw; /* Tightly framed on the sides */
+            padding: 0 5vw; 
             width: 100%;
         }
 
@@ -230,7 +249,7 @@
             transition: opacity 0.4s ease;
         }
 
-        /* Frosted Glass Component for Readability */
+        /* Frosted Glass Component */
         .glass-panel {
             background: var(--glass-bg);
             backdrop-filter: blur(20px);
@@ -242,7 +261,7 @@
             transition: background 0.8s var(--transition-smooth), border-color 0.8s var(--transition-smooth);
         }
 
-        /* Animations */
+        /* Reveal Animations */
         .reveal {
             opacity: 0;
             transform: translateY(50px);
@@ -266,9 +285,8 @@
             position: relative;
             z-index: 2;
             max-width: 800px;
-            /* Ensures hero text stays perfectly legible against raw video */
             text-shadow: 0 4px 24px rgba(0,0,0,0.7); 
-            color: #ffffff; /* Always force white in hero for contrast over the video */
+            color: #ffffff; /* Consistent contrast over videos */
         }
 
         .hero h1 {
@@ -289,12 +307,13 @@
 
         .hero-subtitle {
             font-size: clamp(1.1rem, 3vw, 1.5rem);
-            color: rgba(255, 255, 255, 0.9);
+            color: rgba(255, 255, 255, 0.95);
             margin-bottom: 2.5rem;
             animation: fadeIn 1.2s ease forwards 0.4s;
             opacity: 0;
             max-width: 600px;
             text-shadow: 0 2px 12px rgba(0,0,0,0.8);
+            line-height: 1.5;
         }
 
         @keyframes fadeIn { to { opacity: 1; } }
@@ -304,17 +323,17 @@
             font-family: var(--font-display);
             font-size: clamp(1.1rem, 3vw, 1.25rem);
             font-weight: 700;
-            padding: 14px 32px;
-            background: rgba(255, 255, 255, 0.1);
+            padding: 16px 32px;
+            background: rgba(255, 255, 255, 0.15);
             backdrop-filter: blur(10px);
             -webkit-backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.3);
+            border: 1px solid rgba(255, 255, 255, 0.4);
             border-radius: 50px;
             animation: fadeIn 1.2s ease forwards 0.6s;
             opacity: 0;
             color: #ffffff;
             text-align: center;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+            box-shadow: 0 4px 20px rgba(0,0,0,0.3);
         }
 
         /* Section Components */
@@ -370,8 +389,8 @@
             gap: 2rem;
         }
         .accordion-desc {
-            font-size: 1.25rem;
-            opacity: 0.8;
+            font-size: 1.15rem;
+            opacity: 0.85;
             max-width: 600px;
         }
         .accordion-details { text-align: right; }
@@ -381,7 +400,7 @@
             text-transform: uppercase;
             letter-spacing: 0.05em;
             margin-bottom: 0.5rem;
-            opacity: 0.6;
+            opacity: 0.7;
         }
         .accordion-int.fee { color: var(--danger-color); opacity: 1; }
         .accordion-price {
@@ -474,10 +493,10 @@
             gap: 4rem;
         }
         .zelle-title {
-            font-size: clamp(2rem, 5vw, 4rem);
+            font-size: clamp(2rem, 5vw, 3.5rem);
             font-family: var(--font-display);
             font-weight: 800;
-            letter-spacing: -2px;
+            letter-spacing: -1.5px;
             line-height: 1.1;
             margin-bottom: 1.5rem;
         }
@@ -487,7 +506,7 @@
             font-weight: 600;
             letter-spacing: 0.05em;
             text-transform: uppercase;
-            padding: 10px 20px;
+            padding: 12px 24px;
             border: 1px solid var(--text-color);
             border-radius: 50px;
             opacity: 0.8;
@@ -499,10 +518,10 @@
             padding-bottom: 2rem;
             border-bottom: 1px solid var(--accent-color);
         }
-        .zelle-label { font-size: 1rem; opacity: 0.6; font-weight: 500; margin-bottom: 0.5rem; display: block; }
+        .zelle-label { font-size: 1rem; opacity: 0.7; font-weight: 500; margin-bottom: 0.5rem; display: block; }
         .zelle-value {
             font-family: var(--font-display);
-            font-size: clamp(1.25rem, 3.5vw, 2rem);
+            font-size: clamp(1.25rem, 3vw, 2rem);
             font-weight: 700;
             display: flex;
             justify-content: space-between;
@@ -513,10 +532,10 @@
         
         .copy-btn {
             background: var(--text-color);
-            color: var(--glass-bg); /* Dynamic contrast */
-            padding: 10px 24px;
+            color: var(--glass-bg);
+            padding: 12px 28px; /* Minimum 44px tap target */
             border-radius: 50px;
-            font-size: 0.9rem;
+            font-size: 1rem;
             font-weight: 600;
             transition: transform 0.3s ease, box-shadow 0.3s ease;
             flex-shrink: 0;
@@ -570,9 +589,12 @@
 </head>
 <body data-theme="dark">
 
-    <div class="full-page-video-wrapper">
-        <video autoplay loop muted playsinline>
-            <source src="KOREAN WATER (1).mp4" type="video/mp4">
+    <div class="video-background">
+        <video id="bg-video-top" autoplay loop muted playsinline>
+            <source src="Icy Mountain.mp4" type="video/mp4">
+        </video>
+        <video id="bg-video-bottom" autoplay loop muted playsinline>
+            <source src="Greece.mp4" type="video/mp4">
         </video>
         <div class="video-overlay"></div>
     </div>
@@ -752,7 +774,7 @@
     </footer>
 
     <script>
-        // Single Custom Cursor Logic
+        // Custom Fluid Cursor Engine
         const dotCursor = document.getElementById('custom-cursor');
 
         if (window.matchMedia("(pointer: fine)").matches) {
@@ -772,14 +794,27 @@
             function attachHoverEvents() {} 
         }
 
-        // Header Scroll
+        // Header Scroll Interaction
         const header = document.getElementById('main-header');
         window.addEventListener('scroll', () => {
             if (window.scrollY > 50) header.classList.add('scrolled');
             else header.classList.remove('scrolled');
         });
 
-        // Scroll Reveal
+        // Ambient Background Video Crossfade System (Icy Mountain to Greece)
+        const topVideo = document.getElementById('bg-video-top');
+        const bottomVideo = document.getElementById('bg-video-bottom');
+
+        window.addEventListener('scroll', () => {
+            const scrollTop = window.scrollY;
+            const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+            let scrollPercent = docHeight > 0 ? scrollTop / docHeight : 0;
+            
+            topVideo.style.opacity = 1 - scrollPercent;
+            bottomVideo.style.opacity = scrollPercent;
+        });
+
+        // Scroll Reveal Matrix
         const revealOptions = { threshold: 0.15, rootMargin: "0px 0px -50px 0px" };
         const revealOnScroll = new IntersectionObserver(function(entries, observer) {
             entries.forEach(entry => {
@@ -790,21 +825,21 @@
         }, revealOptions);
         document.querySelectorAll('.reveal').forEach(el => revealOnScroll.observe(el));
 
-        // Dynamic Theme Switcher (Updates Glass Colors based on scroll)
+        // Dynamic Glass Theme Switcher based on Scroll Intersection
         const themeTriggers = document.querySelectorAll('[data-theme-trigger]');
         const body = document.body;
         const themeObserver = new IntersectionObserver(function(entries) {
             entries.forEach(entry => {
                 if (entry.isIntersecting) {
                     const theme = entry.target.getAttribute('data-theme-trigger');
-                    if (theme === 'light') body.removeAttribute('data-theme'); // default root is light
+                    if (theme === 'light') body.removeAttribute('data-theme'); // default is light root
                     else body.setAttribute('data-theme', 'dark');
                 }
             });
         }, { threshold: 0.4 });
         themeTriggers.forEach(trigger => themeObserver.observe(trigger));
 
-        // Accordion Logic
+        // Payment Plans Accordion Logic
         function toggleAccordion(btn) {
             const item = btn.parentElement;
             const content = item.querySelector('.accordion-content');
@@ -830,7 +865,7 @@
             }
         }
 
-        // Translation Dictionary
+        // Translation Matrix
         const translations = {
             en: {
                 "t-hero-title": '<span class="hero-text-line"><span>Strategic</span></span><span class="hero-text-line"><span>Tuition Plans.</span></span>',
@@ -998,16 +1033,19 @@
                     if (el) el.innerHTML = langData[key];
                 });
 
-                // Update max-height for active accordions
+                // Update max-height for active accordions post-translation
                 document.querySelectorAll('.accordion-item.active .accordion-content').forEach(content => {
                     content.style.maxHeight = content.scrollHeight + "px";
                 });
 
-                attachHoverEvents();
+                if (window.matchMedia("(pointer: fine)").matches) {
+                    attachHoverEvents();
+                }
                 wrapper.style.opacity = 1;
             }, 400);
         }
 
+        // Copy Clipboard Action
         function copyText(text, btnElement) {
             navigator.clipboard.writeText(text).then(() => {
                 const originalText = btnElement.innerText;
